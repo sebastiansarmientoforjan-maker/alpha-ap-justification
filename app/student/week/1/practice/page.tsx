@@ -475,59 +475,62 @@ export default function ModelProblemPractice() {
                     <PenTool className="w-6 h-6" />
                   </div>
                   <div>
-                    <h2 className="text-3xl font-bold">Phase 2: Solve</h2>
-                    <p className="text-primary-300">Work through the mathematics</p>
+                    <h2 className="text-3xl font-bold">Phase 2: Solve on Paper</h2>
+                    <p className="text-primary-300">Work through the mathematics by hand</p>
                   </div>
                 </div>
 
                 <div className="p-6 bg-purple-500/10 border border-purple-500/30 rounded-xl">
-                  <h3 className="font-bold text-purple-300 mb-4">Where are you working?</h3>
-                  <div className="space-y-3">
-                    <label className="flex items-center gap-3 p-4 bg-primary-800/60 rounded-lg cursor-pointer hover:bg-primary-800/80 transition-colors">
-                      <input
-                        type="radio"
-                        name="workLocation"
-                        value="paper"
-                        checked={workLocation === "paper"}
-                        onChange={(e) => setWorkLocation(e.target.value as any)}
-                        className="w-4 h-4"
-                      />
-                      <span className="text-primary-100">On paper (recommended for FRQ practice)</span>
-                    </label>
-                    <label className="flex items-center gap-3 p-4 bg-primary-800/60 rounded-lg cursor-pointer hover:bg-primary-800/80 transition-colors">
-                      <input
-                        type="radio"
-                        name="workLocation"
-                        value="whiteboard"
-                        checked={workLocation === "whiteboard"}
-                        onChange={(e) => setWorkLocation(e.target.value as any)}
-                        className="w-4 h-4"
-                      />
-                      <span className="text-primary-100">On whiteboard</span>
-                    </label>
-                    <label className="flex items-center gap-3 p-4 bg-primary-800/60 rounded-lg cursor-pointer hover:bg-primary-800/80 transition-colors">
-                      <input
-                        type="radio"
-                        name="workLocation"
-                        value="scratchpad"
-                        checked={workLocation === "scratchpad"}
-                        onChange={(e) => setWorkLocation(e.target.value as any)}
-                        className="w-4 h-4"
-                      />
-                      <span className="text-primary-100">Digital scratchpad (coming soon)</span>
-                    </label>
+                  <div className="flex items-start gap-3 mb-4">
+                    <FileText className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h3 className="font-bold text-purple-300 mb-2">Why Paper?</h3>
+                      <p className="text-sm text-purple-200 leading-relaxed mb-3">
+                        The AP exam requires you to write justifications by hand under timed conditions.
+                        Training on paper builds the muscle memory and spatial reasoning you need for exam day.
+                      </p>
+                      <ul className="space-y-2 text-sm text-purple-200">
+                        <li className="flex items-start gap-2">
+                          <span className="text-purple-400 mt-1">•</span>
+                          <span><strong>Mimics AP conditions:</strong> No calculators, no digital tools—just you, paper, and a pencil</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-purple-400 mt-1">•</span>
+                          <span><strong>Builds spatial reasoning:</strong> Organizing work on paper improves mathematical thinking</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-purple-400 mt-1">•</span>
+                          <span><strong>Reduces cognitive load:</strong> Handwriting helps encode mathematical relationships in memory</span>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
 
-                <div className="p-6 bg-primary-800/60 rounded-xl border border-primary-600/30">
-                  <p className="text-primary-200 leading-relaxed">
-                    Work through the problem step by step. Check theorem conditions before applying it.
-                    When you're ready to write your justification, click below.
-                  </p>
+                <div className="p-5 bg-primary-800/60 rounded-xl border border-primary-600/30">
+                  <h4 className="font-semibold text-white mb-3">What to do:</h4>
+                  <ol className="space-y-2 text-sm text-primary-200">
+                    <li className="flex items-start gap-3">
+                      <span className="flex-shrink-0 w-6 h-6 rounded-full bg-accent-500/20 text-accent-300 flex items-center justify-center text-xs font-bold">1</span>
+                      <span>Get paper and pencil. Write down the problem statement.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="flex-shrink-0 w-6 h-6 rounded-full bg-accent-500/20 text-accent-300 flex items-center justify-center text-xs font-bold">2</span>
+                      <span>List the theorem conditions that need verification.</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="flex-shrink-0 w-6 h-6 rounded-full bg-accent-500/20 text-accent-300 flex items-center justify-center text-xs font-bold">3</span>
+                      <span>Check EACH condition explicitly. Does the function satisfy it?</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="flex-shrink-0 w-6 h-6 rounded-full bg-accent-500/20 text-accent-300 flex items-center justify-center text-xs font-bold">4</span>
+                      <span>Only after verifying conditions, proceed with calculations (if applicable).</span>
+                    </li>
+                  </ol>
                 </div>
 
                 <ShimmerButton onClick={() => completePhase("solve")} className="w-full py-4 text-lg">
-                  Done with calculations →
+                  Done with paper work →
                 </ShimmerButton>
               </motion.div>
             )}
