@@ -1045,29 +1045,29 @@ function UnifiedCard({
       <div className={`absolute -inset-0.5 bg-gradient-to-r from-${color}-500/20 to-${color}-600/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition duration-500`} />
 
       {/* Unified card structure */}
-      <div className="relative h-full p-6 rounded-2xl bg-gradient-to-br from-primary-800/90 to-primary-900/90 border border-white/10 backdrop-blur-xl hover:border-white/20 transition-all duration-300 overflow-hidden">
+      <div className="relative h-full flex flex-col p-5 rounded-xl bg-gradient-to-br from-primary-800/90 to-primary-900/90 border border-white/10 backdrop-blur-xl hover:border-white/20 transition-all duration-300 overflow-hidden">
         {/* Content */}
-        <div className="relative z-10">
+        <div className="relative z-10 flex-1 flex flex-col">
           {/* Unified icon */}
-          <div className="mb-4">
-            <div className={`inline-flex p-3 rounded-xl bg-${color}-500/10 border border-${color}-500/30`}>
-              <Icon className={`w-8 h-8 text-${color}-400`} />
+          <div className="mb-3">
+            <div className={`inline-flex p-2 rounded-lg bg-${color}-500/10 border border-${color}-500/30`}>
+              <Icon className={`w-6 h-6 text-${color}-400`} />
             </div>
           </div>
 
           {/* Unified title */}
-          <h4 className="text-lg font-bold text-white mb-2">
+          <h4 className="text-base font-bold text-white mb-2">
             {title}
           </h4>
 
           {/* Unified description */}
-          <p className="text-sm text-primary-200 mb-3 leading-relaxed">
+          <p className="text-sm text-primary-200 mb-3 leading-relaxed flex-1">
             {description}
           </p>
 
           {/* Unified example box (optional) */}
           {example && (
-            <div className={`p-3 rounded-lg bg-${color}-500/5 border border-${color}-500/20`}>
+            <div className={`p-2.5 rounded-lg bg-${color}-500/5 border border-${color}-500/20`}>
               <p className={`text-xs text-${color}-300 italic leading-relaxed`}>
                 "{example}"
               </p>
@@ -1083,21 +1083,23 @@ function UnifiedCard({
 
 function ProblemTab({ onShowModal }: { onShowModal: () => void }) {
   return (
-    <div className="space-y-8">
-      <div className="text-center mb-8">
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="text-center mb-6">
         <motion.h3
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-2xl sm:text-3xl font-bold text-white mb-4 bg-gradient-to-r from-white via-red-200 to-white bg-clip-text text-transparent"
+          className="text-3xl font-bold text-white mb-3 bg-gradient-to-r from-white via-red-200 to-white bg-clip-text text-transparent"
         >
           Why Students Fail AP Justification
         </motion.h3>
-        <p className="text-xl text-primary-200 max-w-3xl mx-auto leading-relaxed">
+        <p className="text-base text-primary-300 max-w-2xl mx-auto leading-relaxed">
           You can solve the problem. You can get the right answer. But you lose 2-3 points anyway.
         </p>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-6">
+      {/* Cards Grid */}
+      <div className="grid md:grid-cols-3 gap-4">
         <UnifiedCard
           icon={AlertTriangle}
           title="Condition Bypass"
@@ -1125,7 +1127,7 @@ function ProblemTab({ onShowModal }: { onShowModal: () => void }) {
       </div>
 
       {/* CTA Button */}
-      <div className="mt-16 text-center">
+      <div className="mt-8 text-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -1138,22 +1140,22 @@ function ProblemTab({ onShowModal }: { onShowModal: () => void }) {
           {/* Button */}
           <button
             onClick={onShowModal}
-            className="relative px-12 py-6 rounded-full bg-gradient-to-r from-accent-900/90 to-secondary-900/90 border-2 border-accent-500/50 backdrop-blur-xl text-white font-bold text-xl hover:scale-105 hover:border-accent-400 transition-all duration-300 shadow-2xl overflow-hidden group"
+            className="relative px-8 py-4 rounded-full bg-gradient-to-r from-accent-900/90 to-secondary-900/90 border-2 border-accent-500/50 backdrop-blur-xl text-white font-bold text-lg hover:scale-105 hover:border-accent-400 transition-all duration-300 shadow-2xl overflow-hidden group"
           >
             {/* Shine effect */}
             <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
-            <span className="relative flex items-center gap-4">
-              <Lightbulb className="w-7 h-7 text-accent-300 group-hover:text-accent-200 transition-colors" />
+            <span className="relative flex items-center gap-3">
+              <Lightbulb className="w-6 h-6 text-accent-300 group-hover:text-accent-200 transition-colors" />
               <span className="bg-gradient-to-r from-white to-accent-100 bg-clip-text text-transparent">
                 See CERC In Action: +2-3 Points
               </span>
-              <Trophy className="w-7 h-7 text-accent-300 group-hover:text-accent-200 transition-colors" />
+              <Trophy className="w-6 h-6 text-accent-300 group-hover:text-accent-200 transition-colors" />
             </span>
           </button>
         </motion.div>
 
-        <p className="text-sm text-primary-400 mt-6 font-medium">
+        <p className="text-xs text-primary-400 mt-4 font-medium">
           Visual comparison of failing vs. passing responses
         </p>
       </div>
@@ -1163,21 +1165,23 @@ function ProblemTab({ onShowModal }: { onShowModal: () => void }) {
 
 function SolutionTab() {
   return (
-    <div className="space-y-8">
-      <div className="text-center mb-8">
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="text-center mb-6">
         <motion.h3
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-2xl sm:text-3xl font-bold text-white mb-4 bg-gradient-to-r from-white via-accent-200 to-white bg-clip-text text-transparent"
+          className="text-3xl font-bold text-white mb-3 bg-gradient-to-r from-white via-accent-200 to-white bg-clip-text text-transparent"
         >
           The CERC Framework
         </motion.h3>
-        <p className="text-xl text-primary-200 max-w-3xl mx-auto leading-relaxed">
+        <p className="text-base text-primary-300 max-w-2xl mx-auto leading-relaxed">
           Four components that transform partial credit into full credit
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
+      {/* Cards Grid */}
+      <div className="grid md:grid-cols-2 gap-4">
         <UnifiedCard
           icon={Target}
           title="Claim"
@@ -1212,35 +1216,35 @@ function SolutionTab() {
         />
       </div>
 
-      {/* Result card with premium design */}
+      {/* Result card */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="relative mt-16"
+        className="relative mt-8"
       >
         {/* Animated gradient background */}
-        <div className="absolute -inset-1 bg-gradient-to-r from-accent-500 via-secondary-500 to-accent-500 rounded-3xl blur-xl opacity-30" />
+        <div className="absolute -inset-1 bg-gradient-to-r from-accent-500 via-secondary-500 to-accent-500 rounded-2xl blur-xl opacity-30" />
 
         {/* Content */}
-        <div className="relative p-10 rounded-3xl bg-gradient-to-br from-primary-800/90 to-primary-900/90 border border-accent-500/30 backdrop-blur-xl overflow-hidden">
+        <div className="relative p-6 rounded-2xl bg-gradient-to-br from-primary-800/90 to-primary-900/90 border border-accent-500/30 backdrop-blur-xl overflow-hidden">
           {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-accent-500/10 to-transparent rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-secondary-500/10 to-transparent rounded-full blur-3xl" />
+          <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-accent-500/10 to-transparent rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-secondary-500/10 to-transparent rounded-full blur-3xl" />
 
           <div className="relative z-10">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="p-3 rounded-2xl bg-gradient-to-br from-accent-500 to-secondary-500 shadow-xl shadow-accent-500/50">
-                <Trophy className="w-8 h-8 text-white" />
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 rounded-xl bg-gradient-to-br from-accent-500 to-secondary-500 shadow-xl shadow-accent-500/50">
+                <Trophy className="w-6 h-6 text-white" />
               </div>
-              <h4 className="text-3xl font-bold text-white">The Result</h4>
+              <h4 className="text-2xl font-bold text-white">The Result</h4>
             </div>
 
-            <div className="space-y-4 text-xl">
+            <div className="space-y-3 text-base">
               <p className="text-primary-100 leading-relaxed">
                 Complete CERC responses earn{" "}
-                <span className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-green-500/20 border border-green-500/50 text-green-300 font-bold">
-                  <CheckCircle className="w-5 h-5" />
+                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-500/20 border border-green-500/50 text-green-300 font-bold">
+                  <CheckCircle className="w-4 h-4" />
                   3/3
                 </span>
                 {" "}on AP rubrics.
@@ -1248,17 +1252,17 @@ function SolutionTab() {
 
               <p className="text-primary-100 leading-relaxed">
                 Incomplete ones get{" "}
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/20 border border-red-500/50 text-red-300 font-bold">
+                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-red-500/20 border border-red-500/50 text-red-300 font-bold">
                   1/3
                 </span>
                 {" "}or{" "}
-                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-500/20 border border-yellow-500/50 text-yellow-300 font-bold">
+                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-yellow-500/20 border border-yellow-500/50 text-yellow-300 font-bold">
                   2/3
                 </span>
               </p>
 
-              <div className="mt-6 p-6 rounded-2xl bg-gradient-to-r from-accent-500/10 to-secondary-500/10 border border-accent-500/30">
-                <p className="text-2xl font-bold bg-gradient-to-r from-accent-300 to-secondary-300 bg-clip-text text-transparent">
+              <div className="mt-4 p-4 rounded-xl bg-gradient-to-r from-accent-500/10 to-secondary-500/10 border border-accent-500/30">
+                <p className="text-lg font-bold bg-gradient-to-r from-accent-300 to-secondary-300 bg-clip-text text-transparent">
                   That's +2-3 points on average per FRQ.
                 </p>
               </div>
@@ -1272,21 +1276,23 @@ function SolutionTab() {
 
 function MethodTab() {
   return (
-    <div className="space-y-8">
-      <div className="text-center mb-8">
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="text-center mb-6">
         <motion.h3
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-2xl sm:text-3xl font-bold text-white mb-4 bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent"
+          className="text-3xl font-bold text-white mb-3 bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent"
         >
           Error-Forcing Problems
         </motion.h3>
-        <p className="text-xl text-primary-200 max-w-3xl mx-auto leading-relaxed">
+        <p className="text-base text-primary-300 max-w-2xl mx-auto leading-relaxed">
           Problems designed to expose empirical reasoning gaps through strategic traps
         </p>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-6">
+      {/* Cards Grid */}
+      <div className="grid md:grid-cols-3 gap-4">
         <UnifiedCard
           icon={AlertTriangle}
           title="The Trap"
@@ -1318,21 +1324,23 @@ function MethodTab() {
 
 function PathTab() {
   return (
-    <div className="space-y-8">
-      <div className="text-center mb-8">
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="text-center mb-6">
         <motion.h3
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-2xl sm:text-3xl font-bold text-white mb-4 bg-gradient-to-r from-white via-green-200 to-white bg-clip-text text-transparent"
+          className="text-3xl font-bold text-white mb-3 bg-gradient-to-r from-white via-green-200 to-white bg-clip-text text-transparent"
         >
           Your Learning Path
         </motion.h3>
-        <p className="text-xl text-primary-200 max-w-3xl mx-auto leading-relaxed">
+        <p className="text-base text-primary-300 max-w-2xl mx-auto leading-relaxed">
           Progress through three stages of mathematical reasoning maturity
         </p>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-6">
+      {/* Cards Grid */}
+      <div className="grid md:grid-cols-3 gap-4">
         <UnifiedCard
           icon={AlertTriangle}
           title="Stage 1: Empirical"
