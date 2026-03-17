@@ -180,7 +180,7 @@ export default function Week1ProblemsPage() {
 
                       <div className="flex items-center gap-4">
                         {!isLocked ? (
-                          <Link href={`/student/week/1/problem/${problem.id}`}>
+                          <Link href={`/student/week/1/problem/${problem.id}/instructions`}>
                             <ShimmerButton className="px-6 py-3">
                               {isCompleted ? "Review Problem" : "Start Problem"} →
                             </ShimmerButton>

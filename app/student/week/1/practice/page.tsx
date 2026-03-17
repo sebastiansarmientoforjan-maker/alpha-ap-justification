@@ -15,6 +15,7 @@ import "katex/dist/katex.min.css";
 import ShimmerButton from "@/components/ui/shimmer-button";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import Link from "next/link";
+import { redirectToInstructions } from "@/lib/utils/activity-instructions";
 
 type Phase = "understand" | "solve" | "justify" | "selfCheck" | "reflection" | "complete";
 
@@ -143,15 +144,7 @@ export default function ModelProblemPractice() {
 
   // 🔒 SECURITY: Verify instructions completed before allowing access
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const instructionsCompleted = localStorage.getItem("practice-demo-instructions-completed");
-
-      if (!instructionsCompleted) {
-        // Redirect to instructions page if not completed
-        console.warn("⚠️ Instructions not completed. Redirecting...");
-        window.location.href = "/student/week/1/practice/instructions";
-      }
-    }
+    redirectToInstructions("practice-demo", "/student/week/1/practice");
   }, []);
 
   const formatTime = (seconds: number) => {

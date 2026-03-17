@@ -17,6 +17,7 @@ import Link from "next/link";
 import { bossBattles, week4Config } from "@/data/week-4-content";
 import { MathContent } from "@/components/student/math-content";
 import { getDataService } from "@/services/data";
+import { redirectToInstructions } from "@/lib/utils/activity-instructions";
 
 type Phase = "phase1" | "phase2" | "phase3" | "complete";
 
@@ -55,6 +56,11 @@ export default function BossBattlePage() {
   const [showCurveballModal, setShowCurveballModal] = useState(false);
   const [showVictoryModal, setShowVictoryModal] = useState(false);
   const [showHints, setShowHints] = useState(false);
+
+  // Redirect to instructions if not completed
+  useEffect(() => {
+    redirectToInstructions("boss-battle", "/student/week/4/battle");
+  }, []);
 
   // Phase 3 timer countdown
   useEffect(() => {
