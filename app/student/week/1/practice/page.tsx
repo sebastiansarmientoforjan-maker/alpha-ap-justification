@@ -15,6 +15,7 @@ import "katex/dist/katex.min.css";
 import ShimmerButton from "@/components/ui/shimmer-button";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import Link from "next/link";
+import { EnhancedCERCSolution } from "@/components/student/enhanced-cerc-solution";
 import { redirectToInstructions } from "@/lib/utils/activity-instructions";
 
 type Phase = "understand" | "solve" | "justify" | "selfCheck" | "reflection" | "complete";
@@ -715,45 +716,40 @@ export default function ModelProblemPractice() {
                     {!showSolution ? (
                       <button
                         onClick={viewSolution}
-                        className="w-full p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg hover:bg-yellow-500/20 transition-colors flex items-center gap-2 justify-center"
+                        className="w-full p-10 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-4 border-yellow-500/60 rounded-3xl hover:from-yellow-500/30 hover:to-orange-500/30 transition-all shadow-2xl shadow-yellow-500/30 group"
                       >
-                        <Eye className="w-5 h-5 text-yellow-400" />
-                        <span className="font-semibold text-yellow-300">View Full Solution</span>
+                        <span className="block text-3xl font-bold text-yellow-300 mb-3 group-hover:scale-105 transition-transform">View Full Solution</span>
+                        <span className="block text-base text-yellow-400">Complete CERC breakdown • LaTeX formatting • AP Exam quality</span>
                       </button>
                     ) : (
-                      <div className="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
-                        <h4 className="font-bold text-yellow-300 mb-3">Model Solution</h4>
-                        <div className="space-y-2 mb-4">
-                          {[
-                            { key: "claim", label: "C", title: "Claim" },
-                            { key: "evidence", label: "E", title: "Evidence" },
-                            { key: "reasoning", label: "R", title: "Reasoning" },
-                            { key: "conditions", label: "C", title: "Conditions" }
-                          ].map(field => (
-                            <div key={field.key}>
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className="px-2 py-0.5 rounded bg-yellow-500/20 text-yellow-300 font-bold text-xs">
-                                  {field.label}
-                                </span>
-                                <span className="text-xs text-yellow-400">{field.title}</span>
-                              </div>
-                              <p className="text-xs text-primary-200 ml-6">
-                                {modelProblem.solution.cercModel[field.key as keyof typeof modelProblem.solution.cercModel]}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="pt-3 border-t border-yellow-500/30">
-                          <p className="text-xs font-semibold text-yellow-400 mb-2">Common Mistakes:</p>
-                          <ul className="space-y-1">
+                      <div className="mt-6">
+                        <EnhancedCERCSolution
+                          claim={modelProblem.solution.cercModel.claim}
+                          evidence={modelProblem.solution.cercModel.evidence}
+                          reasoning={modelProblem.solution.cercModel.reasoning}
+                          conditions={modelProblem.solution.cercModel.conditions}
+                        />
+
+                        {/* Common Mistakes Section */}
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.6 }}
+                          className="mt-8 p-6 bg-red-500/10 border-2 border-red-500/30 rounded-xl"
+                        >
+                          <h4 className="text-xl font-bold text-red-300 mb-4 flex items-center gap-2">
+                            <AlertCircle className="w-6 h-6" />
+                            Common Mistakes to Avoid
+                          </h4>
+                          <ul className="space-y-3">
                             {modelProblem.solution.commonMistakes.map((mistake, i) => (
-                              <li key={i} className="text-xs text-primary-300 flex items-start gap-2">
-                                <span className="text-yellow-400 mt-0.5">•</span>
+                              <li key={i} className="flex items-start gap-3 text-primary-200">
+                                <span className="text-red-400 font-bold mt-0.5">✗</span>
                                 <span>{mistake}</span>
                               </li>
                             ))}
                           </ul>
-                        </div>
+                        </motion.div>
                       </div>
                     )}
                   </div>

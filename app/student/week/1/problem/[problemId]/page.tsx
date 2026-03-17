@@ -18,7 +18,6 @@ import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import Link from "next/link";
 import { week1Problems } from "@/data/week-1-content";
 import { MathContent } from "@/components/student/math-content";
-import { EnhancedCERCSolution } from "@/components/student/enhanced-cerc-solution";
 import { getDataService } from "@/services/data";
 import { redirectToInstructions } from "@/lib/utils/activity-instructions";
 
@@ -817,13 +816,107 @@ export default function Week1ProblemSolver() {
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
+                    className="space-y-6"
                   >
-                    <EnhancedCERCSolution
-                      claim={problem.correctCERCResponse.claim}
-                      evidence={problem.correctCERCResponse.evidence}
-                      reasoning={problem.correctCERCResponse.reasoning}
-                      conditions={problem.correctCERCResponse.conditions}
-                    />
+                    <div className="text-center mb-6">
+                      <h3 className="text-2xl font-bold text-yellow-300 mb-2">📖 Model Solution</h3>
+                      <p className="text-sm text-yellow-400">AP Exam Quality • Full Justification</p>
+                    </div>
+
+                    {/* CLAIM */}
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 }}
+                      className="p-6 bg-gradient-to-br from-accent-500/10 to-accent-600/10 border-2 border-accent-500/50 rounded-2xl"
+                    >
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-500 to-accent-600 flex items-center justify-center shadow-lg">
+                          <span className="text-xl font-bold">C</span>
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-bold text-accent-300">Claim</h4>
+                          <p className="text-xs text-accent-400">Your conclusion statement</p>
+                        </div>
+                      </div>
+                      <div className="pl-13 text-primary-100 leading-relaxed">
+                        <MathContent content={problem.correctCERCResponse.claim} />
+                      </div>
+                    </motion.div>
+
+                    {/* EVIDENCE */}
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.2 }}
+                      className="p-6 bg-gradient-to-br from-blue-500/10 to-blue-600/10 border-2 border-blue-500/50 rounded-2xl"
+                    >
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg">
+                          <span className="text-xl font-bold">E</span>
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-bold text-blue-300">Evidence</h4>
+                          <p className="text-xs text-blue-400">Mathematical calculations & data</p>
+                        </div>
+                      </div>
+                      <div className="pl-13 text-primary-100 leading-relaxed">
+                        <MathContent content={problem.correctCERCResponse.evidence} />
+                      </div>
+                    </motion.div>
+
+                    {/* REASONING */}
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.3 }}
+                      className="p-6 bg-gradient-to-br from-purple-500/10 to-purple-600/10 border-2 border-purple-500/50 rounded-2xl"
+                    >
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-lg">
+                          <span className="text-xl font-bold">R</span>
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-bold text-purple-300">Reasoning</h4>
+                          <p className="text-xs text-purple-400">Theorem connection & logic</p>
+                        </div>
+                      </div>
+                      <div className="pl-13 text-primary-100 leading-relaxed">
+                        <MathContent content={problem.correctCERCResponse.reasoning} />
+                      </div>
+                    </motion.div>
+
+                    {/* CONDITIONS */}
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.4 }}
+                      className="p-6 bg-gradient-to-br from-green-500/10 to-green-600/10 border-2 border-green-500/50 rounded-2xl"
+                    >
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center shadow-lg">
+                          <span className="text-xl font-bold">C</span>
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-bold text-green-300">Conditions</h4>
+                          <p className="text-xs text-green-400">Hypothesis verification</p>
+                        </div>
+                      </div>
+                      <div className="pl-13 text-primary-100 leading-relaxed">
+                        <MathContent content={problem.correctCERCResponse.conditions} />
+                      </div>
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.5 }}
+                      className="p-4 bg-green-500/10 border border-green-500/30 rounded-xl text-center"
+                    >
+                      <p className="text-sm text-green-300">
+                        ✅ This solution earns <strong className="text-green-200">full credit</strong> on the AP exam
+                      </p>
+                    </motion.div>
                   </motion.div>
                 )}
 
