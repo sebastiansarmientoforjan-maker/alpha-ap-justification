@@ -133,12 +133,26 @@ export default function ModelProblemPractice() {
 
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
 
+  // Timer for session duration
   useEffect(() => {
     const interval = setInterval(() => {
       setElapsedSeconds(Math.floor((Date.now() - sessionData.startTime) / 1000));
     }, 1000);
     return () => clearInterval(interval);
   }, [sessionData.startTime]);
+
+  // 🔒 SECURITY: Verify instructions completed before allowing access
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const instructionsCompleted = localStorage.getItem("practice-demo-instructions-completed");
+
+      if (!instructionsCompleted) {
+        // Redirect to instructions page if not completed
+        console.warn("⚠️ Instructions not completed. Redirecting...");
+        window.location.href = "/student/week/1/practice/instructions";
+      }
+    }
+  }, []);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
