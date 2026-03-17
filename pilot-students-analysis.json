@@ -1,0 +1,258 @@
+[
+  {
+    "name": "Alex Mathew",
+    "status": "FOUND",
+    "id": 5440,
+    "profile": {
+      "firstName": "Alex",
+      "lastName": "Mathew",
+      "currentCourse": "AP Calculus BC",
+      "xpRemaining": null
+    },
+    "weeklyActivity": {
+      "xpAwarded": 0,
+      "questionsAttempted": 0,
+      "questionsCorrect": 0,
+      "timeEngaged": 0,
+      "timeProductive": 0,
+      "daysActive": 0,
+      "daysSinceLastActivity": "Unknown",
+      "tasksCompleted": 0
+    },
+    "metrics": {
+      "velocityScore": 0,
+      "accuracy": 0,
+      "focusIntegrity": 0
+    },
+    "assessment": {
+      "priority": "HIGH",
+      "issues": [
+        "Low XP velocity (below 40% of weekly target)",
+        "Low accuracy (below 60%)",
+        "Low focus integrity (distracted study sessions)"
+      ],
+      "strengths": [
+        "Baseline performance"
+      ]
+    }
+  },
+  {
+    "name": "Ananya Kakarlapudi",
+    "status": "FOUND",
+    "id": 18487,
+    "profile": {
+      "firstName": "Ananya",
+      "lastName": "Peesu",
+      "currentCourse": "SAT Math Fundamentals",
+      "xpRemaining": null
+    },
+    "weeklyActivity": {
+      "xpAwarded": 0,
+      "questionsAttempted": 0,
+      "questionsCorrect": 0,
+      "timeEngaged": 0,
+      "timeProductive": 0,
+      "daysActive": 0,
+      "daysSinceLastActivity": "Unknown",
+      "tasksCompleted": 0
+    },
+    "metrics": {
+      "velocityScore": 0,
+      "accuracy": 0,
+      "focusIntegrity": 0
+    },
+    "assessment": {
+      "priority": "HIGH",
+      "issues": [
+        "Low XP velocity (below 40% of weekly target)",
+        "Low accuracy (below 60%)",
+        "Low focus integrity (distracted study sessions)"
+      ],
+      "strengths": [
+        "Baseline performance"
+      ]
+    }
+  },
+  {
+    "name": "Elle Liemandt",
+    "status": "FOUND",
+    "id": 5437,
+    "profile": {
+      "firstName": "Elle",
+      "lastName": "Liemandt",
+      "currentCourse": "AP Calculus BC",
+      "xpRemaining": null
+    },
+    "weeklyActivity": {
+      "xpAwarded": 53,
+      "questionsAttempted": 20,
+      "questionsCorrect": 20,
+      "timeEngaged": 53.1,
+      "timeProductive": 51.3,
+      "daysActive": 0,
+      "daysSinceLastActivity": "Unknown",
+      "tasksCompleted": 4
+    },
+    "metrics": {
+      "velocityScore": 42,
+      "accuracy": 100,
+      "focusIntegrity": 96.6
+    },
+    "assessment": {
+      "priority": "LOW",
+      "issues": [
+        "No major issues detected"
+      ],
+      "strengths": [
+        "Strong accuracy (80%+)",
+        "Excellent focus (85%+ productive time)"
+      ]
+    }
+  },
+  {
+    "name": "Emily Smith",
+    "status": "FOUND",
+    "id": 5433,
+    "profile": {
+      "firstName": "Emily",
+      "lastName": "S0730",
+      "currentCourse": "Precalculus",
+      "xpRemaining": null
+    },
+    "weeklyActivity": {
+      "xpAwarded": 62,
+      "questionsAttempted": 41,
+      "questionsCorrect": 37,
+      "timeEngaged": 54.1,
+      "timeProductive": 48.5,
+      "daysActive": 0,
+      "daysSinceLastActivity": "Unknown",
+      "tasksCompleted": 8
+    },
+    "metrics": {
+      "velocityScore": 50,
+      "accuracy": 90.2,
+      "focusIntegrity": 89.6
+    },
+    "assessment": {
+      "priority": "LOW",
+      "issues": [
+        "No major issues detected"
+      ],
+      "strengths": [
+        "Strong accuracy (80%+)",
+        "Excellent focus (85%+ productive time)"
+      ]
+    }
+  },
+  {
+    "name": "Maddie Price",
+    "status": "FOUND",
+    "id": 5434,
+    "profile": {
+      "firstName": "Maddie",
+      "lastName": "Price",
+      "currentCourse": "AP Calculus AB",
+      "xpRemaining": null
+    },
+    "weeklyActivity": {
+      "xpAwarded": 80,
+      "questionsAttempted": 63,
+      "questionsCorrect": 56,
+      "timeEngaged": 94.4,
+      "timeProductive": 83.8,
+      "daysActive": 0,
+      "daysSinceLastActivity": "Unknown",
+      "tasksCompleted": 9
+    },
+    "metrics": {
+      "velocityScore": 64,
+      "accuracy": 88.9,
+      "focusIntegrity": 88.8
+    },
+    "assessment": {
+      "priority": "LOW",
+      "issues": [
+        "No major issues detected"
+      ],
+      "strengths": [
+        "Strong accuracy (80%+)",
+        "Excellent focus (85%+ productive time)"
+      ]
+    }
+  },
+  {
+    "name": "Sloane Price",
+    "status": "FOUND",
+    "id": 5439,
+    "profile": {
+      "firstName": "Sloane",
+      "lastName": "Price",
+      "currentCourse": "AP Calculus AB",
+      "xpRemaining": null
+    },
+    "weeklyActivity": {
+      "xpAwarded": 0,
+      "questionsAttempted": 0,
+      "questionsCorrect": 0,
+      "timeEngaged": 0,
+      "timeProductive": 0,
+      "daysActive": 0,
+      "daysSinceLastActivity": "Unknown",
+      "tasksCompleted": 0
+    },
+    "metrics": {
+      "velocityScore": 0,
+      "accuracy": 0,
+      "focusIntegrity": 0
+    },
+    "assessment": {
+      "priority": "HIGH",
+      "issues": [
+        "Low XP velocity (below 40% of weekly target)",
+        "Low accuracy (below 60%)",
+        "Low focus integrity (distracted study sessions)"
+      ],
+      "strengths": [
+        "Baseline performance"
+      ]
+    }
+  },
+  {
+    "name": "Sloka Vudumu",
+    "status": "FOUND",
+    "id": 17295,
+    "profile": {
+      "firstName": "Sloka",
+      "lastName": "Vudumu",
+      "currentCourse": "AP Calculus AB",
+      "xpRemaining": null
+    },
+    "weeklyActivity": {
+      "xpAwarded": 0,
+      "questionsAttempted": 0,
+      "questionsCorrect": 0,
+      "timeEngaged": 0,
+      "timeProductive": 0,
+      "daysActive": 0,
+      "daysSinceLastActivity": "Unknown",
+      "tasksCompleted": 0
+    },
+    "metrics": {
+      "velocityScore": 0,
+      "accuracy": 0,
+      "focusIntegrity": 0
+    },
+    "assessment": {
+      "priority": "HIGH",
+      "issues": [
+        "Low XP velocity (below 40% of weekly target)",
+        "Low accuracy (below 60%)",
+        "Low focus integrity (distracted study sessions)"
+      ],
+      "strengths": [
+        "Baseline performance"
+      ]
+    }
+  }
+]

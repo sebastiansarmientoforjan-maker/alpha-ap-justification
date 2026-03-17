@@ -742,7 +742,7 @@ export default function Week1Landing() {
                     </div>
 
                     {/* CTA */}
-                    <Link href="/student/week/1/practice">
+                    <Link href="/student/week/1/practice/instructions">
                       <ShimmerButton
                         className="w-full py-4 text-lg"
                         disabled={!allSectionsViewed}

@@ -1,0 +1,158 @@
+{
+  "frq": {
+    "id": "frq-mvt-deriv-001",
+    "statement": "Consider the function $f(x) = x^3 - 3x$ on the interval $[-2, 2]$.\n\n(a) Find all values of $x$ in $(-2, 2)$ where $f'(x) = 0$.\n\n(b) Use the Mean Value Theorem to determine whether there must exist a value $c$ in $(-2, 2)$ such that\n$$f'(c) = \\frac{f(2) - f(-2)}{2 - (-2)}$$\n\n(c) Verify explicitly that all conditions of the Mean Value Theorem are satisfied before drawing your conclusion.",
+    "type": "specific"
+  },
+
+  "solution": {
+    "cercResponse": {
+      "claim": "By the Mean Value Theorem, there exists at least one value $c \\in (-2, 2)$ where $f'(c) = 0$, and specifically $c = \\pm 1$ are the values that satisfy this condition.",
+
+      "evidence": "First, computing the average rate of change:\n$$\\frac{f(2) - f(-2)}{2 - (-2)} = \\frac{(8 - 6) - (-8 + 6)}{4} = \\frac{2 - (-2)}{4} = \\frac{4}{4} = 0$$\n\nNext, finding the derivative: $f'(x) = 3x^2 - 3$\n\nSetting $f'(x) = 0$:\n$$3x^2 - 3 = 0 \\implies x^2 = 1 \\implies x = \\pm 1$$\n\nBoth $x = 1$ and $x = -1$ are in the interval $(-2, 2)$, so MVT guarantees at least one such value exists, and we have found two.",
+
+      "reasoning": "The Mean Value Theorem states: If $f$ is continuous on the closed interval $[a, b]$ and differentiable on the open interval $(a, b)$, then there exists at least one number $c$ in $(a, b)$ such that\n$$f'(c) = \\frac{f(b) - f(a)}{b - a}$$\n\nSince both hypotheses are satisfied (shown below), MVT guarantees the existence of such a $c$. The theorem provides existence; our computation of $f'(x) = 0$ identifies the specific values.",
+
+      "conditions": "**Verification of MVT Conditions:**\n\n(1) **Continuity on $[-2, 2]$:** $f(x) = x^3 - 3x$ is a polynomial function. All polynomial functions are continuous everywhere, so $f$ is continuous on $[-2, 2]$. ✓\n\n(2) **Differentiability on $(-2, 2)$:** The derivative $f'(x) = 3x^2 - 3$ exists for all real numbers, so $f$ is differentiable on $(-2, 2)$. ✓\n\n**Conclusion:** Both conditions of the Mean Value Theorem are satisfied, so MVT applies to this function on this interval."
+    },
+
+    "rubric": {
+      "totalPoints": 8,
+      "breakdown": [
+        {
+          "criterion": "Correctly computes average rate of change",
+          "points": 1,
+          "maxPoints": 1,
+          "justification": "Student evaluates (f(2) - f(-2))/4 and simplifies to 0. This is a straightforward computation worth 1 point per College Board standards."
+        },
+        {
+          "criterion": "Finds derivative f'(x) correctly",
+          "points": 1,
+          "maxPoints": 1,
+          "justification": "Student correctly applies power rule to get f'(x) = 3x² - 3. Basic differentiation skill."
+        },
+        {
+          "criterion": "Solves f'(x) = 0 correctly",
+          "points": 1,
+          "maxPoints": 1,
+          "justification": "Student solves equation and finds x = ±1. Algebraic manipulation."
+        },
+        {
+          "criterion": "States Mean Value Theorem correctly",
+          "points": 2,
+          "maxPoints": 2,
+          "justification": "Student states both hypotheses (continuity and differentiability) AND the conclusion. Full theorem statement is required for 2 points per CB rubric. Partial statement = 1 point."
+        },
+        {
+          "criterion": "Explicitly verifies continuity condition",
+          "points": 1,
+          "maxPoints": 1,
+          "justification": "Student must state that f is continuous on [-2,2] AND provide reasoning (polynomial). This is critical for justification. No verification = 0 points."
+        },
+        {
+          "criterion": "Explicitly verifies differentiability condition",
+          "points": 1,
+          "maxPoints": 1,
+          "justification": "Student must state that f is differentiable on (-2,2) AND provide reasoning (derivative exists). This is the second critical condition. No verification = 0 points."
+        },
+        {
+          "criterion": "Concludes MVT applies with proper justification",
+          "points": 1,
+          "maxPoints": 1,
+          "justification": "Student must explicitly state 'Since both conditions are met, MVT applies/guarantees...' This connects verification to application. Simply applying without stating conditions = 0 points."
+        }
+      ]
+    },
+
+    "unitNotes": [
+      "**AP Calculus AB/BC Unit 5:** Analytical Applications of Differentiation",
+      "**Topic 5.2:** Mean Value Theorem and Rolle's Theorem",
+      "**Key Concept:** Before applying any theorem, ALL hypotheses must be explicitly verified",
+      "**Common Error:** Students often apply MVT without checking continuity/differentiability, earning 0 points on justification even if final answer is correct",
+      "**AP Exam Frequency:** MVT appears in approximately 40% of AP Calculus exams (2010-2024), typically worth 6-9 points per FRQ",
+      "**Connection to Rolle's Theorem:** This problem is a special case where f(a) = f(b), so MVT reduces to Rolle's Theorem",
+      "**Conceptual Insight:** MVT guarantees existence but doesn't identify the specific c values - that requires solving f'(c) = average rate"
+    ]
+  },
+
+  "problemSelection": {
+    "rationale": "This problem directly targets the student's weak performance (75%) in derivatives and MVT application. The problem is structured as a multi-part question (typical AP format) that requires: (1) derivative computation, (2) theorem application, and (3) explicit condition verification. The third part is where most students at the 75% level fail - they skip justification and lose 3-4 points. This FRQ forces systematic verification through its explicit part (c), building the habit of checking conditions BEFORE applying theorems.",
+
+    "mathAcademyConnection": "MathAcademy quiz analysis revealed:\n- Score on 'Derivative Rules': 72% (below target)\n- Score on 'Theorem Application': 68% (significant weakness)\n- Error pattern: Student correctly computes derivatives but struggles with formal theorem application\n\nThis FRQ addresses BOTH weaknesses: Part (a) reinforces derivative computation, part (b) applies MVT, and part (c) explicitly demands the justification skill that MathAcademy identified as weak. The 75% overall score indicates the student is procedurally competent but lacks rigor in justification - exactly what CERC training targets.",
+
+    "apExamAlignment": "This problem structure mirrors:\n- **2019 AP Calc BC FRQ #4:** MVT application with explicit justification requirement (9 points)\n- **2021 AP Calc AB FRQ #5:** Condition verification before theorem application (6 points)\n- **2018 AP Calc BC FRQ #3:** Multi-part derivative + theorem question (9 points)\n\nCollege Board scoring guidelines allocate 30-40% of FRQ points to 'justification' - defined as 'stating theorem conditions and verifying they are met.' Students who skip this lose significant points. This FRQ matches that emphasis: 3 out of 8 points (37.5%) are for explicit condition verification, matching CB weighting.",
+
+    "skillsTargeted": [
+      "Computing derivatives using power rule",
+      "Algebraic manipulation (solving f'(x) = 0)",
+      "Stating the Mean Value Theorem with full precision",
+      "Identifying continuity properties of polynomial functions",
+      "Identifying differentiability properties (derivative existence)",
+      "Explicitly verifying theorem hypotheses before application",
+      "Constructing complete CERC arguments with all four components",
+      "Connecting computational results to theoretical guarantees"
+    ]
+  },
+
+  "week1Problems": [
+    {
+      "id": "w1-mvt-001",
+      "title": "MVT: The Discontinuity Trap",
+      "statement": "Consider the function $f(x) = \\frac{1}{x^2}$ on the interval $[-1, 1]$.\n\n**Task:** Apply the Mean Value Theorem to find a value $c$ in $(-1, 1)$ such that\n$$f'(c) = \\frac{f(1) - f(-1)}{1 - (-1)}$$\n\nUse the CERC framework to structure your argument. Explicitly verify all theorem conditions before drawing your conclusion.",
+      "course": "calculus-bc",
+      "errorCategory": "CONDITION_BYPASS",
+      "trap": "The function is discontinuous at $x = 0$, which is inside the interval $[-1, 1]$. Students who skip continuity verification will attempt to apply MVT algebraically and get confused when no solution exists. The correct answer is 'MVT does not apply because continuity is violated.'",
+      "correctCERCResponse": {
+        "claim": "The Mean Value Theorem does not apply to this problem.",
+        "evidence": "The function $f(x) = 1/x^2$ is undefined at $x = 0$, which lies in the interval $[-1, 1]$. Evaluating the difference quotient: $(f(1) - f(-1))/(1-(-1)) = (1 - 1)/2 = 0$.",
+        "reasoning": "The Mean Value Theorem requires the function to be continuous on $[a,b]$ and differentiable on $(a,b)$. Since $f$ is not continuous on $[-1,1]$ (it has a discontinuity at $x=0$), the theorem's hypotheses are not satisfied.",
+        "conditions": "Checking continuity: $f(x) = 1/x^2$ is discontinuous at $x = 0$ because $\\lim_{x \\to 0} f(x) = \\infty$ (the function is not defined at $x=0$). Therefore, the MVT cannot be applied."
+      },
+      "sentenceFrames": {
+        "claim": "**Claim:** The Mean Value Theorem [applies / does not apply] to this function on $[-1, 1]$ because...",
+        "evidence": "**Evidence:** We can verify that $f(x) = 1/x^2$ is [continuous / discontinuous] on $[-1, 1]$ by checking... The difference quotient equals...",
+        "reasoning": "**Reasoning:** Since the MVT requires (1) continuity on $[a,b]$ and (2) differentiability on $(a,b)$, and we have shown that...",
+        "conditions": "**Conditions:** Checking the hypotheses explicitly: (1) Continuity on $[-1,1]$: ... ; (2) Differentiability on $(-1,1)$: ..."
+      },
+      "theoremInfo": {
+        "name": "Mean Value Theorem",
+        "statement": "If $f$ is continuous on $[a, b]$ and differentiable on $(a, b)$, then there exists at least one point $c$ in $(a, b)$ such that $f'(c) = (f(b) - f(a))/(b - a)$.",
+        "hypotheses": [
+          "$f$ is continuous on the closed interval $[a, b]$",
+          "$f$ is differentiable on the open interval $(a, b)$"
+        ]
+      },
+      "hints": {
+        "level1": "Check the domain of the function carefully. Is there any value in $[-1, 1]$ where $f(x)$ is not defined?",
+        "level2": "Your conditions section needs attention. You need to verify continuity on $[a,b]$ before applying MVT. What happens at $x = 0$?",
+        "level3": "The function $f(x) = 1/x^2$ is discontinuous at $x = 0$, which is inside the interval $[-1, 1]$. Since continuity on $[a,b]$ is a required hypothesis for MVT, the theorem does not apply. Your claim should state that MVT cannot be used here."
+      }
+    },
+    {
+      "id": "w1-mvt-002",
+      "title": "MVT: The Absolute Value Function",
+      "statement": "Consider the function $h(x) = |x|$ on the interval $[-2, 2]$.\n\n**Task:** Use the Mean Value Theorem to find a value $c$ in $(-2, 2)$ such that\n$$h'(c) = \\frac{h(2) - h(-2)}{2 - (-2)}$$\n\nApply the CERC framework and verify all conditions.",
+      "course": "calculus-bc",
+      "errorCategory": "LOCAL_ONLY_ARGUMENT",
+      "trap": "The function is continuous on $[-2,2]$ but NOT differentiable at $x=0$. Students may verify continuity but forget to check differentiability. The correct answer is 'MVT does not apply because differentiability is violated at x=0.'",
+      "hints": {
+        "level1": "You've correctly verified continuity, but there's another hypothesis to check. Is $h$ differentiable at every point in $(-2, 2)$?",
+        "level2": "Your conditions section is missing differentiability verification. Look at $x = 0$ specifically - what is $h'(0)$?",
+        "level3": "At $x = 0$, the function has a sharp corner. The derivative from the left is $-1$ and from the right is $+1$, so $h'(0)$ does not exist. Since differentiability on $(a,b)$ is required for MVT and $h$ is not differentiable at $x=0 \\in (-2,2)$, the theorem does not apply."
+      }
+    },
+    {
+      "id": "w1-mvt-003",
+      "title": "MVT: Complete Verification Practice",
+      "statement": "Consider the function $g(x) = x^3 - 3x$ on the interval $[-1, 1]$.\n\n**Task:** Before applying the Mean Value Theorem, explicitly verify that all conditions are satisfied. Then find the value(s) of $c$ guaranteed by the theorem.",
+      "course": "calculus-bc",
+      "errorCategory": "CONDITION_BYPASS",
+      "trap": "This one DOES satisfy all MVT conditions - it's a confidence-builder. Students must practice systematic verification even when conditions ARE met. This reinforces the habit: ALWAYS check conditions, regardless of whether you suspect they're satisfied.",
+      "hints": {
+        "level1": "Start by checking BOTH conditions: continuity on $[-1,1]$ AND differentiability on $(-1,1)$. Don't skip either one.",
+        "level2": "For polynomial functions, both conditions are typically satisfied. But you must state this explicitly with reasoning, not assume it.",
+        "level3": "$g(x) = x^3 - 3x$ is a polynomial, so it is continuous everywhere (including $[-1,1]$) and differentiable everywhere (including $(-1,1)$). Both MVT conditions are met, so the theorem applies. Now compute the average rate and solve $g'(c) = $ average rate."
+      }
+    }
+  ]
+}

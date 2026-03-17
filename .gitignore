@@ -32,3 +32,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
+# Documentation files with sensitive info
+FASE1-COMPLETADA.md
+SETUP-COMPLETE.md
