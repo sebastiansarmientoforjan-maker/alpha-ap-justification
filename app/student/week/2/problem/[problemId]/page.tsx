@@ -19,6 +19,7 @@ import { week2Problems } from "@/data/week-2-content";
 import { MathContent } from "@/components/student/math-content";
 import { getDataService } from "@/services/data";
 import { redirectToInstructions } from "@/lib/utils/activity-instructions";
+import { sanitizeInput } from "@/lib/utils/input-sanitizer";
 
 type Phase = "understand" | "solve" | "justify" | "selfCheck" | "reflection" | "complete";
 
@@ -134,6 +135,17 @@ export default function Week2ProblemSolver() {
       phases: {
         ...sessionData.phases,
         selfCheck: { ...sessionData.phases.selfCheck, solutionViewed: true }
+      }
+    });
+  };
+
+  const handleCERCChange = (field: keyof typeof sessionData.cercResponses, value: string) => {
+    const sanitized = sanitizeInput(value);
+    setSessionData({
+      ...sessionData,
+      cercResponses: {
+        ...sessionData.cercResponses,
+        [field]: sanitized
       }
     });
   };
@@ -554,10 +566,7 @@ export default function Week2ProblemSolver() {
                     </div>
                     <textarea
                       value={sessionData.cercResponses.claim}
-                      onChange={(e) => setSessionData({
-                        ...sessionData,
-                        cercResponses: { ...sessionData.cercResponses, claim: e.target.value }
-                      })}
+                      onChange={(e) => handleCERCChange('claim', e.target.value)}
                       className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
                       rows={2}
                       placeholder="State your conclusion..."
@@ -572,10 +581,7 @@ export default function Week2ProblemSolver() {
                     </div>
                     <textarea
                       value={sessionData.cercResponses.evidence}
-                      onChange={(e) => setSessionData({
-                        ...sessionData,
-                        cercResponses: { ...sessionData.cercResponses, evidence: e.target.value }
-                      })}
+                      onChange={(e) => handleCERCChange('evidence', e.target.value)}
                       className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
                       rows={4}
                       placeholder="Show all calculations..."
@@ -590,10 +596,7 @@ export default function Week2ProblemSolver() {
                     </div>
                     <textarea
                       value={sessionData.cercResponses.reasoning}
-                      onChange={(e) => setSessionData({
-                        ...sessionData,
-                        cercResponses: { ...sessionData.cercResponses, reasoning: e.target.value }
-                      })}
+                      onChange={(e) => handleCERCChange('reasoning', e.target.value)}
                       className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
                       rows={3}
                       placeholder="Cite the theorem and explain how it applies..."
@@ -608,10 +611,7 @@ export default function Week2ProblemSolver() {
                     </div>
                     <textarea
                       value={sessionData.cercResponses.conditions}
-                      onChange={(e) => setSessionData({
-                        ...sessionData,
-                        cercResponses: { ...sessionData.cercResponses, conditions: e.target.value }
-                      })}
+                      onChange={(e) => handleCERCChange('conditions', e.target.value)}
                       className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
                       rows={4}
                       placeholder="Verify each hypothesis with mathematical justification..."

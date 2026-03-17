@@ -18,6 +18,7 @@ import { bossBattles, week4Config } from "@/data/week-4-content";
 import { MathContent } from "@/components/student/math-content";
 import { getDataService } from "@/services/data";
 import { redirectToInstructions } from "@/lib/utils/activity-instructions";
+import { sanitizeInput } from "@/lib/utils/input-sanitizer";
 
 type Phase = "phase1" | "phase2" | "phase3" | "complete";
 
@@ -119,6 +120,42 @@ export default function BossBattlePage() {
   const viewHint = (phase: "phase1" | "phase2" | "phase3", hintIndex: number) => {
     const updated = [...battleData.hintsViewed, hintIndex];
     setBattleData({ ...battleData, hintsViewed: updated });
+  };
+
+  const handlePhase1Change = (value: string) => {
+    const sanitized = sanitizeInput(value);
+    setBattleData({
+      ...battleData,
+      phases: {
+        ...battleData.phases,
+        phase1: { ...battleData.phases.phase1, response: sanitized }
+      }
+    });
+  };
+
+  const handlePhase2CERCChange = (field: keyof typeof battleData.phases.phase2.cercResponse, value: string) => {
+    const sanitized = sanitizeInput(value);
+    setBattleData({
+      ...battleData,
+      phases: {
+        ...battleData.phases,
+        phase2: {
+          ...battleData.phases.phase2,
+          cercResponse: { ...battleData.phases.phase2.cercResponse, [field]: sanitized }
+        }
+      }
+    });
+  };
+
+  const handlePhase3Change = (value: string) => {
+    const sanitized = sanitizeInput(value);
+    setBattleData({
+      ...battleData,
+      phases: {
+        ...battleData.phases,
+        phase3: { ...battleData.phases.phase3, adaptedConclusion: sanitized }
+      }
+    });
   };
 
   const calculateXP = () => {
@@ -330,13 +367,7 @@ export default function BossBattlePage() {
                   <label className="block font-semibold mb-2">Your Phase 1 Analysis:</label>
                   <textarea
                     value={battleData.phases.phase1.response}
-                    onChange={(e) => setBattleData({
-                      ...battleData,
-                      phases: {
-                        ...battleData.phases,
-                        phase1: { ...battleData.phases.phase1, response: e.target.value }
-                      }
-                    })}
+                    onChange={(e) => handlePhase1Change(e.target.value)}
                     className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
                     rows={12}
                     placeholder="Write your complete Phase 1 analysis here..."
@@ -385,16 +416,7 @@ export default function BossBattlePage() {
                     </div>
                     <textarea
                       value={battleData.phases.phase2.cercResponse.claim}
-                      onChange={(e) => setBattleData({
-                        ...battleData,
-                        phases: {
-                          ...battleData.phases,
-                          phase2: {
-                            ...battleData.phases.phase2,
-                            cercResponse: { ...battleData.phases.phase2.cercResponse, claim: e.target.value }
-                          }
-                        }
-                      })}
+                      onChange={(e) => handlePhase2CERCChange('claim', e.target.value)}
                       className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
                       rows={3}
                       placeholder="State your team's claim..."
@@ -408,16 +430,7 @@ export default function BossBattlePage() {
                     </div>
                     <textarea
                       value={battleData.phases.phase2.cercResponse.evidence}
-                      onChange={(e) => setBattleData({
-                        ...battleData,
-                        phases: {
-                          ...battleData.phases,
-                          phase2: {
-                            ...battleData.phases.phase2,
-                            cercResponse: { ...battleData.phases.phase2.cercResponse, evidence: e.target.value }
-                          }
-                        }
-                      })}
+                      onChange={(e) => handlePhase2CERCChange('evidence', e.target.value)}
                       className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
                       rows={5}
                       placeholder="Show all calculations..."
@@ -431,16 +444,7 @@ export default function BossBattlePage() {
                     </div>
                     <textarea
                       value={battleData.phases.phase2.cercResponse.reasoning}
-                      onChange={(e) => setBattleData({
-                        ...battleData,
-                        phases: {
-                          ...battleData.phases,
-                          phase2: {
-                            ...battleData.phases.phase2,
-                            cercResponse: { ...battleData.phases.phase2.cercResponse, reasoning: e.target.value }
-                          }
-                        }
-                      })}
+                      onChange={(e) => handlePhase2CERCChange('reasoning', e.target.value)}
                       className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
                       rows={4}
                       placeholder="Cite theorems and connect evidence to claim..."
@@ -454,16 +458,7 @@ export default function BossBattlePage() {
                     </div>
                     <textarea
                       value={battleData.phases.phase2.cercResponse.conditions}
-                      onChange={(e) => setBattleData({
-                        ...battleData,
-                        phases: {
-                          ...battleData.phases,
-                          phase2: {
-                            ...battleData.phases.phase2,
-                            cercResponse: { ...battleData.phases.phase2.cercResponse, conditions: e.target.value }
-                          }
-                        }
-                      })}
+                      onChange={(e) => handlePhase2CERCChange('conditions', e.target.value)}
                       className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
                       rows={4}
                       placeholder="Verify all theorem conditions..."
@@ -519,13 +514,7 @@ export default function BossBattlePage() {
                   <label className="block font-semibold mb-2">Adapted Conclusion:</label>
                   <textarea
                     value={battleData.phases.phase3.adaptedConclusion}
-                    onChange={(e) => setBattleData({
-                      ...battleData,
-                      phases: {
-                        ...battleData.phases,
-                        phase3: { ...battleData.phases.phase3, adaptedConclusion: e.target.value }
-                      }
-                    })}
+                    onChange={(e) => handlePhase3Change(e.target.value)}
                     className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
                     rows={10}
                     placeholder="Write your adapted conclusion addressing the curveball..."

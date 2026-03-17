@@ -43,6 +43,7 @@ export default function Week1Landing() {
   const tabPanelRef = useRef<HTMLDivElement>(null);
   const modalCloseButtonRef = useRef<HTMLButtonElement>(null);
   const lastFocusedElement = useRef<HTMLElement | null>(null);
+  const transitionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Check user motion preferences
   useEffect(() => {
@@ -152,6 +153,15 @@ export default function Week1Landing() {
     return () => document.removeEventListener('keydown', handleGlobalKeyboard);
   }, [showModal, showKeyboardHelp]);
 
+  // Cleanup transition timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (transitionTimeoutRef.current) {
+        clearTimeout(transitionTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const tabs = [
     { id: "problem", label: "The Problem", icon: AlertTriangle, time: "3 min" },
     { id: "solution", label: "The Solution", icon: Target, time: "4 min" },
@@ -235,6 +245,11 @@ export default function Week1Landing() {
   const handleTabChange = (tabId: "problem" | "solution" | "method" | "path") => {
     if (isTransitioning) return; // Prevent clicks during transition
 
+    // Clear any existing transition timeout
+    if (transitionTimeoutRef.current) {
+      clearTimeout(transitionTimeoutRef.current);
+    }
+
     // Save current scroll position
     const currentScroll = window.scrollY;
     setScrollPositions(prev => ({
@@ -246,7 +261,7 @@ export default function Week1Landing() {
     setActiveTab(tabId);
 
     // Restore scroll position and move focus to tab panel after animation completes
-    setTimeout(() => {
+    transitionTimeoutRef.current = setTimeout(() => {
       const savedScroll = scrollPositions[tabId];
       if (savedScroll !== undefined) {
         window.scrollTo({ top: savedScroll, behavior: 'smooth' });
@@ -258,6 +273,7 @@ export default function Week1Landing() {
       }
 
       setIsTransitioning(false);
+      transitionTimeoutRef.current = null;
     }, 300); // Match animation duration
   };
 
@@ -1018,6 +1034,38 @@ export default function Week1Landing() {
   );
 }
 
+// Color class mappings for Tailwind purge safety
+const COLOR_CLASSES = {
+  red: {
+    glow: 'from-red-500/20 to-red-600/20',
+    iconBg: 'bg-red-500/10 border-red-500/30',
+    iconColor: 'text-red-400',
+    exampleBg: 'bg-red-500/5 border-red-500/20',
+    exampleText: 'text-red-300',
+  },
+  accent: {
+    glow: 'from-accent-500/20 to-accent-600/20',
+    iconBg: 'bg-accent-500/10 border-accent-500/30',
+    iconColor: 'text-accent-400',
+    exampleBg: 'bg-accent-500/5 border-accent-500/20',
+    exampleText: 'text-accent-300',
+  },
+  yellow: {
+    glow: 'from-yellow-500/20 to-yellow-600/20',
+    iconBg: 'bg-yellow-500/10 border-yellow-500/30',
+    iconColor: 'text-yellow-400',
+    exampleBg: 'bg-yellow-500/5 border-yellow-500/20',
+    exampleText: 'text-yellow-300',
+  },
+  green: {
+    glow: 'from-green-500/20 to-green-600/20',
+    iconBg: 'bg-green-500/10 border-green-500/30',
+    iconColor: 'text-green-400',
+    exampleBg: 'bg-green-500/5 border-green-500/20',
+    exampleText: 'text-green-300',
+  },
+} as const;
+
 // Unified Card Component for ALL tabs
 function UnifiedCard({
   icon: Icon,
@@ -1031,9 +1079,11 @@ function UnifiedCard({
   title: string;
   description: string;
   example?: string;
-  color?: string;
+  color?: keyof typeof COLOR_CLASSES;
   delay?: number;
 }) {
+  const colors = COLOR_CLASSES[color];
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -1042,7 +1092,7 @@ function UnifiedCard({
       className="group relative"
     >
       {/* Unified glow */}
-      <div className={`absolute -inset-0.5 bg-gradient-to-r from-${color}-500/20 to-${color}-600/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition duration-500`} />
+      <div className={`absolute -inset-0.5 bg-gradient-to-r ${colors.glow} rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition duration-500`} />
 
       {/* Unified card structure */}
       <div className="relative h-full flex flex-col p-5 rounded-xl bg-gradient-to-br from-primary-800/90 to-primary-900/90 border border-white/10 backdrop-blur-xl hover:border-white/20 transition-all duration-300 overflow-hidden">
@@ -1050,8 +1100,8 @@ function UnifiedCard({
         <div className="relative z-10 flex-1 flex flex-col">
           {/* Unified icon */}
           <div className="mb-3">
-            <div className={`inline-flex p-2 rounded-lg bg-${color}-500/10 border border-${color}-500/30`}>
-              <Icon className={`w-6 h-6 text-${color}-400`} />
+            <div className={`inline-flex p-2 rounded-lg ${colors.iconBg}`}>
+              <Icon className={`w-6 h-6 ${colors.iconColor}`} />
             </div>
           </div>
 
@@ -1067,8 +1117,8 @@ function UnifiedCard({
 
           {/* Unified example box (optional) */}
           {example && (
-            <div className={`p-2.5 rounded-lg bg-${color}-500/5 border border-${color}-500/20`}>
-              <p className={`text-xs text-${color}-300 italic leading-relaxed`}>
+            <div className={`p-2.5 rounded-lg ${colors.exampleBg}`}>
+              <p className={`text-xs ${colors.exampleText} italic leading-relaxed`}>
                 "{example}"
               </p>
             </div>
