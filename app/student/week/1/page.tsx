@@ -532,93 +532,101 @@ export default function Week1Landing() {
               </p>
             </div>
 
-            {/* Tab Navigation */}
-            <div
-              id="tab-navigation"
-              className="flex flex-wrap justify-center gap-3 mb-8 max-w-4xl mx-auto"
-              role="tablist"
-              aria-label="Week 1 content sections"
-            >
-              {tabs.map((tab) => {
-                const Icon = tab.icon;
-                const isViewed = viewedSections.has(tab.id);
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => handleTabChange(tab.id)}
-                    onKeyDown={(e) => handleTabKeyDown(e, tab.id)}
-                    disabled={isTransitioning}
-                    role="tab"
-                    aria-selected={activeTab === tab.id}
-                    aria-controls={`tabpanel-${tab.id}`}
-                    id={`tab-${tab.id}`}
-                    tabIndex={activeTab === tab.id ? 0 : -1}
-                    className={`group relative px-5 sm:px-6 md:px-8 py-4 rounded-2xl border backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent-500 ${
-                      activeTab === tab.id
-                        ? "border-accent-500 bg-accent-500/20 shadow-lg shadow-accent-500/30"
-                        : "border-white/10 bg-white/5 hover:border-accent-500/50 hover:bg-white/10"
-                    } ${isTransitioning ? 'opacity-50 cursor-wait' : ''}`}
-                  >
-                    <div className="flex flex-col gap-2">
-                      <div className="flex items-center gap-3">
-                        <Icon
-                          className={`w-6 h-6 transition-colors ${
-                            activeTab === tab.id ? "text-accent-300" : "text-primary-300 group-hover:text-accent-400"
-                          }`}
-                        />
-                        <span
-                          className={`text-base md:text-lg font-semibold transition-colors ${
-                            activeTab === tab.id ? "text-white" : "text-primary-200 group-hover:text-white"
-                          }`}
-                        >
-                          {tab.label}
-                        </span>
-                        {isViewed && (
-                          <CheckCircle className="w-5 h-5 text-green-400" />
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2 text-xs text-primary-400">
-                        <div className="w-1 h-1 rounded-full bg-primary-400" />
-                        <span>{tab.time} read</span>
-                      </div>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Tab Content */}
-            <div data-section={activeTab} className="relative">
-              {/* Loading Overlay */}
-              {isTransitioning && (
-                <div className="absolute inset-0 flex items-center justify-center bg-primary-900/50 backdrop-blur-sm rounded-3xl z-20">
-                  <div className="flex flex-col items-center gap-3">
-                    <div className="w-12 h-12 border-4 border-accent-500/30 border-t-accent-500 rounded-full animate-spin" />
-                    <span className="text-sm text-primary-200">Loading...</span>
-                  </div>
+            {/* Tab Navigation + Content - Side by Side Layout */}
+            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+              {/* Left Sidebar - Tab Navigation */}
+              <div
+                ref={tabsRef}
+                id="tab-navigation"
+                className="lg:w-64 flex-shrink-0"
+                role="tablist"
+                aria-label="Week 1 content sections"
+              >
+                <div className="flex flex-col gap-3 lg:sticky lg:top-24">
+                  {tabs.map((tab) => {
+                    const Icon = tab.icon;
+                    const isViewed = viewedSections.has(tab.id);
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => handleTabChange(tab.id)}
+                        onKeyDown={(e) => handleTabKeyDown(e, tab.id)}
+                        disabled={isTransitioning}
+                        role="tab"
+                        aria-selected={activeTab === tab.id}
+                        aria-controls={`tabpanel-${tab.id}`}
+                        id={`tab-${tab.id}`}
+                        tabIndex={activeTab === tab.id ? 0 : -1}
+                        className={`group relative px-4 py-4 rounded-xl border backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent-500 text-left ${
+                          activeTab === tab.id
+                            ? "border-accent-500 bg-accent-500/20 shadow-lg shadow-accent-500/30"
+                            : "border-white/10 bg-white/5 hover:border-accent-500/50 hover:bg-white/10"
+                        } ${isTransitioning ? 'opacity-50 cursor-wait' : ''}`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <Icon
+                            className={`w-5 h-5 flex-shrink-0 transition-colors ${
+                              activeTab === tab.id ? "text-accent-300" : "text-primary-300 group-hover:text-accent-400"
+                            }`}
+                          />
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span
+                                className={`text-sm font-semibold transition-colors truncate ${
+                                  activeTab === tab.id ? "text-white" : "text-primary-200 group-hover:text-white"
+                                }`}
+                              >
+                                {tab.label}
+                              </span>
+                              {isViewed && (
+                                <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                              )}
+                            </div>
+                            <div className="flex items-center gap-1 text-xs text-primary-400 mt-1">
+                              <div className="w-1 h-1 rounded-full bg-primary-400" />
+                              <span>{tab.time}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
-              )}
+              </div>
 
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeTab}
-                  ref={tabPanelRef}
-                  role="tabpanel"
-                  id={`tabpanel-${activeTab}`}
-                  aria-labelledby={`tab-${activeTab}`}
-                  tabIndex={0}
-                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
-                  transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
-                  className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 sm:p-8 md:p-12 shadow-2xl outline-none focus:ring-2 focus:ring-accent-500"
-                >
-                  {activeTab === "problem" && <ProblemTab onShowModal={() => setShowModal(true)} />}
-                  {activeTab === "solution" && <SolutionTab />}
-                  {activeTab === "method" && <MethodTab />}
-                  {activeTab === "path" && <PathTab />}
-                </motion.div>
-              </AnimatePresence>
+              {/* Right Content Area */}
+              <div data-section={activeTab} className="flex-1 min-w-0 relative">
+                {/* Loading Overlay */}
+                {isTransitioning && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-primary-900/50 backdrop-blur-sm rounded-3xl z-20">
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="w-12 h-12 border-4 border-accent-500/30 border-t-accent-500 rounded-full animate-spin" />
+                      <span className="text-sm text-primary-200">Loading...</span>
+                    </div>
+                  </div>
+                )}
+
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeTab}
+                    ref={tabPanelRef}
+                    role="tabpanel"
+                    id={`tabpanel-${activeTab}`}
+                    aria-labelledby={`tab-${activeTab}`}
+                    tabIndex={0}
+                    initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+                    transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
+                    className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 sm:p-8 md:p-10 shadow-2xl outline-none focus:ring-2 focus:ring-accent-500 max-w-5xl"
+                  >
+                    {activeTab === "problem" && <ProblemTab onShowModal={() => setShowModal(true)} />}
+                    {activeTab === "solution" && <SolutionTab />}
+                    {activeTab === "method" && <MethodTab />}
+                    {activeTab === "path" && <PathTab />}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
             </div>
           </div>
         </section>
