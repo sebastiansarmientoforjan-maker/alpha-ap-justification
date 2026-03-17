@@ -1,6 +1,8 @@
 import { getDataService } from "@/services/data";
 import { AdminDashboard } from "@/components/admin/admin-dashboard";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminPage() {
   const dataService = await getDataService();
 

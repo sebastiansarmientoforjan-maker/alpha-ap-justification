@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminStudentsPage() {
   const dataService = await getDataService();
   const studentOverviews = await dataService.getAllStudentOverviews();
