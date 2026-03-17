@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(schtasks /Query /FO LIST /V | grep -A 20 -i \"izzy\")",
+      "Bash(schtasks /query /fo LIST /v | grep -i \"izzy\" -A 5 -B 5 || echo \"No scheduled tasks found with 'izzy'\")",
+      "Bash(tasklist | grep -i \"izzy\" || echo \"No running processes found with 'izzy'\")",
+      "Bash(cmd.exe /c \"schtasks /query /fo LIST /v | findstr /i izzy\")",
+      "Bash(cmd.exe /c \"schtasks /query /tn \\\\\"Izzy Monitor\\\\\" /fo LIST /v\")",
+      "Bash(cd /c/Users/sebas/Documents/izzy-monitor && ls -lh *.json *.js *.md *.ps1 *.sh .env* .gitignore 2>/dev/null | grep -E '\\\\.\\(json|js|md|ps1|sh|env|gitignore\\)$')",
+      "Bash(node check-railway-status.js)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(railway --version 2>&1 || echo \"NOT_INSTALLED\")",
+      "Bash(railway whoami:*)",
+      "Bash(railway init:*)",
+      "Bash(railway variables:*)",
+      "Bash(railway up:*)",
+      "Bash(railway service:*)",
+      "Bash(railway status:*)",
+      "Bash(railway link:*)",
+      "Bash(railway logs:*)",
+      "Bash(schtasks /query /tn \"Izzy Monitor\" 2>&1 || echo \"Task Scheduler NOT found\")",
+      "Bash(cmd.exe /c \"schtasks /query /tn \\\\\"Izzy Monitor\\\\\" /fo LIST\")",
+      "Bash(node test-all-fixes.js)",
+      "Bash(node monitor.js 2>&1 | head -30)",
+      "Bash(git push:*)",
+      "Bash(git remote:*)"
+    ]
+  }
+}
