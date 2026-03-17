@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { RoleSwitcher } from "@/components/ui/role-switcher";
 
 export const metadata: Metadata = {
   title: "AP Math Justification Training",
@@ -15,6 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased">
         {children}
+        <RoleSwitcher />
       </body>
     </html>
   );

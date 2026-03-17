@@ -41,31 +41,34 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // 🔓 DEVELOPMENT MODE: Auth disabled for local testing
+  // TODO: Re-enable auth checks before production deployment
+
   // Check for authentication token
   // TODO: Replace with actual Firebase Auth token verification
-  const authToken = request.cookies.get('auth-token');
-  const userRole = request.cookies.get('user-role');
+  // const authToken = request.cookies.get('auth-token');
+  // const userRole = request.cookies.get('user-role');
 
   // No auth token - redirect to login
-  if (!authToken || !userRole) {
-    const loginUrl = new URL('/login', request.url);
-    loginUrl.searchParams.set('from', pathname);
-    return NextResponse.redirect(loginUrl);
-  }
+  // if (!authToken || !userRole) {
+  //   const loginUrl = new URL('/login', request.url);
+  //   loginUrl.searchParams.set('from', pathname);
+  //   return NextResponse.redirect(loginUrl);
+  // }
 
   // Check admin routes
-  if (PROTECTED_ROUTES.admin.test(pathname)) {
-    if (userRole.value !== 'admin') {
-      return NextResponse.redirect(new URL('/unauthorized', request.url));
-    }
-  }
+  // if (PROTECTED_ROUTES.admin.test(pathname)) {
+  //   if (userRole.value !== 'admin') {
+  //     return NextResponse.redirect(new URL('/unauthorized', request.url));
+  //   }
+  // }
 
   // Check student routes
-  if (PROTECTED_ROUTES.student.test(pathname)) {
-    if (userRole.value !== 'student') {
-      return NextResponse.redirect(new URL('/unauthorized', request.url));
-    }
-  }
+  // if (PROTECTED_ROUTES.student.test(pathname)) {
+  //   if (userRole.value !== 'student') {
+  //     return NextResponse.redirect(new URL('/unauthorized', request.url));
+  //   }
+  // }
 
   // Add security headers
   const response = NextResponse.next();
