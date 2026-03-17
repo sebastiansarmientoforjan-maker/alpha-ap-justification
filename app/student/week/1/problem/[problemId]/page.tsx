@@ -473,8 +473,8 @@ export default function Week1ProblemSolver() {
                     <PenTool className="w-6 h-6" />
                   </div>
                   <div>
-                    <h2 className="text-3xl font-bold">Phase 2: Work Through the Problem</h2>
-                    <p className="text-primary-300">Analyze and verify conditions before solving</p>
+                    <h2 className="text-3xl font-bold">Phase 2: Solve on Paper</h2>
+                    <p className="text-primary-300">Work through the mathematics by hand</p>
                   </div>
                 </div>
 
@@ -482,23 +482,23 @@ export default function Week1ProblemSolver() {
                   <div className="flex items-start gap-3 mb-4">
                     <FileText className="w-6 h-6 text-purple-400 flex-shrink-0 mt-1" />
                     <div>
-                      <h3 className="font-bold text-purple-300 mb-2">Your Workspace</h3>
+                      <h3 className="font-bold text-purple-300 mb-2">Why Paper?</h3>
                       <p className="text-sm text-purple-200 leading-relaxed mb-3">
-                        Use whatever method works best for you—paper, whiteboard, digital notes, or mental work.
-                        The key is to verify ALL conditions before applying any theorem.
+                        The AP exam requires you to write justifications by hand under timed conditions.
+                        Training on paper builds the muscle memory and spatial reasoning you need for exam day.
                       </p>
                       <ul className="space-y-2 text-sm text-purple-200">
                         <li className="flex items-start gap-2">
                           <span className="text-purple-400 mt-1">•</span>
-                          <span><strong>Paper/Whiteboard:</strong> Traditional approach, good for organizing complex work</span>
+                          <span><strong>Mimics AP conditions:</strong> No calculators, no digital tools—just you, paper, and a pencil</span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-purple-400 mt-1">•</span>
-                          <span><strong>Digital notes:</strong> Type or sketch your work using any tool you prefer</span>
+                          <span><strong>Builds spatial reasoning:</strong> Organizing work on paper improves mathematical thinking</span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-purple-400 mt-1">•</span>
-                          <span><strong>Mental work:</strong> For simpler problems, thinking through the logic is enough</span>
+                          <span><strong>Reduces cognitive load:</strong> Handwriting helps encode mathematical relationships in memory</span>
                         </li>
                       </ul>
                     </div>
@@ -524,7 +524,7 @@ export default function Week1ProblemSolver() {
                   <ol className="space-y-2 text-sm text-primary-200">
                     <li className="flex items-start gap-3">
                       <span className="flex-shrink-0 w-6 h-6 rounded-full bg-accent-500/20 text-accent-300 flex items-center justify-center text-xs font-bold">1</span>
-                      <span>Read the problem carefully and identify which theorem is being used.</span>
+                      <span>Get paper and pencil. Write down the problem statement.</span>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="flex-shrink-0 w-6 h-6 rounded-full bg-accent-500/20 text-accent-300 flex items-center justify-center text-xs font-bold">2</span>
@@ -542,7 +542,7 @@ export default function Week1ProblemSolver() {
                 </div>
 
                 <ShimmerButton onClick={() => completePhase("solve")} className="w-full py-4 text-lg">
-                  Ready to write my justification →
+                  Done with paper work →
                 </ShimmerButton>
               </motion.div>
             )}
