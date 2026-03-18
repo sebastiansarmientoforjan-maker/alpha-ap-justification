@@ -630,7 +630,7 @@ export default function Week1Landing() {
               </div>
 
               {/* Right Content Area */}
-              <div data-section={activeTab} className="flex-1 min-w-0 relative min-h-[600px]">
+              <div data-section={activeTab} className="flex-1 min-w-0 relative min-h-[800px]">
                 {/* Loading Overlay */}
                 {isTransitioning && (
                   <div className="absolute inset-0 flex items-center justify-center bg-primary-900/50 backdrop-blur-sm rounded-3xl z-20">
@@ -653,7 +653,7 @@ export default function Week1Landing() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: -10 }}
                     transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
-                    className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 sm:p-8 md:p-10 shadow-2xl outline-none focus:ring-2 focus:ring-accent-500 max-w-5xl"
+                    className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 sm:p-8 md:p-10 shadow-2xl outline-none focus:ring-2 focus:ring-accent-500 max-w-5xl min-h-[700px]"
                   >
                     {activeTab === "problem" && <ProblemTab onShowModal={() => setShowModal(true)} />}
                     {activeTab === "solution" && <SolutionTab />}

@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 
 export default function Week4Landing() {
-  const [activeTab, setActiveTab] = useState<"phases" | "team" | "pressure" | "victory">("phases");
+  const [activeTab, setActiveTab] = useState<"phases" | "strategy" | "pressure" | "victory">("phases");
   const [viewedSections, setViewedSections] = useState<Set<string>>(new Set());
   const tabsContainerRef = useRef<HTMLDivElement>(null);
 
@@ -89,15 +89,15 @@ export default function Week4Landing() {
 
         <BlurFade delay={0.3}>
           <p className="text-xl md:text-2xl text-center text-primary-200 max-w-3xl mb-4">
-            Multi-phase collaborative challenge • Timed curveball • AP exam simulation
+            Multi-phase individual challenge • Timed curveball • AP exam simulation
           </p>
         </BlurFade>
 
         <BlurFade delay={0.4}>
           <div className="flex items-center gap-3 mb-8">
             <div className="flex items-center gap-2 px-4 py-2 bg-red-500/10 border border-red-500/30 rounded-lg">
-              <Users className="w-5 h-5 text-red-400" />
-              <span className="text-sm text-red-300 font-semibold">Team Challenge</span>
+              <Target className="w-5 h-5 text-red-400" />
+              <span className="text-sm text-red-300 font-semibold">Individual Challenge</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-lg">
               <Clock className="w-5 h-5 text-orange-400" />
@@ -167,7 +167,7 @@ export default function Week4Landing() {
             <div className="flex flex-col gap-3 lg:sticky lg:top-24">
               {[
                 { id: "phases", label: "3 Phases", icon: Target },
-                { id: "team", label: "Team Work", icon: Users },
+                { id: "strategy", label: "Strategy", icon: Zap },
                 { id: "pressure", label: "Time Pressure", icon: Clock },
                 { id: "victory", label: "Victory", icon: Trophy },
               ].map((tab) => {
@@ -237,16 +237,16 @@ export default function Week4Landing() {
                     <div className="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center font-bold text-lg">
                       2
                     </div>
-                    <h4 className="text-2xl font-bold text-purple-300">Phase 2: Construct the Team Argument</h4>
+                    <h4 className="text-2xl font-bold text-purple-300">Phase 2: Construct Your CERC Argument</h4>
                   </div>
                   <p className="text-primary-200 mb-3">
-                    <strong className="text-white">Collaborative work.</strong> Now you work together with the entire cohort as ONE TEAM.
+                    <strong className="text-white">Individual work.</strong> Now you build your complete CERC justification.
                   </p>
                   <p className="text-primary-200 mb-3">
-                    Pool your Phase 1 findings. Debate the approach. Build a unified CERC argument. Learn from each other's insights.
+                    Use your Phase 1 analysis. Write a complete proof with all conditions verified. Show every step of your reasoning.
                   </p>
                   <p className="text-primary-200 mb-3">
-                    This simulates real mathematical collaboration - no one person has all the answers.
+                    This simulates writing an AP FRQ response - clear, complete, and rigorous.
                   </p>
                   <p className="text-purple-300 text-sm font-semibold">⏱️ Untimed (~20 minutes)</p>
                 </div>
@@ -266,63 +266,63 @@ export default function Week4Landing() {
                     "The drain became clogged at t=7 minutes." "15 patients had prior treatment." The problem CHANGES.
                   </p>
                   <p className="text-primary-200 mb-3">
-                    You have <strong className="text-red-300">15 MINUTES</strong> to adapt your conclusion. Think fast. Work together. Handle the pressure.
+                    You have <strong className="text-red-300">15 MINUTES</strong> to adapt your conclusion. Think fast. Stay focused. Handle the pressure.
                   </p>
                   <p className="text-red-300 text-sm font-semibold">⏱️ TIMED: 15 minutes exactly</p>
                 </div>
               </div>
             )}
 
-            {activeTab === "team" && (
+            {activeTab === "strategy" && (
               <div className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-6">
-                <h3 className="text-3xl font-bold mb-6">Why Team Collaboration?</h3>
+                <h3 className="text-3xl font-bold mb-6">Approaching the Boss Battle</h3>
                 <div className="space-y-6 text-base text-primary-200">
                   <p>
-                    Week 4 is NOT an individual challenge. You work as a COHORT - all 10 Alpha students together against one problem.
+                    Week 4 is YOUR ultimate test - an individual challenge that integrates everything you've learned across Weeks 1-3.
                   </p>
 
                   <div className="p-6 bg-accent-500/10 border border-accent-500/30 rounded-xl">
-                    <p className="font-bold text-accent-200 mb-3">What Team Collaboration Teaches:</p>
+                    <p className="font-bold text-accent-200 mb-3">Key Skills You'll Apply:</p>
                     <ul className="space-y-2 text-sm">
                       <li className="flex items-start gap-2">
                         <span className="text-accent-400 mt-1">•</span>
-                        <span><strong>Multiple perspectives:</strong> Someone might spot a condition you missed</span>
+                        <span><strong>Condition Verification:</strong> Check all theorem requirements before applying</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <span className="text-accent-400 mt-1">•</span>
-                        <span><strong>Constructive debate:</strong> Challenge each other's reasoning respectfully</span>
+                        <span><strong>Multi-Concept Integration:</strong> Combine multiple theorems in one problem</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <span className="text-accent-400 mt-1">•</span>
-                        <span><strong>Learning from peers:</strong> Seeing how others approach the problem expands your toolkit</span>
+                        <span><strong>Adaptive Thinking:</strong> Adjust your approach when new information arrives</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <span className="text-accent-400 mt-1">•</span>
-                        <span><strong>Real-world skills:</strong> Professional mathematicians collaborate constantly</span>
+                        <span><strong>Time Management:</strong> Complete rigorous justification under pressure</span>
                       </li>
                     </ul>
                   </div>
 
                   <div className="p-6 bg-secondary-500/10 border border-secondary-500/30 rounded-xl">
-                    <p className="font-bold text-secondary-200 mb-3">How It Works in Practice:</p>
+                    <p className="font-bold text-secondary-200 mb-3">How to Succeed:</p>
                     <ul className="space-y-2 text-sm">
                       <li className="flex items-start gap-2">
                         <span className="text-secondary-400 mt-1">1.</span>
-                        <span>Everyone works Phase 1 individually (no communication)</span>
+                        <span>Phase 1: Take your time analyzing the problem setup (~15 min)</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <span className="text-secondary-400 mt-1">2.</span>
-                        <span>Phase 2: Team shares findings, discusses approach, constructs unified CERC</span>
+                        <span>Phase 2: Build your complete CERC argument with full justification (~20 min)</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <span className="text-secondary-400 mt-1">3.</span>
-                        <span>Phase 3: Team adapts together under time pressure (like a real crisis scenario)</span>
+                        <span>Phase 3: Stay calm, adapt to the curveball, manage your time (15 min TIMED)</span>
                       </li>
                     </ul>
                   </div>
 
                   <p className="text-accent-200 font-semibold">
-                    You're not competing against each other. You're working TOGETHER to defeat the Boss Battle.
+                    This is your chance to prove you've mastered AP-level justification. You've got this.
                   </p>
                 </div>
               </div>
@@ -418,7 +418,7 @@ export default function Week4Landing() {
                     </li>
                     <li className="flex items-start gap-3 p-4 bg-primary-800/60 rounded-lg">
                       <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5" />
-                      <span>Collaborated effectively with your team throughout</span>
+                      <span>Demonstrated mastery across all 3 phases independently</span>
                     </li>
                   </ul>
 
@@ -493,7 +493,7 @@ export default function Week4Landing() {
                 <div className="mt-12 text-center p-12 bg-gradient-to-br from-red-500/10 to-orange-500/10 border-2 border-red-500/50 rounded-2xl">
             <h3 className="text-4xl font-bold mb-4">Are You Ready?</h3>
             <p className="text-xl text-primary-200 mb-8 max-w-2xl mx-auto">
-              This is the culmination of everything you've learned. Three phases. One epic challenge. Your cohort working together.
+              This is the culmination of everything you've learned. Three phases. One epic challenge. Prove your mastery.
             </p>
             <Link href="/student/week/4/battle">
               <ShimmerButton className="px-12 py-6 text-2xl bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700">
