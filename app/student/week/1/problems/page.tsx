@@ -110,7 +110,7 @@ export default function Week1ProblemsPage() {
         <div className="space-y-6">
           {availableProblems.map((problem, index) => {
             const isCompleted = completedProblems.includes(problem.id);
-            const isLocked = index > 0 && !completedProblems.includes(availableProblems[index - 1].id);
+            const isLocked = false; // Temporarily unlock all problems for review
 
             return (
               <BlurFade key={problem.id} delay={0.4 + index * 0.1}>

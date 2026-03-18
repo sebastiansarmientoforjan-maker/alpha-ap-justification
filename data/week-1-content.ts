@@ -41,7 +41,7 @@ export const week1Problems: WeekProblem[] = [
     id: "w1-mvt-001",
     course: "calculus-bc", // Also suitable for AB
     title: "Mean Value Theorem: The Discontinuity Trap",
-    statement: `Consider the function $f(x) = \\frac{1}{x^2}$ on the interval $[-1, 1]$.
+    statement: `Consider the function $f(x) = \\frac{1}{x^{2}}$ on the interval $[-1, 1]$.
 
 **Task:** Apply the Mean Value Theorem to find a value $c$ in $(-1, 1)$ such that
 
@@ -57,10 +57,10 @@ Use the CERC framework to structure your argument. Explicitly verify all theorem
       conditions: "Checking continuity: f(x) = 1/x² is discontinuous at x = 0 because lim(x→0) f(x) = ∞ (the function is not defined at x=0). Therefore, the MVT cannot be applied. [AP Rubric: 1 point - Explicit verification with mathematical justification]",
     },
     sentenceFrames: {
-      claim: "**Claim**: The Mean Value Theorem [applies / does not apply] to this function on [-1, 1] because...",
-      evidence: "**Evidence**: We can verify that f(x) = 1/x² is [continuous / discontinuous] on [-1, 1] by checking... The difference quotient equals...",
-      reasoning: "**Reasoning**: Since the MVT requires (1) continuity on [a,b] and (2) differentiability on (a,b), and we have shown that...",
-      conditions: "**Conditions**: Checking the hypotheses explicitly: (1) Continuity on [-1,1]: ... ; (2) Differentiability on (-1,1): ...",
+      claim: " The Mean Value Theorem [applies / does not apply] to this function on [-1, 1] because...",
+      evidence: " We can verify that f(x) = 1/x² is [continuous / discontinuous] on [-1, 1] by checking... The difference quotient equals...",
+      reasoning: " Since the MVT requires (1) continuity on [a,b] and (2) differentiability on (a,b), and we have shown that...",
+      conditions: " Checking the hypotheses explicitly: (1) Continuity on [-1,1]: ... ; (2) Differentiability on (-1,1): ...",
     },
     theoremInfo: {
       name: "Mean Value Theorem",
@@ -80,7 +80,7 @@ Use the CERC framework to structure your argument. Explicitly verify all theorem
     id: "w1-ivt-001",
     course: "calculus-bc", // Also suitable for AB
     title: "Intermediate Value Theorem: The Jump Discontinuity",
-    statement: `Let $g(x) = \\begin{cases} x^2 & \\text{if } x < 1 \\\\ 3 & \\text{if } x \\geq 1 \\end{cases}$ on the interval $[0, 2]$.
+    statement: `Let $g(x) = \\begin{cases} x^{2} & \\text{if } x < 1 \\\\ 3 & \\text{if } x \\geq 1 \\end{cases}$ on the interval $[0, 2]$.
 
 **Task:** Determine whether there exists a value $c$ in $(0, 2)$ such that $g(c) = 2$.
 
@@ -94,10 +94,10 @@ Use the CERC framework. Explicitly check whether the Intermediate Value Theorem 
       conditions: "Checking continuity: g is continuous on [0,1) and on [1,2], but at x=1, lim(x→1⁻) g(x) = 1 ≠ 3 = g(1). Therefore g is not continuous on [0,2], and IVT does not apply. [AP Rubric: 1 point - Rigorous verification using limits]",
     },
     sentenceFrames: {
-      claim: "**Claim**: By the Intermediate Value Theorem, there [exists / does not exist] a value c in (0, 2) such that g(c) = 2 because...",
-      evidence: "**Evidence**: We observe that g(0) = ___ and g(2) = ___, and we want g(c) = ___. Checking continuity at x = 1: lim(x→1⁻) g(x) = ___ while g(1) = ___.",
-      reasoning: "**Reasoning**: The IVT states that if f is continuous on [a,b] and N is between f(a) and f(b), then there exists c in (a,b) such that f(c) = N. However...",
-      conditions: "**Conditions**: Verifying continuity on [0,2]: g is [continuous / has a discontinuity at x = ___] because...",
+      claim: " By the Intermediate Value Theorem, there [exists / does not exist] a value c in (0, 2) such that g(c) = 2 because...",
+      evidence: " We observe that g(0) = ___ and g(2) = ___, and we want g(c) = ___. Checking continuity at x = 1: lim(x→1⁻) g(x) = ___ while g(1) = ___.",
+      reasoning: " The IVT states that if f is continuous on [a,b] and N is between f(a) and f(b), then there exists c in (a,b) such that f(c) = N. However...",
+      conditions: " Verifying continuity on [0,2]: g is [continuous / has a discontinuity at x = ___] because...",
     },
     theoremInfo: {
       name: "Intermediate Value Theorem",
@@ -133,10 +133,10 @@ Apply the CERC framework and verify all conditions.`,
       conditions: "Checking: (1) Continuity on [-2,2]: h is continuous everywhere. ✓ (2) Differentiability on (-2,2): h'(x) = -1 for x<0 and h'(x) = 1 for x>0, but h'(0) does not exist (sharp corner). ✗ Therefore MVT does not apply. [AP Rubric: 1 point - Systematic verification of both conditions]",
     },
     sentenceFrames: {
-      claim: "**Claim**: The Mean Value Theorem [applies / does not apply] because...",
-      evidence: "**Evidence**: Calculating the average rate of change: (h(2) - h(-2))/(2-(-2)) = ___. Examining differentiability at x = 0: the left derivative is ___ and the right derivative is ___.",
-      reasoning: "**Reasoning**: MVT requires two conditions: continuity on [a,b] and differentiability on (a,b). We have shown that...",
-      conditions: "**Conditions**: (1) Continuity: ___ ; (2) Differentiability: At x = 0, h'(0⁻) = ___ and h'(0⁺) = ___, so h'(0) [exists / does not exist].",
+      claim: " The Mean Value Theorem [applies / does not apply] because...",
+      evidence: " Calculating the average rate of change: (h(2) - h(-2))/(2-(-2)) = ___. Examining differentiability at x = 0: the left derivative is ___ and the right derivative is ___.",
+      reasoning: " MVT requires two conditions: continuity on [a,b] and differentiability on (a,b). We have shown that...",
+      conditions: " (1) Continuity: ___ ; (2) Differentiability: At x = 0, h'(0⁻) = ___ and h'(0⁺) = ___, so h'(0) [exists / does not exist].",
     },
     theoremInfo: {
       name: "Mean Value Theorem",
@@ -175,10 +175,10 @@ Apply the CERC framework and verify all conditions.`,
       conditions: "Checking independence: The pre-test and post-test scores come from the same 20 students, so they are clearly dependent (a student's pre-test score is likely related to their post-test score). This violates the independence condition required for a two-sample t-test. The correct procedure would be a paired t-test. [AP Rubric: 1 point - Explicit condition check with correct alternative]",
     },
     sentenceFrames: {
-      claim: "**Claim**: A two-sample t-test [is / is not] appropriate for these data because...",
-      evidence: "**Evidence**: Examining the study design: The same ___ students were measured [once / twice]. The data consist of [independent samples / paired observations] because...",
-      reasoning: "**Reasoning**: The two-sample t-test requires that observations in one group be independent of observations in the other group. In this study...",
-      conditions: "**Conditions**: Checking the independence condition: Are the two samples independent? The pre-test group and post-test group consist of...",
+      claim: " A two-sample t-test [is / is not] appropriate for these data because...",
+      evidence: " Examining the study design: The same ___ students were measured [once / twice]. The data consist of [independent samples / paired observations] because...",
+      reasoning: " The two-sample t-test requires that observations in one group be independent of observations in the other group. In this study...",
+      conditions: " Checking the independence condition: Are the two samples independent? The pre-test group and post-test group consist of...",
     },
     theoremInfo: {
       name: "Two-Sample t-Test",
@@ -211,10 +211,10 @@ Apply the CERC framework and verify all conditions.`,
       conditions: "Checking normality: The sample size n = 8 is small (< 30), so we cannot rely on CLT. The data are described as skewed, so the population is not approximately normal. Therefore, the normality condition required for the t-test is not satisfied. [AP Rubric: 1 point - Systematic check of both normality pathways]",
     },
     sentenceFrames: {
-      claim: "**Claim**: A one-sample t-test [can / should not] be used because...",
-      evidence: "**Evidence**: The sample size is n = ___. The distribution of the sample data is described as [approximately normal / skewed]. For small samples, we need...",
-      reasoning: "**Reasoning**: The t-test requires that the population be approximately normal OR that the sample size be large enough (n ≥ 30) for CLT. In this case...",
-      conditions: "**Conditions**: Checking normality/sample size: Is n ≥ 30? ___ Is the population approximately normal? The data are ___, so...",
+      claim: " A one-sample t-test [can / should not] be used because...",
+      evidence: " The sample size is n = ___. The distribution of the sample data is described as [approximately normal / skewed]. For small samples, we need...",
+      reasoning: " The t-test requires that the population be approximately normal OR that the sample size be large enough (n ≥ 30) for CLT. In this case...",
+      conditions: " Checking normality/sample size: Is n ≥ 30? ___ Is the population approximately normal? The data are ___, so...",
     },
     theoremInfo: {
       name: "One-Sample t-Test",
@@ -247,10 +247,10 @@ Apply the CERC framework and verify all conditions.`,
       conditions: "Checking random sampling: The sample was taken from one specific class (AP Statistics), not randomly selected from all students at the school. This is a convenience sample, not a random sample. Therefore, the random sampling condition required for valid inference is violated, and the confidence interval should not be used to generalize to all students. [AP Rubric: 1 point - Explicit verification of random sampling condition]",
     },
     sentenceFrames: {
-      claim: "**Claim**: It [is / is not] appropriate to use these data to construct a confidence interval for all students because...",
-      evidence: "**Evidence**: The sample consists of students from [a random sample of all students / one AP Statistics class]. AP Statistics students may differ from the general student population in...",
-      reasoning: "**Reasoning**: For a confidence interval to provide valid inference about a population, the sample must be a random sample. A non-random sample may introduce bias because...",
-      conditions: "**Conditions**: Checking random sampling: Was the sample randomly selected from all students? The sample came from ___, which [is / is not] a random sample because...",
+      claim: " It [is / is not] appropriate to use these data to construct a confidence interval for all students because...",
+      evidence: " The sample consists of students from [a random sample of all students / one AP Statistics class]. AP Statistics students may differ from the general student population in...",
+      reasoning: " For a confidence interval to provide valid inference about a population, the sample must be a random sample. A non-random sample may introduce bias because...",
+      conditions: " Checking random sampling: Was the sample randomly selected from all students? The sample came from ___, which [is / is not] a random sample because...",
     },
     theoremInfo: {
       name: "Confidence Interval for a Mean",

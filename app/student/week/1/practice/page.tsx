@@ -257,6 +257,11 @@ export default function ModelProblemPractice() {
   };
 
   const completeReflection = () => {
+    // Require at least one learning checkbox to be selected
+    if (reflectionChecks.length === 0) {
+      return;
+    }
+
     const updatedPhases = { ...sessionData.phases };
     updatedPhases.reflection = {
       learnings: reflectionChecks,
@@ -428,7 +433,7 @@ export default function ModelProblemPractice() {
         </div>
 
         {/* RIGHT WORKSPACE - Current Phase (Scrollable) */}
-        <div className="w-3/5 p-8 pb-16 overflow-y-auto">
+        <div className="w-3/5 p-8 pb-32 overflow-y-auto">
           <div className="max-w-3xl mx-auto">
             {/* PHASE 1: UNDERSTAND */}
             {currentPhase === "understand" && (
@@ -712,14 +717,39 @@ export default function ModelProblemPractice() {
                       ))}
                     </div>
 
+                    {/* Self-Check Checklist */}
+                    {!showSolution && (
+                      <div className="mb-6 p-4 bg-blue-500/10 border-2 border-blue-500/30 rounded-xl">
+                        <h4 className="text-sm font-bold text-blue-300 mb-3">Before viewing solution:</h4>
+                        <ul className="space-y-2 text-xs text-primary-300">
+                          <li className="flex items-start gap-2">
+                            <CheckCircle className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
+                            <span>Did you check ALL theorem conditions?</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <CheckCircle className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
+                            <span>Did you identify which condition fails (if any)?</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <CheckCircle className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
+                            <span>Did you write a complete claim statement?</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <CheckCircle className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
+                            <span>Did you cite the theorem by name?</span>
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+
                     {/* Solution */}
                     {!showSolution ? (
                       <button
                         onClick={viewSolution}
-                        className="w-full p-10 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-4 border-yellow-500/60 rounded-3xl hover:from-yellow-500/30 hover:to-orange-500/30 transition-all shadow-2xl shadow-yellow-500/30 group"
+                        className="w-full p-10 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-2 border-yellow-500/40 rounded-2xl hover:from-yellow-500/30 hover:to-orange-500/30 transition-all shadow-xl shadow-yellow-500/20 group"
                       >
-                        <span className="block text-3xl font-bold text-yellow-300 mb-3 group-hover:scale-105 transition-transform">View Full Solution</span>
-                        <span className="block text-base text-yellow-400">Complete CERC breakdown • LaTeX formatting • AP Exam quality</span>
+                        <span className="block text-2xl font-bold text-yellow-300 mb-2 group-hover:scale-105 transition-transform">View Full Solution</span>
+                        <span className="block text-sm text-yellow-400">Complete CERC breakdown • Step-by-step • AP Exam quality</span>
                       </button>
                     ) : (
                       <div className="mt-6">
@@ -790,7 +820,7 @@ export default function ModelProblemPractice() {
                 </div>
 
                 <div className="p-6 bg-pink-500/10 border border-pink-500/30 rounded-xl">
-                  <h3 className="font-bold text-pink-300 mb-4">Key Learnings (select all that apply):</h3>
+                  <h3 className="font-bold text-pink-300 mb-4">Key Learnings (required - select all that apply):</h3>
                   <div className="space-y-3">
                     {[
                       "I missed checking a theorem condition",
@@ -829,7 +859,20 @@ export default function ModelProblemPractice() {
                   />
                 </div>
 
-                <ShimmerButton onClick={completeReflection} className="w-full py-4 text-lg">
+                {reflectionChecks.length === 0 && (
+                  <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
+                    <p className="text-sm text-red-300 flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4" />
+                      Please select at least one key learning before completing
+                    </p>
+                  </div>
+                )}
+
+                <ShimmerButton
+                  onClick={completeReflection}
+                  className={`w-full py-4 text-lg ${reflectionChecks.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  disabled={reflectionChecks.length === 0}
+                >
                   <Trophy className="w-5 h-5 mr-2" />
                   Complete Practice Session
                 </ShimmerButton>

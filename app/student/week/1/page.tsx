@@ -630,7 +630,7 @@ export default function Week1Landing() {
               </div>
 
               {/* Right Content Area */}
-              <div data-section={activeTab} className="flex-1 min-w-0 relative min-h-[800px]">
+              <div data-section={activeTab} className="flex-1 min-w-0 relative min-h-[600px]">
                 {/* Loading Overlay */}
                 {isTransitioning && (
                   <div className="absolute inset-0 flex items-center justify-center bg-primary-900/50 backdrop-blur-sm rounded-3xl z-20">
@@ -653,7 +653,7 @@ export default function Week1Landing() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: -10 }}
                     transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
-                    className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 sm:p-8 md:p-10 shadow-2xl outline-none focus:ring-2 focus:ring-accent-500 max-w-5xl min-h-[700px]"
+                    className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 sm:p-8 md:p-10 shadow-2xl outline-none focus:ring-2 focus:ring-accent-500 max-w-5xl"
                   >
                     {activeTab === "problem" && <ProblemTab onShowModal={() => setShowModal(true)} />}
                     {activeTab === "solution" && <SolutionTab />}
@@ -1245,100 +1245,51 @@ function SolutionTab() {
           The CERC Framework
         </motion.h3>
         <p className="text-base text-primary-300 max-w-2xl mx-auto leading-relaxed">
-          Four components that transform partial credit into full credit
+          Four components that transform partial credit into full credit on AP exams
         </p>
       </div>
 
-      {/* Cards Grid */}
-      <div className="grid md:grid-cols-2 gap-4">
+      {/* Cards Grid - 3 cards like other tabs */}
+      <div className="grid md:grid-cols-3 gap-4">
         <UnifiedCard
           icon={Target}
-          title="Claim"
-          description="State your conclusion explicitly and precisely"
-          example="f is increasing on [0,2] (specific claim, not vague)"
+          title="C: Claim"
+          description="State your conclusion explicitly. What are you proving?"
+          example="The Mean Value Theorem does not apply to f(x) on [-1,1]"
           color="accent"
           delay={0}
         />
         <UnifiedCard
           icon={FileText}
-          title="Evidence"
-          description="Show the mathematical calculations that support your claim"
-          example="f'(x) = 2x > 0 for all x ∈ (0,2)"
+          title="E: Evidence"
+          description="Show calculations and data that support your claim"
+          example="f(0) is undefined, creating discontinuity in the interval"
           color="accent"
           delay={0.1}
         />
         <UnifiedCard
           icon={Lightbulb}
-          title="Reasoning"
-          description="Name the theorem or principle connecting evidence to claim"
-          example="By the Increasing Function Test: f' > 0 implies f increasing"
+          title="R: Reasoning"
+          description="Name the theorem connecting evidence to claim"
+          example="MVT requires continuity on [a,b]; since f violates this, MVT fails"
           color="accent"
           delay={0.2}
         />
-        <UnifiedCard
-          icon={ListChecks}
-          title="Conditions"
-          description="Verify that all theorem hypotheses are satisfied"
-          example="f is continuous on [0,2] and differentiable on (0,2) ✓"
-          color="accent"
-          delay={0.3}
-        />
       </div>
 
-      {/* Result card */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-        className="relative mt-8"
-      >
-        {/* Animated gradient background */}
-        <div className="absolute -inset-1 bg-gradient-to-r from-accent-500 via-secondary-500 to-accent-500 rounded-2xl blur-xl opacity-30" />
-
-        {/* Content */}
-        <div className="relative p-6 rounded-2xl bg-gradient-to-br from-primary-800/90 to-primary-900/90 border border-accent-500/30 backdrop-blur-xl overflow-hidden">
-          {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-accent-500/10 to-transparent rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-secondary-500/10 to-transparent rounded-full blur-3xl" />
-
-          <div className="relative z-10">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-accent-500 to-secondary-500 shadow-xl shadow-accent-500/50">
-                <Trophy className="w-6 h-6 text-white" />
-              </div>
-              <h4 className="text-2xl font-bold text-white">The Result</h4>
-            </div>
-
-            <div className="space-y-3 text-base">
-              <p className="text-primary-100 leading-relaxed">
-                Complete CERC responses earn{" "}
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-500/20 border border-green-500/50 text-green-300 font-bold">
-                  <CheckCircle className="w-4 h-4" />
-                  3/3
-                </span>
-                {" "}on AP rubrics.
-              </p>
-
-              <p className="text-primary-100 leading-relaxed">
-                Incomplete ones get{" "}
-                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-red-500/20 border border-red-500/50 text-red-300 font-bold">
-                  1/3
-                </span>
-                {" "}or{" "}
-                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-yellow-500/20 border border-yellow-500/50 text-yellow-300 font-bold">
-                  2/3
-                </span>
-              </p>
-
-              <div className="mt-4 p-4 rounded-xl bg-gradient-to-r from-accent-500/10 to-secondary-500/10 border border-accent-500/30">
-                <p className="text-lg font-bold bg-gradient-to-r from-accent-300 to-secondary-300 bg-clip-text text-transparent">
-                  That's +2-3 points on average per FRQ.
-                </p>
-              </div>
-            </div>
-          </div>
+      {/* Second row with Conditions card centered */}
+      <div className="grid md:grid-cols-3 gap-4">
+        <div className="md:col-start-2">
+          <UnifiedCard
+            icon={ListChecks}
+            title="C: Conditions"
+            description="Verify ALL theorem hypotheses explicitly"
+            example="Checking continuity: f(x)=1/x² is discontinuous at x=0 ✗"
+            color="accent"
+            delay={0.3}
+          />
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }
