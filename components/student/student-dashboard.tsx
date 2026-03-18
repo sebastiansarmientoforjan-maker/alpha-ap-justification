@@ -327,6 +327,201 @@ export function StudentDashboard({
           </div>
         </div>
 
+        {/* Week 2 Training */}
+        <div className="relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl shadow-glass overflow-hidden mb-12">
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-pink-500/5 pointer-events-none" />
+
+          <div className="relative p-8">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-white mb-2">CERC Training - Week 2</h2>
+              <p className="text-primary-300">
+                Condition verification with calculus theorems
+              </p>
+            </div>
+
+            <Link href="/student/week/2">
+              <div className="group relative rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm p-6 hover:border-purple-500/30 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-500 cursor-pointer">
+                <div className="absolute -inset-px rounded-2xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 -z-10" />
+
+                <div className="flex items-center justify-between gap-6">
+                  <div className="flex items-center gap-6 flex-1">
+                    <div className="relative">
+                      <div className="w-16 h-16 rounded-full border-2 bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-purple-500/30 flex items-center justify-center backdrop-blur-sm">
+                        <span className="text-2xl font-bold text-purple-300">2</span>
+                      </div>
+                    </div>
+
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="text-lg font-semibold text-white group-hover:text-purple-300 transition-colors">
+                          Week 2: Condition Verification
+                        </h3>
+                        <div className="inline-flex px-3 py-1 rounded-full border bg-green-500/10 border-green-500/30">
+                          <span className="text-xs font-medium text-green-300">Available Now</span>
+                        </div>
+                      </div>
+
+                      <p className="text-sm text-primary-300 mb-3">
+                        Master IVT, MVT, and EVT by explicitly verifying theorem conditions
+                      </p>
+
+                      <div className="flex items-center gap-6 text-xs text-primary-400">
+                        <div className="flex items-center gap-2">
+                          <Target className="w-4 h-4" />
+                          <span>4 Problems</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Clock className="w-4 h-4" />
+                          <span>20-25 min each</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Award className="w-4 h-4" />
+                          <span>Structural Outline</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-purple-400 group-hover:text-purple-300 transition-colors">
+                    <span className="text-sm font-medium">Continue Training</span>
+                    <ChevronRight className="w-5 h-5" />
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </div>
+        </div>
+
+        {/* Week 3 Training */}
+        <div className="relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl shadow-glass overflow-hidden mb-12">
+          <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-transparent to-teal-500/5 pointer-events-none" />
+
+          <div className="relative p-8">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-white mb-2">CERC Training - Week 3</h2>
+              <p className="text-primary-300">
+                Global argumentation and communication precision
+              </p>
+            </div>
+
+            <Link href="/student/week/3">
+              <div className="group relative rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm p-6 hover:border-green-500/30 hover:shadow-xl hover:shadow-green-500/10 transition-all duration-500 cursor-pointer">
+                <div className="absolute -inset-px rounded-2xl bg-gradient-to-r from-green-500/10 to-teal-500/10 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 -z-10" />
+
+                <div className="flex items-center justify-between gap-6">
+                  <div className="flex items-center gap-6 flex-1">
+                    <div className="relative">
+                      <div className="w-16 h-16 rounded-full border-2 bg-gradient-to-br from-green-500/20 to-teal-500/20 border-green-500/30 flex items-center justify-center backdrop-blur-sm">
+                        <span className="text-2xl font-bold text-green-300">3</span>
+                      </div>
+                    </div>
+
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="text-lg font-semibold text-white group-hover:text-green-300 transition-colors">
+                          Week 3: Global Argumentation
+                        </h3>
+                        <div className="inline-flex px-3 py-1 rounded-full border bg-green-500/10 border-green-500/30">
+                          <span className="text-xs font-medium text-green-300">Available Now</span>
+                        </div>
+                      </div>
+
+                      <p className="text-sm text-primary-300 mb-3">
+                        Complete CERC proofs from blank canvas with precision communication
+                      </p>
+
+                      <div className="flex items-center gap-6 text-xs text-primary-400">
+                        <div className="flex items-center gap-2">
+                          <Target className="w-4 h-4" />
+                          <span>5 Problems</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Clock className="w-4 h-4" />
+                          <span>25-30 min each</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Award className="w-4 h-4" />
+                          <span>Blank Canvas</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-green-400 group-hover:text-green-300 transition-colors">
+                    <span className="text-sm font-medium">Continue Training</span>
+                    <ChevronRight className="w-5 h-5" />
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </div>
+        </div>
+
+        {/* Week 4 Boss Battle */}
+        <div className="relative rounded-3xl border border-red-500/30 bg-white/5 backdrop-blur-2xl shadow-glass overflow-hidden mb-12">
+          <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 via-transparent to-orange-500/10 pointer-events-none" />
+
+          <div className="relative p-8">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-white mb-2">CERC Training - Week 4</h2>
+              <p className="text-primary-300">
+                Boss Battle: Multi-phase collaborative FRQ challenge
+              </p>
+            </div>
+
+            <Link href="/student/week/4">
+              <div className="group relative rounded-2xl border border-red-500/20 bg-gradient-to-br from-red-500/10 to-orange-500/10 backdrop-blur-sm p-6 hover:border-red-500/40 hover:shadow-xl hover:shadow-red-500/20 transition-all duration-500 cursor-pointer">
+                <div className="absolute -inset-px rounded-2xl bg-gradient-to-r from-red-500/20 to-orange-500/20 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 -z-10" />
+
+                <div className="flex items-center justify-between gap-6">
+                  <div className="flex items-center gap-6 flex-1">
+                    <div className="relative">
+                      <div className="w-16 h-16 rounded-full border-2 bg-gradient-to-br from-red-500/30 to-orange-500/30 border-red-500/40 flex items-center justify-center backdrop-blur-sm">
+                        <Sparkles className="w-8 h-8 text-red-300" />
+                      </div>
+                    </div>
+
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="text-lg font-semibold text-white group-hover:text-red-300 transition-colors">
+                          Week 4: Boss Battle
+                        </h3>
+                        <div className="inline-flex px-3 py-1 rounded-full border bg-green-500/10 border-green-500/30">
+                          <span className="text-xs font-medium text-green-300">Available Now</span>
+                        </div>
+                      </div>
+
+                      <p className="text-sm text-primary-300 mb-3">
+                        Three-phase integrated AP FRQ with timed curveball twist
+                      </p>
+
+                      <div className="flex items-center gap-6 text-xs text-primary-400">
+                        <div className="flex items-center gap-2">
+                          <Target className="w-4 h-4" />
+                          <span>1 Battle</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Clock className="w-4 h-4" />
+                          <span>45-60 min</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Award className="w-4 h-4" />
+                          <span>Timed Challenge</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-red-400 group-hover:text-red-300 transition-colors">
+                    <span className="text-sm font-medium">Enter Boss Battle</span>
+                    <ChevronRight className="w-5 h-5" />
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </div>
+        </div>
+
         {/* FRQ Cards */}
         <div className="relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl shadow-glass overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-accent-500/5 via-transparent to-secondary-500/5 pointer-events-none" />
