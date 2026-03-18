@@ -33,7 +33,6 @@ export default function Week1Landing() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showMobileProgress, setShowMobileProgress] = useState(false);
   const [modalViewed, setModalViewed] = useState(false);
-  const [scrollPositions, setScrollPositions] = useState<Record<string, number>>({});
   const [showKeyboardHelp, setShowKeyboardHelp] = useState(false);
 
   // Ref declarations - MUST be before useEffects that use them
@@ -273,7 +272,7 @@ export default function Week1Landing() {
   const allSectionsViewed = viewedSections.size >= totalSections;
   const canAccessProblems = practiceCompleted && allSectionsViewed;
 
-  // Handle tab change with loading state, scroll preservation, and focus management
+  // Handle tab change with loading state and focus management (NO scroll changes)
   const handleTabChange = (tabId: "problem" | "solution" | "method" | "path") => {
     if (isTransitioning) return; // Prevent clicks during transition
 
@@ -282,23 +281,11 @@ export default function Week1Landing() {
       clearTimeout(transitionTimeoutRef.current);
     }
 
-    // Save current scroll position
-    const currentScroll = window.scrollY;
-    setScrollPositions(prev => ({
-      ...prev,
-      [activeTab]: currentScroll
-    }));
-
     setIsTransitioning(true);
     setActiveTab(tabId);
 
-    // Restore scroll position and move focus to tab panel after animation completes
+    // Move focus to tab panel after animation completes
     transitionTimeoutRef.current = setTimeout(() => {
-      const savedScroll = scrollPositions[tabId];
-      if (savedScroll !== undefined) {
-        window.scrollTo({ top: savedScroll, behavior: 'smooth' });
-      }
-
       // Move focus to tab panel for keyboard users
       if (tabPanelRef.current) {
         tabPanelRef.current.focus();
@@ -306,7 +293,7 @@ export default function Week1Landing() {
 
       setIsTransitioning(false);
       transitionTimeoutRef.current = null;
-    }, 300); // Match animation duration
+    }, 200); // Match animation duration
   };
 
   // Handle keyboard navigation for tabs (Arrow keys)
@@ -643,7 +630,7 @@ export default function Week1Landing() {
               </div>
 
               {/* Right Content Area */}
-              <div data-section={activeTab} className="flex-1 min-w-0 relative">
+              <div data-section={activeTab} className="flex-1 min-w-0 relative min-h-[600px]">
                 {/* Loading Overlay */}
                 {isTransitioning && (
                   <div className="absolute inset-0 flex items-center justify-center bg-primary-900/50 backdrop-blur-sm rounded-3xl z-20">
@@ -662,9 +649,9 @@ export default function Week1Landing() {
                     id={`tabpanel-${activeTab}`}
                     aria-labelledby={`tab-${activeTab}`}
                     tabIndex={0}
-                    initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+                    initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: -10 }}
                     transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
                     className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 sm:p-8 md:p-10 shadow-2xl outline-none focus:ring-2 focus:ring-accent-500 max-w-5xl"
                   >
