@@ -1390,18 +1390,30 @@ function SolutionTab({
               </div>
 
               <div className="flex items-center gap-2 text-xs text-primary-300">
-                <span>{videoCompleted ? 'Completed ✓' : 'Required viewing'}</span>
+                {videoCompleted ? (
+                  <>
+                    <CheckCircle className="w-3 h-3 text-green-400" />
+                    <span>Completed</span>
+                  </>
+                ) : (
+                  <span>Required viewing</span>
+                )}
               </div>
             </div>
           </div>
         </div>
 
         {/* Video Caption */}
-        <p className="text-center text-sm text-primary-300 mt-4 italic">
-          {videoCompleted
-            ? '✓ Video completed! You can now proceed to other sections.'
-            : 'Watch this overview to understand the 4 components of mathematical justification'}
-        </p>
+        {videoCompleted ? (
+          <div className="flex items-center justify-center gap-2 text-center text-sm text-green-400 mt-4 font-medium">
+            <CheckCircle className="w-4 h-4" />
+            <p>Video completed! You can now proceed to other sections.</p>
+          </div>
+        ) : (
+          <p className="text-center text-sm text-primary-300 mt-4 italic">
+            Watch this overview to understand the 4 components of mathematical justification
+          </p>
+        )}
       </motion.div>
 
       {/* CERC Components Section */}
@@ -1478,7 +1490,12 @@ function MethodTab() {
 
       {/* Explanation Callout */}
       <div className="p-6 bg-yellow-500/10 border-l-4 border-yellow-500 rounded-xl">
-        <h4 className="text-lg font-bold text-yellow-200 mb-3">🎯 The Strategy</h4>
+        <div className="flex items-center gap-3 mb-3">
+          <div className="p-2 rounded-lg bg-yellow-500/20">
+            <Target className="w-5 h-5 text-yellow-300" />
+          </div>
+          <h4 className="text-lg font-bold text-yellow-200">The Strategy</h4>
+        </div>
         <p className="text-sm text-primary-200 leading-relaxed">
           These problems are designed to <strong>trap empirical reasoning</strong>. They look like they should work with basic calculations, but they violate theorem conditions. This forces you to develop the habit of systematic verification before applying any theorem.
         </p>
