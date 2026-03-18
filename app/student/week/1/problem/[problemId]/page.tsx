@@ -822,21 +822,31 @@ export default function Week1ProblemSolver() {
                         <p className="text-sm text-yellow-300">
                           <strong>Your self-assessment:</strong> {selfEvaluationChecks.length}/4 points
                         </p>
-                        <p className="text-xs text-yellow-400 mt-1">
-                          Now compare with the model solution to see how you did!
-                        </p>
                       </div>
                     </div>
 
-                    {/* Hints Section - Available BEFORE viewing solution */}
-                    <div className="p-6 bg-secondary-500/10 border border-secondary-500/30 rounded-xl">
-                      <div className="flex items-center gap-2 mb-4">
-                        <Lightbulb className="w-5 h-5 text-secondary-300" />
-                        <h4 className="font-bold text-secondary-300 text-base">Need Help? Use Hints</h4>
-                      </div>
-                      <p className="text-sm text-primary-300 mb-4">
-                        If your self-assessment shows missing points, these hints can help you improve <strong>before</strong> viewing the model solution:
-                      </p>
+                    {/* Conditional Message based on self-assessment */}
+                    {selfEvaluationChecks.length < 4 ? (
+                      <>
+                        {/* Message for incomplete work */}
+                        <div className="p-5 bg-blue-500/10 border-2 border-blue-500/30 rounded-xl text-center">
+                          <p className="text-blue-300 font-semibold mb-2">
+                            📝 Missing {4 - selfEvaluationChecks.length} point{4 - selfEvaluationChecks.length !== 1 ? 's' : ''}?
+                          </p>
+                          <p className="text-sm text-primary-300">
+                            Use the hints below to identify what's missing, then <strong>revise your CERC</strong> before viewing the model solution!
+                          </p>
+                        </div>
+
+                        {/* Hints Section - Prominent when points are missing */}
+                        <div className="p-6 bg-secondary-500/10 border-2 border-secondary-500/40 rounded-xl">
+                          <div className="flex items-center gap-2 mb-4">
+                            <Lightbulb className="w-6 h-6 text-secondary-300" />
+                            <h4 className="font-bold text-secondary-300 text-lg">💡 Use Hints to Improve</h4>
+                          </div>
+                          <p className="text-sm text-primary-300 mb-4">
+                            These hints can help you identify what's missing <strong>before</strong> you view the model solution:
+                          </p>
                       <div className="space-y-3">
                         {([1, 2, 3] as const).map((level) => (
                           <div key={level}>
@@ -862,30 +872,73 @@ export default function Week1ProblemSolver() {
                           </div>
                         ))}
                       </div>
-                      <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                        <p className="text-xs text-blue-300">
-                          ⚡ <strong>Tip:</strong> Try to identify what's missing first, then use hints strategically. You can also revise your CERC before viewing the solution.
-                        </p>
-                      </div>
-                    </div>
+                          <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                            <p className="text-xs text-blue-300">
+                              ⚡ <strong>Tip:</strong> Use hints strategically to identify what's missing, then revise your response!
+                            </p>
+                          </div>
+                        </div>
 
-                    {/* Revise Option */}
-                    <div className="flex justify-center">
-                      <button
-                        onClick={reviseResponse}
-                        className="px-6 py-3 bg-secondary-500/20 hover:bg-secondary-500/30 border border-secondary-500/40 rounded-lg text-secondary-300 transition-colors text-sm font-medium"
-                      >
-                        ← Revise Your CERC Before Viewing Solution
-                      </button>
-                    </div>
+                        {/* Primary CTA: Revise */}
+                        <button
+                          onClick={reviseResponse}
+                          className="w-full p-8 bg-gradient-to-br from-secondary-500/20 to-blue-500/20 border-4 border-secondary-500/60 rounded-3xl hover:from-secondary-500/30 hover:to-blue-500/30 transition-all shadow-2xl shadow-secondary-500/30 group"
+                        >
+                          <span className="block text-3xl font-bold text-secondary-300 mb-3 group-hover:scale-105 transition-transform">
+                            ← Revise Your CERC Response
+                          </span>
+                          <span className="block text-base text-secondary-400">
+                            Go back and improve your answer with the hints above
+                          </span>
+                        </button>
 
-                    <button
-                      onClick={viewSolution}
-                      className="w-full p-10 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-4 border-yellow-500/60 rounded-3xl hover:from-yellow-500/30 hover:to-orange-500/30 transition-all shadow-2xl shadow-yellow-500/30 group"
-                    >
-                      <span className="block text-3xl font-bold text-yellow-300 mb-3 group-hover:scale-105 transition-transform">View Model Solution →</span>
-                      <span className="block text-base text-yellow-400">Compare with the AP Exam quality answer</span>
-                    </button>
+                        {/* Secondary option: Skip to solution */}
+                        <div className="text-center">
+                          <p className="text-xs text-primary-400 mb-3">Or, if you prefer:</p>
+                          <button
+                            onClick={viewSolution}
+                            className="px-6 py-3 bg-primary-800/40 hover:bg-yellow-500/20 border border-primary-600/30 hover:border-yellow-500/40 rounded-lg text-primary-300 hover:text-yellow-300 transition-all text-sm font-medium"
+                          >
+                            Skip to Model Solution →
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        {/* Message for complete self-assessment */}
+                        <div className="p-5 bg-green-500/10 border-2 border-green-500/30 rounded-xl text-center">
+                          <p className="text-green-300 font-semibold mb-2">
+                            ✓ You self-assessed 4/4 points!
+                          </p>
+                          <p className="text-sm text-primary-300">
+                            Great! Now compare your response with the model solution to confirm your understanding.
+                          </p>
+                        </div>
+
+                        {/* Primary CTA: View Solution */}
+                        <button
+                          onClick={viewSolution}
+                          className="w-full p-10 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-4 border-yellow-500/60 rounded-3xl hover:from-yellow-500/30 hover:to-orange-500/30 transition-all shadow-2xl shadow-yellow-500/30 group"
+                        >
+                          <span className="block text-3xl font-bold text-yellow-300 mb-3 group-hover:scale-105 transition-transform">
+                            View Model Solution →
+                          </span>
+                          <span className="block text-base text-yellow-400">
+                            Compare with the AP Exam quality answer
+                          </span>
+                        </button>
+
+                        {/* Optional: Still allow revision */}
+                        <div className="text-center">
+                          <button
+                            onClick={reviseResponse}
+                            className="px-6 py-3 bg-primary-800/40 hover:bg-secondary-500/20 border border-primary-600/30 hover:border-secondary-500/40 rounded-lg text-primary-300 hover:text-secondary-300 transition-all text-sm font-medium"
+                          >
+                            ← Or Revise Your CERC First
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </motion.div>
                 ) : (
                   <motion.div
