@@ -86,10 +86,10 @@ export default function Week3Landing() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-6 pb-20">
+      <div className="max-w-7xl mx-auto px-6 pb-20">
         {/* The Milestone */}
         <BlurFade delay={0.6}>
-          <div className="mb-16 p-8 bg-gradient-to-br from-secondary-500/10 to-accent-500/10 border border-secondary-500/30 rounded-2xl">
+          <div className="mb-12 p-8 bg-gradient-to-br from-secondary-500/10 to-accent-500/10 border border-secondary-500/30 rounded-2xl">
             <h2 className="text-3xl font-bold mb-4 flex items-center gap-3">
               <Award className="w-8 h-8 text-accent-400" />
               You've Reached Week 3
@@ -111,50 +111,61 @@ export default function Week3Landing() {
           </div>
         </BlurFade>
 
-        {/* Tab Navigation */}
-        <BlurFade delay={0.7}>
-          <div className="mb-8 flex gap-2 p-2 bg-primary-800/60 rounded-xl border border-primary-600/30">
-            {[
-              { id: "challenge", label: "The Challenge", icon: AlertTriangle },
-              { id: "skills", label: "Synthesis", icon: Target },
-              { id: "exam", label: "AP Prep", icon: FileText },
-              { id: "path", label: "Your Path", icon: CheckCircle },
-            ].map((tab) => {
-              const Icon = tab.icon;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => {
-                    setActiveTab(tab.id as any);
-                    markSectionViewed(tab.id);
-                  }}
-                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-semibold transition-all ${
-                    activeTab === tab.id
-                      ? "bg-accent-500 text-white shadow-lg shadow-accent-500/50"
-                      : "text-primary-300 hover:bg-white/10"
-                  }`}
-                >
-                  <Icon className="w-5 h-5" />
-                  <span className="hidden sm:inline">{tab.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </BlurFade>
+        {/* Sidebar + Content Layout */}
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+          {/* Sidebar Navigation */}
+          <div className="lg:w-64 flex-shrink-0">
+            <div className="flex flex-col gap-3 lg:sticky lg:top-24">
+                {[
+                  { id: "challenge", label: "The Challenge", icon: AlertTriangle },
+                  { id: "skills", label: "Synthesis", icon: Target },
+                  { id: "exam", label: "AP Prep", icon: FileText },
+                  { id: "path", label: "Your Path", icon: CheckCircle },
+                ].map((tab) => {
+                  const Icon = tab.icon;
+                  const isActive = activeTab === tab.id;
+                  const isViewed = viewedSections.has(tab.id);
 
-        {/* Tab Content */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {activeTab === "challenge" && (
-              <div className="p-8 bg-white/5 rounded-2xl border border-white/10">
-                <h3 className="text-2xl font-bold mb-6">The Challenge: Blank Canvas</h3>
-                <div className="space-y-4 text-primary-200">
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => {
+                        setActiveTab(tab.id as any);
+                        markSectionViewed(tab.id);
+                      }}
+                      className={`flex items-center gap-3 px-5 py-4 rounded-xl font-semibold transition-all text-left ${
+                        isActive
+                          ? "bg-accent-500 text-white shadow-lg shadow-accent-500/50"
+                          : "text-primary-300 hover:bg-white/10 border border-primary-600/30"
+                      }`}
+                    >
+                      <Icon className="w-5 h-5 flex-shrink-0" />
+                      <span>{tab.label}</span>
+                      {isViewed && !isActive && (
+                        <CheckCircle className="w-4 h-4 ml-auto text-green-400" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Content Area */}
+          <div className="flex-1 min-w-0">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="max-w-5xl"
+              >
+                {activeTab === "challenge" && (
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-6">
+                    <h3 className="text-3xl font-bold mb-6">The Challenge: Blank Canvas</h3>
+                    <div className="space-y-4 text-base text-primary-200">
                   <p>
                     Week 3 removes all scaffolding. You see a problem statement, and you write a complete CERC argument from scratch.
                   </p>
@@ -176,16 +187,16 @@ export default function Week3Landing() {
                     </ul>
                   </div>
                   <p className="text-accent-200 font-semibold mt-6">
-                    If you've done Weeks 1-2 properly, you DON'T NEED scaffolding anymore. You already know the pattern.
-                  </p>
-                </div>
-              </div>
-            )}
+                      If you've done Weeks 1-2 properly, you DON'T NEED scaffolding anymore. You already know the pattern.
+                    </p>
+                  </div>
+                  </div>
+                )}
 
-            {activeTab === "skills" && (
-              <div className="p-8 bg-white/5 rounded-2xl border border-white/10">
-                <h3 className="text-2xl font-bold mb-6">Multi-Concept Synthesis</h3>
-                <div className="space-y-6 text-primary-200">
+                {activeTab === "skills" && (
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-6">
+                    <h3 className="text-3xl font-bold mb-6">Multi-Concept Synthesis</h3>
+                    <div className="space-y-6 text-base text-primary-200">
                   <p>
                     Week 3 problems integrate MULTIPLE AP concepts in a single scenario. You can't just "apply MVT" - you need to navigate a complex problem.
                   </p>
@@ -237,16 +248,16 @@ export default function Week3Landing() {
                     </ul>
                     <p className="mt-4 text-secondary-200 font-semibold">
                       You need to think globally about the entire scenario, not just calculate the test statistic.
-                    </p>
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </div>
-            )}
+                  </div>
+                )}
 
-            {activeTab === "exam" && (
-              <div className="p-8 bg-white/5 rounded-2xl border border-white/10">
-                <h3 className="text-2xl font-bold mb-6">Week 3 = AP Exam Preparation</h3>
-                <div className="space-y-6 text-primary-200">
+                {activeTab === "exam" && (
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-6">
+                    <h3 className="text-3xl font-bold mb-6">Week 3 = AP Exam Preparation</h3>
+                    <div className="space-y-6 text-base text-primary-200">
                   <p>
                     The AP exam is in a few weeks. Week 3 is your dress rehearsal.
                   </p>
@@ -297,9 +308,9 @@ export default function Week3Landing() {
             )}
 
             {activeTab === "path" && (
-              <div className="p-8 bg-white/5 rounded-2xl border border-white/10">
-                <h3 className="text-2xl font-bold mb-6">Your Path Through Week 3</h3>
-                <div className="space-y-6">
+              <div className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-6">
+                <h3 className="text-3xl font-bold mb-6">Your Path Through Week 3</h3>
+                <div className="space-y-6 text-base text-primary-200">
                   {[
                     {
                       step: 1,
@@ -351,9 +362,10 @@ export default function Week3Landing() {
         </AnimatePresence>
 
         {/* Learning Objectives */}
-        <BlurFade delay={1.0}>
-          <div className="mt-12 p-8 bg-white/5 rounded-2xl border border-white/10">
-            <h3 className="text-2xl font-bold mb-6">Week 3 Learning Objectives</h3>
+        <div className="max-w-5xl">
+          <BlurFade delay={1.0}>
+            <div className="mt-12 p-8 bg-white/5 rounded-2xl border border-white/10">
+              <h3 className="text-2xl font-bold mb-6">Week 3 Learning Objectives</h3>
             <ul className="space-y-3">
               {[
                 "Synthesize multiple AP concepts in a single problem",
@@ -367,12 +379,12 @@ export default function Week3Landing() {
                 </li>
               ))}
             </ul>
-          </div>
-        </BlurFade>
+            </div>
+          </BlurFade>
 
-        {/* Badge Callout */}
-        <BlurFade delay={1.1}>
-          <div className="mt-12 p-8 bg-gradient-to-br from-accent-500/10 to-secondary-500/10 border-2 border-accent-500/50 rounded-2xl">
+          {/* Badge Callout */}
+          <BlurFade delay={1.1}>
+            <div className="mt-12 p-8 bg-gradient-to-br from-accent-500/10 to-secondary-500/10 border-2 border-accent-500/50 rounded-2xl">
             <div className="flex items-center gap-4 mb-4">
               <div className="w-16 h-16 rounded-full bg-gradient-to-br from-accent-500 to-secondary-500 flex items-center justify-center text-4xl shadow-lg shadow-accent-500/50">
                 🏛️
@@ -388,12 +400,12 @@ export default function Week3Landing() {
             <p className="text-sm text-primary-300">
               This badge proves you can construct AP-level mathematical arguments completely independently. It's the mark of mastery.
             </p>
-          </div>
-        </BlurFade>
+            </div>
+          </BlurFade>
 
-        {/* CTA */}
-        <BlurFade delay={1.2}>
-          <div className="mt-12 text-center">
+          {/* CTA */}
+          <BlurFade delay={1.2}>
+            <div className="mt-12 text-center">
             <Link href="/student/week/3/problems">
               <ShimmerButton className="px-10 py-5 text-xl">
                 Begin Week 3 Problems →
@@ -402,8 +414,10 @@ export default function Week3Landing() {
             <p className="mt-6 text-primary-300 text-sm">
               3-4 problems • 25-30 minutes each • No scaffolding - blank canvas
             </p>
-          </div>
-        </BlurFade>
+            </div>
+          </BlurFade>
+        </div>
+      </div>
       </div>
     </div>
   );

@@ -109,10 +109,10 @@ export default function Week4Landing() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-6 pb-20 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 pb-20 relative z-10">
         {/* The Journey */}
         <BlurFade delay={0.7}>
-          <div className="mb-16 p-8 bg-gradient-to-br from-red-500/10 to-orange-500/10 border-2 border-red-500/30 rounded-2xl shadow-2xl">
+          <div className="mb-12 p-8 bg-gradient-to-br from-red-500/10 to-orange-500/10 border-2 border-red-500/30 rounded-2xl shadow-2xl">
             <h2 className="text-3xl font-bold mb-4 flex items-center gap-3">
               <Award className="w-8 h-8 text-red-400" />
               The Final Test
@@ -134,48 +134,58 @@ export default function Week4Landing() {
           </div>
         </BlurFade>
 
-        {/* Tab Navigation */}
-        <BlurFade delay={0.8}>
-          <div className="mb-8 flex gap-2 p-2 bg-primary-800/60 rounded-xl border border-primary-600/30">
-            {[
-              { id: "phases", label: "3 Phases", icon: Target },
-              { id: "team", label: "Team Work", icon: Users },
-              { id: "pressure", label: "Time Pressure", icon: Clock },
-              { id: "victory", label: "Victory", icon: Trophy },
-            ].map((tab) => {
-              const Icon = tab.icon;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => {
-                    setActiveTab(tab.id as any);
-                    markSectionViewed(tab.id);
-                  }}
-                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-semibold transition-all ${
-                    activeTab === tab.id
-                      ? "bg-red-500 text-white shadow-lg shadow-red-500/50"
-                      : "text-primary-300 hover:bg-white/10"
-                  }`}
-                >
-                  <Icon className="w-5 h-5" />
-                  <span className="hidden sm:inline">{tab.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </BlurFade>
+        {/* Sidebar + Content Layout */}
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+          {/* Sidebar Navigation */}
+          <div className="lg:w-64 flex-shrink-0">
+            <div className="flex flex-col gap-3 lg:sticky lg:top-24">
+              {[
+                { id: "phases", label: "3 Phases", icon: Target },
+                { id: "team", label: "Team Work", icon: Users },
+                { id: "pressure", label: "Time Pressure", icon: Clock },
+                { id: "victory", label: "Victory", icon: Trophy },
+              ].map((tab) => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
+                const isViewed = viewedSections.has(tab.id);
 
-        {/* Tab Content */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => {
+                      setActiveTab(tab.id as any);
+                      markSectionViewed(tab.id);
+                    }}
+                    className={`flex items-center gap-3 px-5 py-4 rounded-xl font-semibold transition-all text-left ${
+                      isActive
+                        ? "bg-red-500 text-white shadow-lg shadow-red-500/50"
+                        : "text-primary-300 hover:bg-white/10 border border-primary-600/30"
+                    }`}
+                  >
+                    <Icon className="w-5 h-5 flex-shrink-0" />
+                    <span>{tab.label}</span>
+                    {isViewed && !isActive && (
+                      <CheckCircle className="w-4 h-4 ml-auto text-green-400" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Content Area */}
+          <div className="flex-1 min-w-0">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="max-w-5xl"
+              >
             {activeTab === "phases" && (
-              <div className="space-y-6">
+              <div className="space-y-6 text-base text-primary-200">
                 <h3 className="text-3xl font-bold mb-6">The Three Phases</h3>
 
                 {/* Phase 1 */}
@@ -238,9 +248,9 @@ export default function Week4Landing() {
             )}
 
             {activeTab === "team" && (
-              <div className="p-8 bg-white/5 rounded-2xl border border-white/10">
-                <h3 className="text-2xl font-bold mb-6">Why Team Collaboration?</h3>
-                <div className="space-y-6 text-primary-200">
+              <div className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-6">
+                <h3 className="text-3xl font-bold mb-6">Why Team Collaboration?</h3>
+                <div className="space-y-6 text-base text-primary-200">
                   <p>
                     Week 4 is NOT an individual challenge. You work as a COHORT - all 10 Alpha students together against one problem.
                   </p>
@@ -293,9 +303,9 @@ export default function Week4Landing() {
             )}
 
             {activeTab === "pressure" && (
-              <div className="p-8 bg-white/5 rounded-2xl border border-white/10">
-                <h3 className="text-2xl font-bold mb-6">Why Timed Pressure in Phase 3?</h3>
-                <div className="space-y-6 text-primary-200">
+              <div className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-6">
+                <h3 className="text-3xl font-bold mb-6">Why Timed Pressure in Phase 3?</h3>
+                <div className="space-y-6 text-base text-primary-200">
                   <p>
                     The AP exam is TIMED. You can't take 2 hours on one FRQ. Week 4 prepares you for that reality.
                   </p>
@@ -354,9 +364,9 @@ export default function Week4Landing() {
             )}
 
             {activeTab === "victory" && (
-              <div className="p-8 bg-white/5 rounded-2xl border border-white/10">
-                <h3 className="text-2xl font-bold mb-6">Victory: The Boss Slayer Badge</h3>
-                <div className="space-y-6 text-primary-200">
+              <div className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-6">
+                <h3 className="text-3xl font-bold mb-6">Victory: The Boss Slayer Badge</h3>
+                <div className="space-y-6 text-base text-primary-200">
                   <div className="text-center p-8 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-2 border-yellow-500/50 rounded-2xl">
                     <div className="text-7xl mb-4">⚔️</div>
                     <h4 className="text-3xl font-bold text-yellow-300 mb-2">BOSS SLAYER</h4>
@@ -428,13 +438,14 @@ export default function Week4Landing() {
                 </div>
               </div>
             )}
-          </motion.div>
-        </AnimatePresence>
+              </motion.div>
+            </AnimatePresence>
 
-        {/* Learning Objectives */}
-        <BlurFade delay={1.0}>
-          <div className="mt-12 p-8 bg-white/5 rounded-2xl border border-white/10">
-            <h3 className="text-2xl font-bold mb-6">Week 4 Learning Objectives</h3>
+            {/* Learning Objectives */}
+            <div className="max-w-5xl">
+              <BlurFade delay={1.0}>
+                <div className="mt-12 p-8 bg-white/5 rounded-2xl border border-white/10">
+                  <h3 className="text-2xl font-bold mb-6">Week 4 Learning Objectives</h3>
             <ul className="space-y-3">
               {[
                 "Synthesize ALL skills from Weeks 1-3 under challenging conditions",
@@ -448,12 +459,12 @@ export default function Week4Landing() {
                 </li>
               ))}
             </ul>
-          </div>
-        </BlurFade>
+                </div>
+              </BlurFade>
 
-        {/* Final CTA */}
-        <BlurFade delay={1.1}>
-          <div className="mt-12 text-center p-12 bg-gradient-to-br from-red-500/10 to-orange-500/10 border-2 border-red-500/50 rounded-2xl">
+              {/* Final CTA */}
+              <BlurFade delay={1.1}>
+                <div className="mt-12 text-center p-12 bg-gradient-to-br from-red-500/10 to-orange-500/10 border-2 border-red-500/50 rounded-2xl">
             <h3 className="text-4xl font-bold mb-4">Are You Ready?</h3>
             <p className="text-xl text-primary-200 mb-8 max-w-2xl mx-auto">
               This is the culmination of everything you've learned. Three phases. One epic challenge. Your cohort working together.
@@ -466,8 +477,11 @@ export default function Week4Landing() {
             <p className="mt-6 text-primary-300 text-sm">
               1 boss battle • ~50 minutes total • Phase 3 is timed (15 min)
             </p>
+                </div>
+              </BlurFade>
+            </div>
           </div>
-        </BlurFade>
+        </div>
       </div>
     </div>
   );

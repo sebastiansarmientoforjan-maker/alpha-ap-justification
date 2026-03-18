@@ -86,10 +86,10 @@ export default function Week2Landing() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-6 pb-20">
+      <div className="max-w-7xl mx-auto px-6 pb-20">
         {/* The Evolution */}
         <BlurFade delay={0.6}>
-          <div className="mb-16 p-8 bg-gradient-to-br from-accent-500/10 to-secondary-500/10 border border-accent-500/30 rounded-2xl">
+          <div className="mb-12 p-8 bg-gradient-to-br from-accent-500/10 to-secondary-500/10 border border-accent-500/30 rounded-2xl">
             <h2 className="text-3xl font-bold mb-4">The Evolution</h2>
             <div className="space-y-4 text-lg text-primary-200">
               <p>
@@ -106,50 +106,62 @@ export default function Week2Landing() {
           </div>
         </BlurFade>
 
-        {/* Tab Navigation */}
-        <BlurFade delay={0.7}>
-          <div className="mb-8 flex gap-2 p-2 bg-primary-800/60 rounded-xl border border-primary-600/30">
-            {[
-              { id: "problem", label: "The Problem", icon: AlertTriangle },
-              { id: "solution", label: "The Solution", icon: Target },
-              { id: "method", label: "The Method", icon: FileText },
-              { id: "path", label: "Your Path", icon: CheckCircle },
-            ].map((tab) => {
-              const Icon = tab.icon;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => {
-                    setActiveTab(tab.id as any);
-                    markSectionViewed(tab.id);
-                  }}
-                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-semibold transition-all ${
-                    activeTab === tab.id
-                      ? "bg-accent-500 text-white shadow-lg shadow-accent-500/50"
-                      : "text-primary-300 hover:bg-white/10"
-                  }`}
-                >
-                  <Icon className="w-5 h-5" />
-                  <span className="hidden sm:inline">{tab.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </BlurFade>
+        {/* Sidebar + Content Layout */}
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+          {/* Sidebar Navigation */}
+          <BlurFade delay={0.7}>
+            <div className="lg:w-64 flex-shrink-0">
+              <div className="flex flex-col gap-3 lg:sticky lg:top-24">
+                {[
+                  { id: "problem", label: "The Problem", icon: AlertTriangle },
+                  { id: "solution", label: "The Solution", icon: Target },
+                  { id: "method", label: "The Method", icon: FileText },
+                  { id: "path", label: "Your Path", icon: CheckCircle },
+                ].map((tab) => {
+                  const Icon = tab.icon;
+                  const isActive = activeTab === tab.id;
+                  const isViewed = viewedSections.has(tab.id);
 
-        {/* Tab Content */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {activeTab === "problem" && (
-              <div className="p-8 bg-white/5 rounded-2xl border border-white/10">
-                <h3 className="text-2xl font-bold mb-6">The Problem with "Obviously True"</h3>
-                <div className="space-y-4 text-primary-200">
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => {
+                        setActiveTab(tab.id as any);
+                        markSectionViewed(tab.id);
+                      }}
+                      className={`flex items-center gap-3 px-5 py-4 rounded-xl font-semibold transition-all text-left ${
+                        isActive
+                          ? "bg-accent-500 text-white shadow-lg shadow-accent-500/50"
+                          : "text-primary-300 hover:bg-white/10 border border-primary-600/30"
+                      }`}
+                    >
+                      <Icon className="w-5 h-5 flex-shrink-0" />
+                      <span>{tab.label}</span>
+                      {isViewed && !isActive && (
+                        <CheckCircle className="w-4 h-4 ml-auto text-green-400" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </BlurFade>
+
+          {/* Content Area */}
+          <div className="flex-1 min-w-0">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="max-w-5xl"
+              >
+                {activeTab === "problem" && (
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-6">
+                    <h3 className="text-3xl font-bold mb-6">The Problem with "Obviously True"</h3>
+                    <div className="space-y-4 text-base text-primary-200">
                   <p>
                     Last week, you saw functions where MVT <strong>doesn't apply</strong> (discontinuities, sharp corners).
                   </p>
@@ -174,16 +186,16 @@ export default function Week2Landing() {
                     <p className="italic mt-2">
                       Similarly, the derivative f'(x) = 3x² - 3 exists for all x (derivative of a polynomial is a
                       polynomial). Therefore f is differentiable on (0,2). ✓"
-                    </p>
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </div>
-            )}
+                  </div>
+                )}
 
-            {activeTab === "solution" && (
-              <div className="p-8 bg-white/5 rounded-2xl border border-white/10">
-                <h3 className="text-2xl font-bold mb-6">The Solution: Mathematical Rigor</h3>
-                <div className="space-y-6 text-primary-200">
+                {activeTab === "solution" && (
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-6">
+                    <h3 className="text-3xl font-bold mb-6">The Solution: Mathematical Rigor</h3>
+                    <div className="space-y-6 text-base text-primary-200">
                   <p>
                     Week 2 is about <strong className="text-white">verification</strong>, not just{" "}
                     <strong className="text-white">assertion</strong>.
@@ -239,16 +251,16 @@ export default function Week2Landing() {
                       <li>
                         <strong>Normality:</strong> Either n ≥ 30 OR population stated as normal
                       </li>
-                    </ul>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </div>
-            )}
+                  </div>
+                )}
 
-            {activeTab === "method" && (
-              <div className="p-8 bg-white/5 rounded-2xl border border-white/10">
-                <h3 className="text-2xl font-bold mb-6">The Method: CERC with Structural Outlines</h3>
-                <div className="space-y-6 text-primary-200">
+                {activeTab === "method" && (
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-6">
+                    <h3 className="text-3xl font-bold mb-6">The Method: CERC with Structural Outlines</h3>
+                    <div className="space-y-6 text-base text-primary-200">
                   <p>
                     Week 2 reduces scaffolding. You still use CERC, but no more full sentence frames.
                   </p>
@@ -285,16 +297,16 @@ export default function Week2Landing() {
                     <p>
                       Week 1 gave you sentences to fill in blanks. Week 2 gives you structure only. You write the
                       complete mathematical reasoning yourself.
-                    </p>
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </div>
-            )}
+                  </div>
+                )}
 
-            {activeTab === "path" && (
-              <div className="p-8 bg-white/5 rounded-2xl border border-white/10">
-                <h3 className="text-2xl font-bold mb-6">Your Path Through Week 2</h3>
-                <div className="space-y-6">
+                {activeTab === "path" && (
+                  <div className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-6">
+                    <h3 className="text-3xl font-bold mb-6">Your Path Through Week 2</h3>
+                    <div className="space-y-6">
                   {[
                     {
                       step: 1,
@@ -336,48 +348,50 @@ export default function Week2Landing() {
                           <h4 className="text-xl font-bold mb-2">{item.title}</h4>
                           <p className="text-primary-200">{item.description}</p>
                         </div>
-                      </div>
-                    </BlurFade>
+                        </div>
+                      </BlurFade>
+                    ))}
+                  </div>
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Learning Objectives */}
+            <BlurFade delay={1.0}>
+              <div className="mt-12 p-6 bg-white/5 rounded-2xl border border-white/10 max-w-5xl">
+                <h3 className="text-3xl font-bold mb-6">Week 2 Learning Objectives</h3>
+                <ul className="space-y-3">
+                  {[
+                    "Verify continuity and differentiability with mathematical justification (not just assertion)",
+                    "Check ALL inference conditions with explicit calculations (np ≥ 10, sample sizes, expected counts)",
+                    "Distinguish between 'stating' a condition and 'verifying' it mathematically",
+                    "Build complete CERC arguments with only structural guidance",
+                  ].map((objective, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+                      <span className="text-base text-primary-200">{objective}</span>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
-            )}
-          </motion.div>
-        </AnimatePresence>
+            </BlurFade>
 
-        {/* Learning Objectives */}
-        <BlurFade delay={1.0}>
-          <div className="mt-12 p-8 bg-white/5 rounded-2xl border border-white/10">
-            <h3 className="text-2xl font-bold mb-6">Week 2 Learning Objectives</h3>
-            <ul className="space-y-3">
-              {[
-                "Verify continuity and differentiability with mathematical justification (not just assertion)",
-                "Check ALL inference conditions with explicit calculations (np ≥ 10, sample sizes, expected counts)",
-                "Distinguish between 'stating' a condition and 'verifying' it mathematically",
-                "Build complete CERC arguments with only structural guidance",
-              ].map((objective, index) => (
-                <li key={index} className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                  <span className="text-primary-200">{objective}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </BlurFade>
-
-        {/* CTA */}
-        <BlurFade delay={1.1}>
-          <div className="mt-12 text-center">
+            {/* CTA */}
+            <BlurFade delay={1.1}>
+              <div className="mt-12 text-center max-w-5xl">
             <Link href="/student/week/2/problems">
               <ShimmerButton className="px-10 py-5 text-xl">
                 Begin Week 2 Problems →
               </ShimmerButton>
             </Link>
-            <p className="mt-6 text-primary-300 text-sm">
-              3 problems • 20-25 minutes each • Structural outline scaffolding
-            </p>
+                <p className="mt-6 text-primary-300 text-sm">
+                  3 problems • 20-25 minutes each • Structural outline scaffolding
+                </p>
+              </div>
+            </BlurFade>
           </div>
-        </BlurFade>
+        </div>
       </div>
     </div>
   );
