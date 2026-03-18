@@ -17,6 +17,7 @@ import {
 export default function Week2Landing() {
   const [activeTab, setActiveTab] = useState<"problem" | "solution" | "method" | "path">("problem");
   const [viewedSections, setViewedSections] = useState<Set<string>>(new Set());
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -24,11 +25,33 @@ export default function Week2Landing() {
       const viewed = localStorage.getItem('week2-viewed-sections');
       if (viewed) {
         setViewedSections(new Set(JSON.parse(viewed)));
-      } else {
-        setViewedSections(new Set([activeTab]));
       }
     }
   }, []);
+
+  // Mark active tab as viewed when tabs container comes into view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            markSectionViewed(activeTab);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (tabsContainerRef.current) {
+      observer.observe(tabsContainerRef.current);
+    }
+
+    return () => {
+      if (tabsContainerRef.current) {
+        observer.unobserve(tabsContainerRef.current);
+      }
+    };
+  }, [activeTab]);
 
   const markSectionViewed = (section: string) => {
     const updated = new Set(viewedSections);
@@ -110,7 +133,7 @@ export default function Week2Landing() {
         </BlurFade>
 
         {/* Sidebar + Content Layout */}
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+        <div ref={tabsContainerRef} className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* Sidebar Navigation */}
           <BlurFade delay={0.7}>
             <div className="lg:w-64 flex-shrink-0">

@@ -56,11 +56,37 @@ export default function Week1Landing() {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  // Scroll to top on mount and mark initial tab as viewed
+  // Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
-    setViewedSections(new Set([activeTab]));
   }, []);
+
+  // Mark active tab as viewed when tab panel comes into view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setViewedSections((prev) => {
+              if (prev.has(activeTab)) return prev;
+              return new Set(prev).add(activeTab);
+            });
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (tabPanelRef.current) {
+      observer.observe(tabPanelRef.current);
+    }
+
+    return () => {
+      if (tabPanelRef.current) {
+        observer.unobserve(tabPanelRef.current);
+      }
+    };
+  }, [activeTab]);
 
   // Show mobile progress indicator on scroll
   useEffect(() => {

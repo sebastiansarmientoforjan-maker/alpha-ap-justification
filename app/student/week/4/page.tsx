@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Meteors } from "@/components/ui/meteors";
@@ -20,6 +20,7 @@ import {
 export default function Week4Landing() {
   const [activeTab, setActiveTab] = useState<"phases" | "team" | "pressure" | "victory">("phases");
   const [viewedSections, setViewedSections] = useState<Set<string>>(new Set());
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -27,11 +28,33 @@ export default function Week4Landing() {
       const viewed = localStorage.getItem('week4-viewed-sections');
       if (viewed) {
         setViewedSections(new Set(JSON.parse(viewed)));
-      } else {
-        setViewedSections(new Set([activeTab]));
       }
     }
   }, []);
+
+  // Mark active tab as viewed when tabs container comes into view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            markSectionViewed(activeTab);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (tabsContainerRef.current) {
+      observer.observe(tabsContainerRef.current);
+    }
+
+    return () => {
+      if (tabsContainerRef.current) {
+        observer.unobserve(tabsContainerRef.current);
+      }
+    };
+  }, [activeTab]);
 
   const markSectionViewed = (section: string) => {
     const updated = new Set(viewedSections);
@@ -138,7 +161,7 @@ export default function Week4Landing() {
         </BlurFade>
 
         {/* Sidebar + Content Layout */}
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+        <div ref={tabsContainerRef} className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* Sidebar Navigation */}
           <div className="lg:w-64 flex-shrink-0">
             <div className="flex flex-col gap-3 lg:sticky lg:top-24">
