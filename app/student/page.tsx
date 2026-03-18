@@ -6,15 +6,11 @@ import { getAuthUser } from "@/lib/auth";
 export const dynamic = "force-dynamic";
 
 export default async function StudentDashboardPage() {
-  // Check student authentication
+  // TEMPORARY: Bypass auth for review - use default test student
+  // TODO: Re-enable auth checks before production deployment
   const authUser = await getAuthUser();
 
-  // Redirect to login if not authenticated or not a student
-  if (!authUser || authUser.role !== "student") {
-    redirect("/login?from=/student");
-  }
-
-  const currentUserId = authUser.id;
+  const currentUserId = authUser?.id || "ananya-001"; // Default to Ananya for review
 
   const dataService = await getDataService();
 
