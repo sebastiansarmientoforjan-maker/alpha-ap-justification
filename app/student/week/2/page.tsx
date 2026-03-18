@@ -16,7 +16,7 @@ import {
 
 export default function Week2Landing() {
   const [activeTab, setActiveTab] = useState<"problem" | "solution" | "method" | "path">("problem");
-  const [viewedSections, setViewedSections] = useState<Set<string>>(new Set());
+  const [viewedSections, setViewedSections] = useState<Set<string>>(new Set(["problem"]));
 
   useEffect(() => {
     if (typeof window !== 'undefined') {

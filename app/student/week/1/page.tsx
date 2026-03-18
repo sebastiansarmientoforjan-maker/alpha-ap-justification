@@ -27,7 +27,7 @@ import {
 export default function Week1Landing() {
   const [activeTab, setActiveTab] = useState<"problem" | "solution" | "method" | "path">("problem");
   const [showModal, setShowModal] = useState(false);
-  const [viewedSections, setViewedSections] = useState<Set<string>>(new Set());
+  const [viewedSections, setViewedSections] = useState<Set<string>>(new Set(["problem"]));
   const [practiceCompleted, setPracticeCompleted] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);

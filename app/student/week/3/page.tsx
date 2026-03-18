@@ -16,7 +16,7 @@ import {
 
 export default function Week3Landing() {
   const [activeTab, setActiveTab] = useState<"challenge" | "skills" | "exam" | "path">("challenge");
-  const [viewedSections, setViewedSections] = useState<Set<string>>(new Set());
+  const [viewedSections, setViewedSections] = useState<Set<string>>(new Set(["challenge"]));
 
   useEffect(() => {
     if (typeof window !== 'undefined') {

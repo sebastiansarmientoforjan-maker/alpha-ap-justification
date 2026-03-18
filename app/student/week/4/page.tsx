@@ -19,7 +19,7 @@ import {
 
 export default function Week4Landing() {
   const [activeTab, setActiveTab] = useState<"phases" | "team" | "pressure" | "victory">("phases");
-  const [viewedSections, setViewedSections] = useState<Set<string>>(new Set());
+  const [viewedSections, setViewedSections] = useState<Set<string>>(new Set(["phases"]));
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
