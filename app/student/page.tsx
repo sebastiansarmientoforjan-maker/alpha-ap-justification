@@ -1,13 +1,19 @@
 import { getDataService } from "@/services/data";
 import { StudentDashboard } from "@/components/student/student-dashboard";
-import { notFound } from "next/navigation";
-import { requireRole } from "@/lib/auth";
+import { notFound, redirect } from "next/navigation";
+import { getAuthUser } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
 export default async function StudentDashboardPage() {
-  // Require student authentication
-  const authUser = await requireRole("student");
+  // Check student authentication
+  const authUser = await getAuthUser();
+
+  // Redirect to login if not authenticated or not a student
+  if (!authUser || authUser.role !== "student") {
+    redirect("/login?from=/student");
+  }
+
   const currentUserId = authUser.id;
 
   const dataService = await getDataService();
