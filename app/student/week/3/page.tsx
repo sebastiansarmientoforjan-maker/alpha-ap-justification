@@ -29,6 +29,15 @@ export default function Week3Landing() {
     }
   }, []);
 
+  const markSectionViewed = (section: string) => {
+    const updated = new Set(viewedSections);
+    updated.add(section);
+    setViewedSections(updated);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('week3-viewed-sections', JSON.stringify(Array.from(updated)));
+    }
+  };
+
   // Mark active tab as viewed when tabs container comes into view
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -53,14 +62,33 @@ export default function Week3Landing() {
     };
   }, [activeTab]);
 
-  const markSectionViewed = (section: string) => {
-    const updated = new Set(viewedSections);
-    updated.add(section);
-    setViewedSections(updated);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('week3-viewed-sections', JSON.stringify(Array.from(updated)));
+  // Auto-scroll to center tabs section when it comes into view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio < 0.8) {
+            // Smooth scroll to center the tabs section
+            tabsContainerRef.current?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            });
+          }
+        });
+      },
+      { threshold: [0.1, 0.8] }
+    );
+
+    if (tabsContainerRef.current) {
+      observer.observe(tabsContainerRef.current);
     }
-  };
+
+    return () => {
+      if (tabsContainerRef.current) {
+        observer.unobserve(tabsContainerRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 text-white overflow-x-hidden">
@@ -137,11 +165,11 @@ export default function Week3Landing() {
           </div>
         </BlurFade>
 
-        {/* Sidebar + Content Layout */}
-        <div ref={tabsContainerRef} className="flex flex-col lg:flex-row gap-6 lg:gap-8">
-          {/* Sidebar Navigation */}
-          <div className="lg:w-64 flex-shrink-0">
-            <div className="flex flex-col gap-3 lg:sticky lg:top-24">
+        {/* Tab Navigation + Content - Centered Vertical Layout */}
+        <div className="flex flex-col items-center gap-8">
+          {/* Tab Navigation - Centered Buttons */}
+          <div ref={tabsContainerRef} className="w-full flex justify-center">
+            <div className="flex flex-wrap justify-center gap-3 max-w-4xl">
                 {[
                   { id: "challenge", label: "The Challenge", icon: AlertTriangle },
                   { id: "skills", label: "Synthesis", icon: Target },
@@ -159,26 +187,25 @@ export default function Week3Landing() {
                         setActiveTab(tab.id as any);
                         markSectionViewed(tab.id);
                       }}
-                      className={`flex items-center gap-3 px-5 py-4 rounded-xl font-semibold transition-all text-left ${
+                      className={`flex items-center gap-3 px-6 py-4 rounded-xl font-semibold transition-all border backdrop-blur-sm ${
                         isActive
-                          ? "bg-accent-500 text-white shadow-lg shadow-accent-500/50"
-                          : "text-primary-300 hover:bg-white/10 border border-primary-600/30"
+                          ? "border-accent-500 bg-accent-500/20 shadow-lg shadow-accent-500/30 text-white"
+                          : "border-white/10 bg-white/5 hover:border-accent-500/50 hover:bg-white/10 text-primary-300"
                       }`}
                     >
                       <Icon className="w-5 h-5 flex-shrink-0" />
-                      <span>{tab.label}</span>
+                      <span className="whitespace-nowrap">{tab.label}</span>
                       {isViewed && !isActive && (
-                        <CheckCircle className="w-4 h-4 ml-auto text-green-400" />
+                        <CheckCircle className="w-4 h-4 text-green-400" />
                       )}
                     </button>
                   );
                 })}
               </div>
             </div>
-          </div>
 
-          {/* Content Area */}
-          <div className="flex-1 min-w-0 h-[650px]">
+          {/* Content Area - Centered */}
+          <div className="w-full flex justify-center h-[650px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
@@ -386,9 +413,10 @@ export default function Week3Landing() {
             )}
           </motion.div>
         </AnimatePresence>
+          </div>
 
-        {/* Learning Objectives */}
-        <div className="max-w-5xl">
+          {/* Learning Objectives */}
+          <div className="max-w-5xl">
           <BlurFade delay={1.0}>
             <div className="mt-12 p-8 bg-white/5 rounded-2xl border border-white/10">
               <h3 className="text-2xl font-bold mb-6">Week 3 Learning Objectives</h3>
@@ -442,8 +470,8 @@ export default function Week3Landing() {
             </p>
             </div>
           </BlurFade>
+          </div>
         </div>
-      </div>
       </div>
     </div>
   );

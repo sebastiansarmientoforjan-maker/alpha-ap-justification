@@ -53,6 +53,34 @@ export default function Week2Landing() {
     };
   }, [activeTab]);
 
+  // Auto-scroll to center tabs section when it comes into view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio < 0.8) {
+            // Smooth scroll to center the tabs section
+            tabsContainerRef.current?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            });
+          }
+        });
+      },
+      { threshold: [0.1, 0.8] }
+    );
+
+    if (tabsContainerRef.current) {
+      observer.observe(tabsContainerRef.current);
+    }
+
+    return () => {
+      if (tabsContainerRef.current) {
+        observer.unobserve(tabsContainerRef.current);
+      }
+    };
+  }, []);
+
   const markSectionViewed = (section: string) => {
     const updated = new Set(viewedSections);
     updated.add(section);
@@ -132,12 +160,12 @@ export default function Week2Landing() {
           </div>
         </BlurFade>
 
-        {/* Sidebar + Content Layout */}
-        <div ref={tabsContainerRef} className="flex flex-col lg:flex-row gap-6 lg:gap-8">
-          {/* Sidebar Navigation */}
+        {/* Tab Navigation + Content - Centered Vertical Layout */}
+        <div className="flex flex-col items-center gap-8">
+          {/* Tab Navigation - Centered Buttons */}
           <BlurFade delay={0.7}>
-            <div className="lg:w-64 flex-shrink-0">
-              <div className="flex flex-col gap-3 lg:sticky lg:top-24">
+            <div ref={tabsContainerRef} className="w-full flex justify-center">
+              <div className="flex flex-wrap justify-center gap-3 max-w-4xl">
                 {[
                   { id: "problem", label: "The Problem", icon: AlertTriangle },
                   { id: "solution", label: "The Solution", icon: Target },
@@ -155,16 +183,16 @@ export default function Week2Landing() {
                         setActiveTab(tab.id as any);
                         markSectionViewed(tab.id);
                       }}
-                      className={`flex items-center gap-3 px-5 py-4 rounded-xl font-semibold transition-all text-left ${
+                      className={`flex items-center gap-3 px-6 py-4 rounded-xl font-semibold transition-all border backdrop-blur-sm ${
                         isActive
-                          ? "bg-accent-500 text-white shadow-lg shadow-accent-500/50"
-                          : "text-primary-300 hover:bg-white/10 border border-primary-600/30"
+                          ? "border-accent-500 bg-accent-500/20 shadow-lg shadow-accent-500/30 text-white"
+                          : "border-white/10 bg-white/5 hover:border-accent-500/50 hover:bg-white/10 text-primary-300"
                       }`}
                     >
                       <Icon className="w-5 h-5 flex-shrink-0" />
-                      <span>{tab.label}</span>
+                      <span className="whitespace-nowrap">{tab.label}</span>
                       {isViewed && !isActive && (
-                        <CheckCircle className="w-4 h-4 ml-auto text-green-400" />
+                        <CheckCircle className="w-4 h-4 text-green-400" />
                       )}
                     </button>
                   );
@@ -173,8 +201,8 @@ export default function Week2Landing() {
             </div>
           </BlurFade>
 
-          {/* Content Area */}
-          <div className="flex-1 min-w-0 h-[650px]">
+          {/* Content Area - Centered */}
+          <div className="w-full flex justify-center h-[650px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
