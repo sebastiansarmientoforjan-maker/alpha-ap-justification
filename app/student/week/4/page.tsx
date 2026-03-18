@@ -15,6 +15,7 @@ import {
   Award,
   Trophy,
   AlertTriangle,
+  ArrowLeft,
 } from "lucide-react";
 
 export default function Week4Landing() {
@@ -99,6 +100,17 @@ export default function Week4Landing() {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <Meteors number={30} />
       </div>
+
+      {/* Back to Dashboard Button */}
+      <Link
+        href="/student"
+        className="fixed top-6 left-6 z-50 flex items-center gap-2 px-4 py-2 bg-primary-900/90 hover:bg-primary-800/90 border border-primary-700/50 hover:border-accent-500/50 rounded-lg backdrop-blur-xl transition-all duration-300 group shadow-lg"
+      >
+        <ArrowLeft className="w-4 h-4 text-primary-300 group-hover:text-accent-400 transition-colors" />
+        <span className="text-sm font-medium text-primary-200 group-hover:text-white transition-colors">
+          Dashboard
+        </span>
+      </Link>
 
       {/* Hero Section */}
       <div className="relative min-h-[70vh] flex flex-col items-center justify-center px-6 pt-20 pb-16 z-10">

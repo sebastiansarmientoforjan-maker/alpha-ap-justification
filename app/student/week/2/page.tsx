@@ -11,6 +11,7 @@ import {
   CheckCircle,
   AlertTriangle,
   ArrowDown,
+  ArrowLeft,
   FileText,
 } from "lucide-react";
 
@@ -93,6 +94,17 @@ export default function Week2Landing() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 text-white overflow-x-hidden">
       <Spotlight className="absolute -top-40 left-0 md:left-60 md:-top-20" fill="rgba(0, 217, 255, 0.4)" />
+
+      {/* Back to Dashboard Button */}
+      <Link
+        href="/student"
+        className="fixed top-6 left-6 z-50 flex items-center gap-2 px-4 py-2 bg-primary-900/90 hover:bg-primary-800/90 border border-primary-700/50 hover:border-accent-500/50 rounded-lg backdrop-blur-xl transition-all duration-300 group shadow-lg"
+      >
+        <ArrowLeft className="w-4 h-4 text-primary-300 group-hover:text-accent-400 transition-colors" />
+        <span className="text-sm font-medium text-primary-200 group-hover:text-white transition-colors">
+          Dashboard
+        </span>
+      </Link>
 
       {/* Hero Section */}
       <div className="relative min-h-[60vh] flex flex-col items-center justify-center px-6 pt-20 pb-16">
