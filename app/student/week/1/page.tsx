@@ -34,6 +34,8 @@ export default function Week1Landing() {
   const [showMobileProgress, setShowMobileProgress] = useState(false);
   const [modalViewed, setModalViewed] = useState(false);
   const [showKeyboardHelp, setShowKeyboardHelp] = useState(false);
+  const [videoCompleted, setVideoCompleted] = useState(false);
+  const [playbackSpeed, setPlaybackSpeed] = useState(1);
 
   // Ref declarations - MUST be before useEffects that use them
   const heroRef = useRef<HTMLDivElement>(null);
@@ -66,6 +68,11 @@ export default function Week1Landing() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            // Special handling for "solution" tab - only mark as viewed if video is completed
+            if (activeTab === "solution" && !videoCompleted) {
+              return;
+            }
+
             setViewedSections((prev) => {
               if (prev.has(activeTab)) return prev;
               return new Set(prev).add(activeTab);
@@ -85,7 +92,7 @@ export default function Week1Landing() {
         observer.unobserve(tabPanelRef.current);
       }
     };
-  }, [activeTab]);
+  }, [activeTab, videoCompleted]);
 
   // Auto-scroll to center tabs section when it comes into view
   useEffect(() => {
@@ -114,6 +121,13 @@ export default function Week1Landing() {
       }
     };
   }, []);
+
+  // Mark "solution" as viewed when video is completed
+  useEffect(() => {
+    if (videoCompleted && activeTab === "solution") {
+      setViewedSections((prev) => new Set(prev).add("solution"));
+    }
+  }, [videoCompleted, activeTab]);
 
   // Show mobile progress indicator on scroll
   useEffect(() => {
@@ -684,7 +698,14 @@ export default function Week1Landing() {
                     className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 sm:p-8 md:p-10 shadow-2xl outline-none focus:ring-2 focus:ring-accent-500 max-w-5xl h-full overflow-y-auto"
                   >
                     {activeTab === "problem" && <ProblemTab onShowModal={() => setShowModal(true)} />}
-                    {activeTab === "solution" && <SolutionTab />}
+                    {activeTab === "solution" && (
+                      <SolutionTab
+                        videoCompleted={videoCompleted}
+                        setVideoCompleted={setVideoCompleted}
+                        playbackSpeed={playbackSpeed}
+                        setPlaybackSpeed={setPlaybackSpeed}
+                      />
+                    )}
                     {activeTab === "method" && <MethodTab />}
                     {activeTab === "path" && <PathTab />}
                   </motion.div>
@@ -1260,7 +1281,38 @@ function ProblemTab({ onShowModal }: { onShowModal: () => void }) {
   );
 }
 
-function SolutionTab() {
+function SolutionTab({
+  videoCompleted,
+  setVideoCompleted,
+  playbackSpeed,
+  setPlaybackSpeed,
+}: {
+  videoCompleted: boolean;
+  setVideoCompleted: (value: boolean) => void;
+  playbackSpeed: number;
+  setPlaybackSpeed: (value: number) => void;
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleSpeedChange = (speed: number) => {
+    setPlaybackSpeed(speed);
+    if (videoRef.current) {
+      videoRef.current.playbackRate = speed;
+    }
+  };
+
+  const handleVideoEnd = () => {
+    setVideoCompleted(true);
+  };
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = playbackSpeed;
+    }
+  }, [playbackSpeed]);
+
+  const speedOptions = [1, 1.25, 1.5, 1.75, 2];
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -1288,26 +1340,47 @@ function SolutionTab() {
           {/* Video Container */}
           <div className="relative w-full aspect-video bg-gradient-to-br from-primary-800 to-primary-900">
             <video
+              ref={videoRef}
               controls
               className="absolute inset-0 w-full h-full object-contain"
               preload="metadata"
+              onEnded={handleVideoEnd}
             >
               <source src="/videos/The_CERC_Framework.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
 
-          {/* Video Info Bar */}
+          {/* Video Info Bar with Speed Controls */}
           <div className="bg-gradient-to-r from-accent-500/10 to-secondary-500/10 border-t border-accent-500/20 px-6 py-3">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-wrap gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                <div className={`w-2 h-2 rounded-full ${videoCompleted ? 'bg-green-500' : 'bg-red-500 animate-pulse'}`} />
                 <span className="text-sm font-semibold text-white">CERC Framework Overview</span>
               </div>
+
+              {/* Speed Controls */}
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-primary-300 mr-2">Speed:</span>
+                {speedOptions.map((speed) => (
+                  <button
+                    key={speed}
+                    onClick={() => handleSpeedChange(speed)}
+                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+                      playbackSpeed === speed
+                        ? 'bg-accent-500 text-white shadow-lg'
+                        : 'bg-primary-700/50 text-primary-300 hover:bg-primary-600/50'
+                    }`}
+                  >
+                    {speed}x
+                  </button>
+                ))}
+              </div>
+
               <div className="flex items-center gap-2 text-xs text-primary-300">
                 <span>3:24</span>
                 <span>•</span>
-                <span>Required viewing</span>
+                <span>{videoCompleted ? 'Completed ✓' : 'Required viewing'}</span>
               </div>
             </div>
           </div>
@@ -1315,7 +1388,9 @@ function SolutionTab() {
 
         {/* Video Caption */}
         <p className="text-center text-sm text-primary-300 mt-4 italic">
-          Watch this overview to understand the 4 components of mathematical justification
+          {videoCompleted
+            ? '✓ Video completed! You can now proceed to other sections.'
+            : 'Watch this overview to understand the 4 components of mathematical justification'}
         </p>
       </motion.div>
 
