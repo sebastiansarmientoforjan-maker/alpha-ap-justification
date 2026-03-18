@@ -1324,7 +1324,7 @@ function SolutionTab() {
 
 function MethodTab() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div className="text-center mb-6">
         <motion.h3
@@ -1332,15 +1332,66 @@ function MethodTab() {
           animate={{ opacity: 1, y: 0 }}
           className="text-3xl font-bold text-white mb-3 bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent"
         >
-          Error-Forcing Problems
+          The CERC Framework
         </motion.h3>
         <p className="text-base text-primary-300 max-w-2xl mx-auto leading-relaxed">
-          Problems designed to expose empirical reasoning gaps through strategic traps
+          Master the systematic approach to mathematical justification
         </p>
       </div>
 
-      {/* Cards Grid */}
-      <div className="grid md:grid-cols-3 gap-4">
+      {/* Video Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="relative"
+      >
+        <div className="relative rounded-2xl overflow-hidden border-2 border-accent-500/30 shadow-2xl shadow-accent-500/20">
+          {/* Video Container */}
+          <div className="relative w-full aspect-video bg-gradient-to-br from-primary-800 to-primary-900">
+            <video
+              controls
+              className="absolute inset-0 w-full h-full object-contain"
+              preload="metadata"
+            >
+              <source src="/videos/The_CERC_Framework.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+
+          {/* Video Info Bar */}
+          <div className="bg-gradient-to-r from-accent-500/10 to-secondary-500/10 border-t border-accent-500/20 px-6 py-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                <span className="text-sm font-semibold text-white">CERC Framework Overview</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs text-primary-300">
+                <span>3:24</span>
+                <span>•</span>
+                <span>Required viewing</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Video Caption */}
+        <p className="text-center text-sm text-primary-300 mt-4 italic">
+          Watch this quick overview before diving into the error-forcing problems
+        </p>
+      </motion.div>
+
+      {/* Error-Forcing Problems Section */}
+      <div className="pt-4">
+        <h4 className="text-2xl font-bold text-white mb-4 text-center">
+          Error-Forcing Problems
+        </h4>
+        <p className="text-sm text-primary-300 text-center mb-6 max-w-2xl mx-auto">
+          Problems designed to expose empirical reasoning gaps through strategic traps
+        </p>
+
+        {/* Cards Grid */}
+        <div className="grid md:grid-cols-3 gap-4">
         <UnifiedCard
           icon={AlertTriangle}
           title="The Trap"
@@ -1365,6 +1416,7 @@ function MethodTab() {
           color="yellow"
           delay={0.2}
         />
+        </div>
       </div>
     </div>
   );
