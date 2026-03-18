@@ -188,11 +188,11 @@ export default function Week4Landing() {
           </div>
         </BlurFade>
 
-        {/* Tab Navigation + Content - Centered Vertical Layout */}
-        <div className="flex flex-col items-center gap-8">
-          {/* Tab Navigation - Centered Buttons */}
-          <div ref={tabsContainerRef} className="w-full flex justify-center">
-            <div className="flex flex-wrap justify-center gap-3 max-w-4xl">
+        {/* Sidebar + Content Layout with Vertical Centering */}
+        <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-8">
+          {/* Sidebar Navigation */}
+          <div className="lg:w-64 flex-shrink-0">
+            <div ref={tabsContainerRef} className="flex flex-col gap-3">
               {[
                 { id: "phases", label: "3 Phases", icon: Target },
                 { id: "strategy", label: "Strategy", icon: Zap },
@@ -210,16 +210,16 @@ export default function Week4Landing() {
                       setActiveTab(tab.id as any);
                       markSectionViewed(tab.id);
                     }}
-                    className={`flex items-center gap-3 px-6 py-4 rounded-xl font-semibold transition-all border backdrop-blur-sm ${
+                    className={`flex items-center gap-3 px-5 py-4 rounded-xl font-semibold transition-all text-left ${
                       isActive
-                        ? "border-red-500 bg-red-500/20 shadow-lg shadow-red-500/30 text-white"
-                        : "border-white/10 bg-white/5 hover:border-red-500/50 hover:bg-white/10 text-primary-300"
+                        ? "bg-red-500 text-white shadow-lg shadow-red-500/50"
+                        : "text-primary-300 hover:bg-white/10 border border-primary-600/30"
                     }`}
                   >
                     <Icon className="w-5 h-5 flex-shrink-0" />
-                    <span className="whitespace-nowrap">{tab.label}</span>
+                    <span>{tab.label}</span>
                     {isViewed && !isActive && (
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <CheckCircle className="w-4 h-4 ml-auto text-green-400" />
                     )}
                   </button>
                 );
@@ -227,8 +227,8 @@ export default function Week4Landing() {
             </div>
           </div>
 
-          {/* Content Area - Centered */}
-          <div className="w-full flex justify-center h-[650px]">
+          {/* Content Area */}
+          <div className="flex-1 min-w-0 h-[650px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
