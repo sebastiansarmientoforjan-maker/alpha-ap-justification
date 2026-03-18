@@ -1262,7 +1262,7 @@ function ProblemTab({ onShowModal }: { onShowModal: () => void }) {
 
 function SolutionTab() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div className="text-center mb-6">
         <motion.h3
@@ -1274,68 +1274,6 @@ function SolutionTab() {
         </motion.h3>
         <p className="text-base text-primary-300 max-w-2xl mx-auto leading-relaxed">
           Four components that transform partial credit into full credit on AP exams
-        </p>
-      </div>
-
-      {/* Cards Grid - 3 cards like other tabs */}
-      <div className="grid md:grid-cols-3 gap-4">
-        <UnifiedCard
-          icon={Target}
-          title="C: Claim"
-          description="State your conclusion explicitly. What are you proving?"
-          example="The Mean Value Theorem does not apply to f(x) on [-1,1]"
-          color="accent"
-          delay={0}
-        />
-        <UnifiedCard
-          icon={FileText}
-          title="E: Evidence"
-          description="Show calculations and data that support your claim"
-          example="f(0) is undefined, creating discontinuity in the interval"
-          color="accent"
-          delay={0.1}
-        />
-        <UnifiedCard
-          icon={Lightbulb}
-          title="R: Reasoning"
-          description="Name the theorem connecting evidence to claim"
-          example="MVT requires continuity on [a,b]; since f violates this, MVT fails"
-          color="accent"
-          delay={0.2}
-        />
-      </div>
-
-      {/* Second row with Conditions card centered */}
-      <div className="grid md:grid-cols-3 gap-4">
-        <div className="md:col-start-2">
-          <UnifiedCard
-            icon={ListChecks}
-            title="C: Conditions"
-            description="Verify ALL theorem hypotheses explicitly"
-            example="Checking continuity: f(x)=1/x² is discontinuous at x=0 ✗"
-            color="accent"
-            delay={0.3}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function MethodTab() {
-  return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="text-center mb-6">
-        <motion.h3
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-3xl font-bold text-white mb-3 bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent"
-        >
-          The CERC Framework
-        </motion.h3>
-        <p className="text-base text-primary-300 max-w-2xl mx-auto leading-relaxed">
-          Master the systematic approach to mathematical justification
         </p>
       </div>
 
@@ -1377,21 +1315,92 @@ function MethodTab() {
 
         {/* Video Caption */}
         <p className="text-center text-sm text-primary-300 mt-4 italic">
-          Watch this quick overview before diving into the error-forcing problems
+          Watch this overview to understand the 4 components of mathematical justification
         </p>
       </motion.div>
 
-      {/* Error-Forcing Problems Section */}
+      {/* CERC Components Section */}
       <div className="pt-4">
         <h4 className="text-2xl font-bold text-white mb-4 text-center">
-          Error-Forcing Problems
+          The 4 Components
         </h4>
         <p className="text-sm text-primary-300 text-center mb-6 max-w-2xl mx-auto">
-          Problems designed to expose empirical reasoning gaps through strategic traps
+          Every complete justification on the AP exam requires these four elements
         </p>
 
-        {/* Cards Grid */}
+        {/* Cards Grid - 3 cards in first row */}
         <div className="grid md:grid-cols-3 gap-4">
+        <UnifiedCard
+          icon={Target}
+          title="C: Claim"
+          description="State your conclusion explicitly. What are you proving?"
+          example="The Mean Value Theorem does not apply to f(x) on [-1,1]"
+          color="accent"
+          delay={0}
+        />
+        <UnifiedCard
+          icon={FileText}
+          title="E: Evidence"
+          description="Show calculations and data that support your claim"
+          example="f(0) is undefined, creating discontinuity in the interval"
+          color="accent"
+          delay={0.1}
+        />
+        <UnifiedCard
+          icon={Lightbulb}
+          title="R: Reasoning"
+          description="Name the theorem connecting evidence to claim"
+          example="MVT requires continuity on [a,b]; since f violates this, MVT fails"
+          color="accent"
+          delay={0.2}
+        />
+      </div>
+
+      {/* Second row with Conditions card centered */}
+      <div className="grid md:grid-cols-3 gap-4">
+        <div className="md:col-start-2">
+          <UnifiedCard
+            icon={ListChecks}
+            title="C: Conditions"
+            description="Verify ALL theorem hypotheses explicitly"
+            example="Checking continuity: f(x)=1/x² is discontinuous at x=0 ✗"
+            color="accent"
+            delay={0.3}
+          />
+        </div>
+      </div>
+      </div>
+    </div>
+  );
+}
+
+function MethodTab() {
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="text-center mb-6">
+        <motion.h3
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-3xl font-bold text-white mb-3 bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent"
+        >
+          Error-Forcing Problems
+        </motion.h3>
+        <p className="text-base text-primary-300 max-w-2xl mx-auto leading-relaxed">
+          The training method that exposes and eliminates reasoning gaps
+        </p>
+      </div>
+
+      {/* Explanation Callout */}
+      <div className="p-6 bg-yellow-500/10 border-l-4 border-yellow-500 rounded-xl">
+        <h4 className="text-lg font-bold text-yellow-200 mb-3">🎯 The Strategy</h4>
+        <p className="text-sm text-primary-200 leading-relaxed">
+          These problems are designed to <strong>trap empirical reasoning</strong>. They look like they should work with basic calculations, but they violate theorem conditions. This forces you to develop the habit of systematic verification before applying any theorem.
+        </p>
+      </div>
+
+      {/* Cards Grid */}
+      <div className="grid md:grid-cols-3 gap-4">
         <UnifiedCard
           icon={AlertTriangle}
           title="The Trap"
@@ -1416,7 +1425,6 @@ function MethodTab() {
           color="yellow"
           delay={0.2}
         />
-        </div>
       </div>
     </div>
   );
