@@ -245,6 +245,10 @@ export default function Week1Landing() {
 
   // Check if practice was completed (from localStorage with validation)
   useEffect(() => {
+    // TEMPORARY: Unlock for review - skip practice requirement
+    setPracticeCompleted(true);
+    return;
+
     try {
       const completedData = localStorage.getItem('week1_practice_completed');
       if (completedData) {
@@ -312,8 +316,9 @@ export default function Week1Landing() {
   // Calculate progress
   const totalSections = 5; // hero, 4 tabs
   const progress = (viewedSections.size / totalSections) * 100;
-  const allSectionsViewed = viewedSections.size >= totalSections;
-  const canAccessProblems = practiceCompleted && allSectionsViewed;
+  // TEMPORARY: Unlock all for review
+  const allSectionsViewed = true; // viewedSections.size >= totalSections;
+  const canAccessProblems = true; // practiceCompleted && allSectionsViewed;
 
   // Handle tab change with loading state and focus management (NO scroll changes)
   const handleTabChange = (tabId: "problem" | "solution" | "method" | "path") => {
