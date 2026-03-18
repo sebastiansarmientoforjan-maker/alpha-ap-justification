@@ -1378,8 +1378,6 @@ function SolutionTab({
               </div>
 
               <div className="flex items-center gap-2 text-xs text-primary-300">
-                <span>3:24</span>
-                <span>•</span>
                 <span>{videoCompleted ? 'Completed ✓' : 'Required viewing'}</span>
               </div>
             </div>
