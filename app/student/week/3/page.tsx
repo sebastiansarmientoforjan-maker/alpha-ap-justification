@@ -16,13 +16,16 @@ import {
 
 export default function Week3Landing() {
   const [activeTab, setActiveTab] = useState<"challenge" | "skills" | "exam" | "path">("challenge");
-  const [viewedSections, setViewedSections] = useState<Set<string>>(new Set(["challenge"]));
+  const [viewedSections, setViewedSections] = useState<Set<string>>(new Set());
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (typeof window !== 'undefined') {
       const viewed = localStorage.getItem('week3-viewed-sections');
       if (viewed) {
         setViewedSections(new Set(JSON.parse(viewed)));
+      } else {
+        setViewedSections(new Set([activeTab]));
       }
     }
   }, []);

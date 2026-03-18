@@ -27,7 +27,7 @@ import {
 export default function Week1Landing() {
   const [activeTab, setActiveTab] = useState<"problem" | "solution" | "method" | "path">("problem");
   const [showModal, setShowModal] = useState(false);
-  const [viewedSections, setViewedSections] = useState<Set<string>>(new Set(["problem"]));
+  const [viewedSections, setViewedSections] = useState<Set<string>>(new Set());
   const [practiceCompleted, setPracticeCompleted] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -54,6 +54,12 @@ export default function Week1Landing() {
     mediaQuery.addEventListener('change', handleChange);
 
     return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  // Scroll to top on mount and mark initial tab as viewed
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setViewedSections(new Set([activeTab]));
   }, []);
 
   // Show mobile progress indicator on scroll

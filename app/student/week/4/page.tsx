@@ -19,13 +19,16 @@ import {
 
 export default function Week4Landing() {
   const [activeTab, setActiveTab] = useState<"phases" | "team" | "pressure" | "victory">("phases");
-  const [viewedSections, setViewedSections] = useState<Set<string>>(new Set(["phases"]));
+  const [viewedSections, setViewedSections] = useState<Set<string>>(new Set());
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (typeof window !== 'undefined') {
       const viewed = localStorage.getItem('week4-viewed-sections');
       if (viewed) {
         setViewedSections(new Set(JSON.parse(viewed)));
+      } else {
+        setViewedSections(new Set([activeTab]));
       }
     }
   }, []);

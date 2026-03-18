@@ -16,13 +16,16 @@ import {
 
 export default function Week2Landing() {
   const [activeTab, setActiveTab] = useState<"problem" | "solution" | "method" | "path">("problem");
-  const [viewedSections, setViewedSections] = useState<Set<string>>(new Set(["problem"]));
+  const [viewedSections, setViewedSections] = useState<Set<string>>(new Set());
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (typeof window !== 'undefined') {
       const viewed = localStorage.getItem('week2-viewed-sections');
       if (viewed) {
         setViewedSections(new Set(JSON.parse(viewed)));
+      } else {
+        setViewedSections(new Set([activeTab]));
       }
     }
   }, []);
