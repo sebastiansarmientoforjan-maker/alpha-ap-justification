@@ -650,11 +650,11 @@ export default function Week3ProblemSolver() {
                   </div>
                   <div>
                     <h2 className="text-3xl font-bold">Phase 4: Self-Check</h2>
-                    <p className="text-primary-300">Study the model solution</p>
+                    <p className="text-primary-300">Evaluate your work, then compare with the model solution</p>
                   </div>
                 </div>
 
-                {/* Step 1: Start Self-Evaluation */}
+                {/* Step 1: Intro to Self-Evaluation */}
                 {!selfEvaluationComplete && !showSolution ? (
                   <motion.div
                     initial={{ scale: 0.95, opacity: 0 }}
@@ -664,34 +664,40 @@ export default function Week3ProblemSolver() {
                   >
                     <div className="text-center mb-6">
                       <CheckCircle className="w-16 h-16 text-blue-400 mx-auto mb-4" />
-                      <h3 className="text-3xl font-bold text-blue-300 mb-2">Step 1: Self-Evaluate</h3>
-                      <p className="text-blue-400 mb-6">Review your work against the AP Exam rubric</p>
+                      <h3 className="text-3xl font-bold text-blue-300 mb-2">Self-Evaluation Process</h3>
+                      <p className="text-blue-400 mb-6">Learn to assess your mathematical justifications</p>
                     </div>
 
                     <div className="p-6 bg-blue-500/10 border-2 border-blue-500/30 rounded-xl">
-                      <h4 className="font-bold text-blue-300 mb-3">Before viewing the solution:</h4>
-                      <ul className="space-y-2 text-primary-200 text-sm">
-                        <li className="flex items-start gap-2">
-                          <span className="text-blue-400 mt-1">•</span>
-                          <span>You will evaluate your own response using the AP Exam rubric</span>
+                      <h4 className="font-bold text-blue-300 mb-3 text-lg">📝 What You'll Do:</h4>
+                      <ul className="space-y-3 text-primary-200 text-sm">
+                        <li className="flex items-start gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500/20 text-blue-300 flex items-center justify-center text-xs font-bold">1</span>
+                          <span><strong className="text-blue-200">Review your CERC response</strong> — Read what you wrote for each component</span>
                         </li>
-                        <li className="flex items-start gap-2">
-                          <span className="text-blue-400 mt-1">•</span>
-                          <span>Check which rubric points you think you earned</span>
+                        <li className="flex items-start gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500/20 text-blue-300 flex items-center justify-center text-xs font-bold">2</span>
+                          <span><strong className="text-blue-200">Apply the AP rubric</strong> — Check which rubric points you think you earned (be honest!)</span>
                         </li>
-                        <li className="flex items-start gap-2">
-                          <span className="text-blue-400 mt-1">•</span>
-                          <span>Then you'll see the model solution to compare</span>
+                        <li className="flex items-start gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500/20 text-blue-300 flex items-center justify-center text-xs font-bold">3</span>
+                          <span><strong className="text-blue-200">Compare with model solution</strong> — See the AP Exam quality answer and learn from differences</span>
                         </li>
                       </ul>
+                    </div>
+
+                    <div className="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
+                      <p className="text-sm text-yellow-300">
+                        <strong>💡 Why this matters:</strong> On the AP Exam, YOU are your own quality checker. Learning to self-evaluate helps you catch errors before submitting.
+                      </p>
                     </div>
 
                     <button
                       onClick={() => setSelfEvaluationComplete(true)}
                       className="w-full p-10 bg-gradient-to-br from-blue-500/20 to-purple-500/20 border-4 border-blue-500/60 rounded-3xl hover:from-blue-500/30 hover:to-purple-500/30 transition-all shadow-2xl shadow-blue-500/30 group"
                     >
-                      <span className="block text-3xl font-bold text-blue-300 mb-3 group-hover:scale-105 transition-transform">Start Self-Evaluation</span>
-                      <span className="block text-base text-blue-400">Review your CERC with AP rubric criteria</span>
+                      <span className="block text-3xl font-bold text-blue-300 mb-3 group-hover:scale-105 transition-transform">Begin Self-Evaluation →</span>
+                      <span className="block text-base text-blue-400">Review your response with the AP rubric</span>
                     </button>
                   </motion.div>
                 ) : !showSolution && selfEvaluationComplete ? (
@@ -702,13 +708,13 @@ export default function Week3ProblemSolver() {
                   >
                     <div className="text-center mb-6">
                       <CheckCircle className="w-12 h-12 text-blue-400 mx-auto mb-3" />
-                      <h3 className="text-2xl font-bold text-blue-300 mb-2">Self-Evaluation with AP Rubric</h3>
-                      <p className="text-sm text-blue-400">Check which points you think you earned</p>
+                      <h3 className="text-2xl font-bold text-blue-300 mb-2">Step 1: Review Your Work</h3>
+                      <p className="text-sm text-blue-400">Read your response and check it against the AP rubric</p>
                     </div>
 
                     {/* Your CERC Response - Full Display */}
                     <div className="p-6 bg-primary-800/40 rounded-xl border border-primary-600/30">
-                      <h4 className="font-bold text-primary-200 mb-4">Your CERC Response:</h4>
+                      <h4 className="font-bold text-primary-200 mb-4 text-lg">📝 Your CERC Response:</h4>
                       <div className="space-y-4">
                         {[
                           { key: "claim", label: "C", title: "Claim", color: "from-accent-500 to-accent-600" },
@@ -1029,21 +1035,48 @@ export default function Week3ProblemSolver() {
                 </div>
 
                 <div>
-                  <label className="block font-semibold mb-2">
-                    Personal reflection <span className="text-red-400">*required</span>
+                  <label className="block font-semibold mb-3 text-lg">
+                    Personal Reflection <span className="text-red-400">*required</span>
                   </label>
+
+                  <div className="mb-4 p-4 bg-blue-500/10 border border-blue-500/30 rounded-xl">
+                    <p className="text-sm font-semibold text-blue-300 mb-3">💭 Guided Prompts (answer 2-3):</p>
+                    <ul className="space-y-2 text-sm text-primary-200">
+                      <li className="flex items-start gap-2">
+                        <span className="text-blue-400 mt-1">•</span>
+                        <span><strong>What specific mistake did you make (or almost make)?</strong> — Be specific about the reasoning flaw or missing justification.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-blue-400 mt-1">•</span>
+                        <span><strong>Which part of your argument was weakest?</strong> — Did you skip context? Vague language? Missing units?</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-blue-400 mt-1">•</span>
+                        <span><strong>What will you do differently on the AP exam?</strong> — A concrete action you'll take to write more complete justifications.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-blue-400 mt-1">•</span>
+                        <span><strong>How did the model solution differ from yours?</strong> — What level of detail or professional communication was missing?</span>
+                      </li>
+                    </ul>
+                  </div>
+
                   <textarea
                     value={customReflection}
                     onChange={(e) => setCustomReflection(e.target.value)}
                     className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
-                    rows={4}
-                    placeholder="How did this multi-concept problem challenge you? What will you remember for the AP exam?"
+                    rows={6}
+                    placeholder="Choose 2-3 prompts above and write your reflection. Be specific and honest about what you learned."
                   />
                   {customReflection.trim().length < 20 && (
-                    <p className="text-xs text-red-400 mt-2">
-                      Please write at least 20 characters reflecting on your learning.
+                    <p className="text-xs text-red-400 mt-2 flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3" />
+                      Please write at least 20 characters (a few sentences) reflecting on your learning.
                     </p>
                   )}
+                  <p className="text-xs text-primary-400 mt-2">
+                    {customReflection.trim().length} / 20 characters minimum
+                  </p>
                 </div>
 
                 <ShimmerButton
