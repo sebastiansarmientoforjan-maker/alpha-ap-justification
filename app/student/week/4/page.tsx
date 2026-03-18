@@ -200,7 +200,7 @@ export default function Week4Landing() {
           </div>
 
           {/* Content Area */}
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 h-[650px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
@@ -208,7 +208,7 @@ export default function Week4Landing() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="max-w-5xl"
+                className="max-w-5xl h-full overflow-y-auto"
               >
             {activeTab === "phases" && (
               <div className="space-y-6 text-base text-primary-200">

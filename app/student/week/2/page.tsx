@@ -174,7 +174,7 @@ export default function Week2Landing() {
           </BlurFade>
 
           {/* Content Area */}
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 h-[650px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
@@ -182,7 +182,7 @@ export default function Week2Landing() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="max-w-5xl"
+                className="max-w-5xl h-full overflow-y-auto"
               >
                 {activeTab === "problem" && (
                   <div className="p-6 bg-white/5 rounded-2xl border border-white/10 space-y-6">
