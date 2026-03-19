@@ -7,7 +7,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowLeft, Target, AlertTriangle, TrendingUp, CheckCircle, Lock } from "lucide-react";
+import { ArrowLeft, Target, AlertTriangle, TrendingUp, CheckCircle, Lock, ChevronDown, ChevronUp } from "lucide-react";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import BlurFade from "@/components/ui/blur-fade";
 import ShimmerButton from "@/components/ui/shimmer-button";
@@ -16,6 +16,7 @@ import { week1Problems, week1Config } from "@/data/week-1-content";
 export default function Week1ProblemsPage() {
   const [studentCourse, setStudentCourse] = useState<"calculus-ab" | "calculus-bc" | "statistics">("calculus-bc");
   const [completedProblems, setCompletedProblems] = useState<string[]>([]);
+  const [expandedProblems, setExpandedProblems] = useState<string[]>([]);
 
   // Filter problems by student's course
   const availableProblems = week1Problems.filter(
@@ -23,6 +24,14 @@ export default function Week1ProblemsPage() {
       problem.course === studentCourse ||
       problem.course === "calculus-ab" // AB problems are suitable for BC too
   );
+
+  const toggleExpanded = (problemId: string) => {
+    setExpandedProblems((prev) =>
+      prev.includes(problemId)
+        ? prev.filter((id) => id !== problemId)
+        : [...prev, problemId]
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 text-white">
@@ -111,12 +120,13 @@ export default function Week1ProblemsPage() {
           {availableProblems.map((problem, index) => {
             const isCompleted = completedProblems.includes(problem.id);
             const isLocked = false; // Temporarily unlock all problems for review
+            const isExpanded = expandedProblems.includes(problem.id);
 
             return (
               <BlurFade key={problem.id} delay={0.4 + index * 0.1}>
                 <motion.div
-                  whileHover={!isLocked ? { scale: 1.02, y: -5 } : {}}
-                  className={`relative p-8 rounded-2xl border-2 transition-all ${
+                  whileHover={!isLocked ? { scale: 1.01 } : {}}
+                  className={`relative p-6 rounded-2xl border-2 transition-all ${
                     isCompleted
                       ? "bg-green-500/10 border-green-500/50"
                       : isLocked
@@ -142,27 +152,31 @@ export default function Week1ProblemsPage() {
 
                   <div className="flex items-start gap-6">
                     {/* Number Badge */}
-                    <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-gradient-to-br from-accent-500 to-secondary-500 flex items-center justify-center text-3xl font-bold shadow-lg shadow-accent-500/50">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-accent-500 to-secondary-500 flex items-center justify-center text-2xl font-bold shadow-lg shadow-accent-500/50">
                       {index + 1}
                     </div>
 
                     {/* Content */}
                     <div className="flex-grow">
-                      <div className="flex items-center gap-3 mb-3">
-                        <h3 className="text-2xl font-bold">{problem.title}</h3>
-                        <span
-                          className={`px-3 py-1 rounded-lg text-xs font-semibold ${
-                            problem.errorCategory === "CONDITION_BYPASS"
-                              ? "bg-red-500/20 text-red-300 border border-red-500/30"
-                              : problem.errorCategory === "LOCAL_ONLY_ARGUMENT"
-                              ? "bg-yellow-500/20 text-yellow-300 border border-yellow-500/30"
-                              : "bg-blue-500/20 text-blue-300 border border-blue-500/30"
-                          }`}
-                        >
-                          {problem.errorCategory.replace(/_/g, " ")}
-                        </span>
+                      {/* Header - Always Visible */}
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-3 flex-1">
+                          <h3 className="text-xl font-bold">{problem.title}</h3>
+                          <span
+                            className={`px-2.5 py-1 rounded-lg text-xs font-semibold ${
+                              problem.errorCategory === "CONDITION_BYPASS"
+                                ? "bg-red-500/20 text-red-300 border border-red-500/30"
+                                : problem.errorCategory === "LOCAL_ONLY_ARGUMENT"
+                                ? "bg-yellow-500/20 text-yellow-300 border border-yellow-500/30"
+                                : "bg-blue-500/20 text-blue-300 border border-blue-500/30"
+                            }`}
+                          >
+                            {problem.errorCategory.replace(/_/g, " ")}
+                          </span>
+                        </div>
                       </div>
 
+                      {/* Metadata - Always Visible */}
                       <div className="flex items-center gap-4 text-sm text-primary-300 mb-4">
                         <div className="flex items-center gap-2">
                           <AlertTriangle className="w-4 h-4" />
@@ -174,21 +188,51 @@ export default function Week1ProblemsPage() {
                         </div>
                       </div>
 
-                      <p className="text-primary-200 mb-4 leading-relaxed">
-                        <span className="font-semibold text-red-400">The Trap:</span> {problem.trap}
-                      </p>
+                      {/* Expandable Details */}
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="mb-4"
+                        >
+                          <p className="text-primary-200 leading-relaxed p-4 bg-primary-900/30 rounded-xl border border-red-500/20">
+                            <span className="font-semibold text-red-400">The Trap:</span> {problem.trap}
+                          </p>
+                        </motion.div>
+                      )}
 
-                      <div className="flex items-center gap-4">
+                      {/* Actions */}
+                      <div className="flex items-center gap-3">
                         {!isLocked ? (
-                          <Link href={`/student/week/1/problem/${problem.id}/instructions`}>
-                            <ShimmerButton className="px-6 py-3">
-                              {isCompleted ? "Review Problem" : "Start Problem"} →
-                            </ShimmerButton>
-                          </Link>
+                          <>
+                            <Link href={`/student/week/1/problem/${problem.id}/instructions`}>
+                              <ShimmerButton className="px-6 py-2.5">
+                                {isCompleted ? "Review Problem" : "Start Problem"} →
+                              </ShimmerButton>
+                            </Link>
+                            <button
+                              onClick={() => toggleExpanded(problem.id)}
+                              className="flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-xl font-medium transition-all text-sm"
+                            >
+                              {isExpanded ? (
+                                <>
+                                  <ChevronUp className="w-4 h-4" />
+                                  Hide Details
+                                </>
+                              ) : (
+                                <>
+                                  <ChevronDown className="w-4 h-4" />
+                                  Show Details
+                                </>
+                              )}
+                            </button>
+                          </>
                         ) : (
                           <button
                             disabled
-                            className="px-6 py-3 bg-primary-700/50 text-primary-400 rounded-xl font-semibold cursor-not-allowed"
+                            className="px-6 py-2.5 bg-primary-700/50 text-primary-400 rounded-xl font-semibold cursor-not-allowed"
                           >
                             Complete previous problem first
                           </button>
