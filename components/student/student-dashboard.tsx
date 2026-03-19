@@ -187,8 +187,22 @@ export function StudentDashboard({
           ))}
         </div>
 
+        {/* START HERE Section Header */}
+        <div className="mb-8">
+          <div className="flex items-center gap-4 mb-3">
+            <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/50 rounded-full">
+              <Sparkles className="w-5 h-5 text-cyan-300" />
+              <span className="text-sm font-bold text-cyan-200 uppercase tracking-wider">Start Here</span>
+            </div>
+            <div className="flex-1 h-px bg-gradient-to-r from-cyan-500/30 to-transparent" />
+          </div>
+          <p className="text-sm text-primary-400 ml-1">
+            Complete this introduction before beginning the 4-week training program
+          </p>
+        </div>
+
         {/* Course Introduction Video Section */}
-        <div className="relative rounded-3xl border border-cyan-500/30 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 backdrop-blur-2xl shadow-glass overflow-hidden mb-12">
+        <div className="relative rounded-3xl border-2 border-cyan-500/40 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 backdrop-blur-2xl shadow-glass overflow-hidden mb-16">
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-blue-500/5 pointer-events-none" />
 
           <div className="relative p-8">
@@ -197,7 +211,7 @@ export function StudentDashboard({
                 <div className="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center">
                   <Sparkles className="w-6 h-6 text-cyan-400" />
                 </div>
-                <h2 className="text-2xl font-bold text-white">Start Here: Course Introduction</h2>
+                <h2 className="text-2xl font-bold text-white">Course Introduction</h2>
               </div>
               <p className="text-primary-300">
                 Watch this 5-minute overview to understand the CERC Framework before starting Week 1
@@ -262,15 +276,30 @@ export function StudentDashboard({
           </div>
         </div>
 
-        {/* Week Training Section */}
-        <div className="relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl shadow-glass overflow-hidden mb-12">
+        {/* CERC Training Section Header */}
+        <div className="mb-8">
+          <div className="flex items-center gap-4 mb-3">
+            <h2 className="text-3xl font-bold text-white">CERC Training Program</h2>
+            <div className="flex-1 h-px bg-gradient-to-r from-white/30 to-transparent" />
+          </div>
+          <p className="text-sm text-primary-400 ml-1">
+            4-week progression from scaffolded practice to independent mastery
+          </p>
+        </div>
+
+        {/* Week 1 Training */}
+        <div className="relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl shadow-glass overflow-hidden mb-6">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 pointer-events-none" />
 
           <div className="relative p-8">
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-white mb-2">CERC Training - Week 1</h2>
+              <div className="flex items-center gap-3 mb-2">
+                <h3 className="text-2xl font-bold text-white">Week 1</h3>
+                <div className="text-sm text-primary-400">•</div>
+                <div className="text-sm font-medium text-blue-300">Error-Forcing Problems</div>
+              </div>
               <p className="text-primary-300">
-                Master justification skills with error-forcing problems
+                Master justification skills by learning when theorems cannot be applied
               </p>
             </div>
 
@@ -289,10 +318,13 @@ export function StudentDashboard({
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
                         <h3 className="text-lg font-semibold text-white group-hover:text-blue-300 transition-colors">
-                          Week 1: Error-Forcing Problems
+                          Introduction to Error-Forcing
                         </h3>
                         <div className="inline-flex px-3 py-1 rounded-full border bg-green-500/10 border-green-500/30">
-                          <span className="text-xs font-medium text-green-300">Available Now</span>
+                          <span className="text-xs font-medium text-green-300">Available</span>
+                        </div>
+                        <div className="inline-flex px-3 py-1 rounded-full border bg-blue-500/10 border-blue-500/30">
+                          <span className="text-xs font-medium text-blue-300">0 of 3 complete</span>
                         </div>
                       </div>
 
@@ -307,11 +339,11 @@ export function StudentDashboard({
                         </div>
                         <div className="flex items-center gap-2">
                           <Clock className="w-4 h-4" />
-                          <span>15-20 min each</span>
+                          <span>~50 min remaining</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <Award className="w-4 h-4" />
-                          <span>Full Scaffolding</span>
+                          <span>0 XP earned</span>
                         </div>
                       </div>
                     </div>
@@ -328,14 +360,18 @@ export function StudentDashboard({
         </div>
 
         {/* Week 2 Training */}
-        <div className="relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl shadow-glass overflow-hidden mb-12">
+        <div className="relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl shadow-glass overflow-hidden mb-6">
           <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-pink-500/5 pointer-events-none" />
 
           <div className="relative p-8">
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-white mb-2">CERC Training - Week 2</h2>
+              <div className="flex items-center gap-3 mb-2">
+                <h3 className="text-2xl font-bold text-white">Week 2</h3>
+                <div className="text-sm text-primary-400">•</div>
+                <div className="text-sm font-medium text-purple-300">Condition Verification</div>
+              </div>
               <p className="text-primary-300">
-                Condition verification with calculus theorems
+                Verify theorem conditions explicitly with IVT, MVT, and EVT
               </p>
             </div>
 
@@ -354,10 +390,13 @@ export function StudentDashboard({
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
                         <h3 className="text-lg font-semibold text-white group-hover:text-purple-300 transition-colors">
-                          Week 2: Condition Verification
+                          Theorem Condition Mastery
                         </h3>
                         <div className="inline-flex px-3 py-1 rounded-full border bg-green-500/10 border-green-500/30">
-                          <span className="text-xs font-medium text-green-300">Available Now</span>
+                          <span className="text-xs font-medium text-green-300">Available</span>
+                        </div>
+                        <div className="inline-flex px-3 py-1 rounded-full border bg-purple-500/10 border-purple-500/30">
+                          <span className="text-xs font-medium text-purple-300">0 of 4 complete</span>
                         </div>
                       </div>
 
@@ -372,11 +411,11 @@ export function StudentDashboard({
                         </div>
                         <div className="flex items-center gap-2">
                           <Clock className="w-4 h-4" />
-                          <span>20-25 min each</span>
+                          <span>~90 min remaining</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <Award className="w-4 h-4" />
-                          <span>Structural Outline</span>
+                          <span>0 XP earned</span>
                         </div>
                       </div>
                     </div>
@@ -393,14 +432,18 @@ export function StudentDashboard({
         </div>
 
         {/* Week 3 Training */}
-        <div className="relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl shadow-glass overflow-hidden mb-12">
+        <div className="relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl shadow-glass overflow-hidden mb-6">
           <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-transparent to-teal-500/5 pointer-events-none" />
 
           <div className="relative p-8">
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-white mb-2">CERC Training - Week 3</h2>
+              <div className="flex items-center gap-3 mb-2">
+                <h3 className="text-2xl font-bold text-white">Week 3</h3>
+                <div className="text-sm text-primary-400">•</div>
+                <div className="text-sm font-medium text-green-300">Global Argumentation</div>
+              </div>
               <p className="text-primary-300">
-                Global argumentation and communication precision
+                Complete CERC proofs from blank canvas with precision communication
               </p>
             </div>
 
@@ -419,10 +462,13 @@ export function StudentDashboard({
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
                         <h3 className="text-lg font-semibold text-white group-hover:text-green-300 transition-colors">
-                          Week 3: Global Argumentation
+                          Independent Proof Construction
                         </h3>
                         <div className="inline-flex px-3 py-1 rounded-full border bg-green-500/10 border-green-500/30">
-                          <span className="text-xs font-medium text-green-300">Available Now</span>
+                          <span className="text-xs font-medium text-green-300">Available</span>
+                        </div>
+                        <div className="inline-flex px-3 py-1 rounded-full border bg-green-500/10 border-green-500/30">
+                          <span className="text-xs font-medium text-green-300">0 of 5 complete</span>
                         </div>
                       </div>
 
@@ -437,11 +483,11 @@ export function StudentDashboard({
                         </div>
                         <div className="flex items-center gap-2">
                           <Clock className="w-4 h-4" />
-                          <span>25-30 min each</span>
+                          <span>~135 min remaining</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <Award className="w-4 h-4" />
-                          <span>Blank Canvas</span>
+                          <span>0 XP earned</span>
                         </div>
                       </div>
                     </div>
@@ -458,14 +504,21 @@ export function StudentDashboard({
         </div>
 
         {/* Week 4 Boss Battle */}
-        <div className="relative rounded-3xl border border-red-500/30 bg-white/5 backdrop-blur-2xl shadow-glass overflow-hidden mb-12">
+        <div className="relative rounded-3xl border-2 border-red-500/40 bg-white/5 backdrop-blur-2xl shadow-glass overflow-hidden mb-16">
           <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 via-transparent to-orange-500/10 pointer-events-none" />
 
           <div className="relative p-8">
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-white mb-2">CERC Training - Week 4</h2>
+              <div className="flex items-center gap-3 mb-2">
+                <h3 className="text-2xl font-bold text-white">Week 4</h3>
+                <div className="text-sm text-primary-400">•</div>
+                <div className="text-sm font-medium text-red-300">Boss Battle</div>
+                <div className="inline-flex px-3 py-1 rounded-full bg-gradient-to-r from-red-500/20 to-orange-500/20 border border-red-500/50">
+                  <span className="text-xs font-bold text-red-300 uppercase tracking-wider">Final Challenge</span>
+                </div>
+              </div>
               <p className="text-primary-300">
-                Boss Battle: Multi-phase collaborative FRQ challenge
+                Three-phase integrated challenge with timed curveball twist
               </p>
             </div>
 
@@ -484,10 +537,13 @@ export function StudentDashboard({
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
                         <h3 className="text-lg font-semibold text-white group-hover:text-red-300 transition-colors">
-                          Week 4: Boss Battle
+                          Ultimate Mastery Test
                         </h3>
                         <div className="inline-flex px-3 py-1 rounded-full border bg-green-500/10 border-green-500/30">
-                          <span className="text-xs font-medium text-green-300">Available Now</span>
+                          <span className="text-xs font-medium text-green-300">Available</span>
+                        </div>
+                        <div className="inline-flex px-3 py-1 rounded-full border bg-red-500/20 border-red-500/40">
+                          <span className="text-xs font-medium text-red-300">Not Started</span>
                         </div>
                       </div>
 
@@ -498,15 +554,15 @@ export function StudentDashboard({
                       <div className="flex items-center gap-6 text-xs text-primary-400">
                         <div className="flex items-center gap-2">
                           <Target className="w-4 h-4" />
-                          <span>1 Battle</span>
+                          <span>3 Phases</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <Clock className="w-4 h-4" />
-                          <span>45-60 min</span>
+                          <span>~50 min total</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <Award className="w-4 h-4" />
-                          <span>Timed Challenge</span>
+                          <span>Up to 195 XP</span>
                         </div>
                       </div>
                     </div>
@@ -522,17 +578,34 @@ export function StudentDashboard({
           </div>
         </div>
 
+        {/* FRQ Section Divider */}
+        <div className="relative mb-8">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-white/20"></div>
+          </div>
+          <div className="relative flex justify-center">
+            <div className="bg-primary-800 px-6 py-2 rounded-full border border-white/20">
+              <span className="text-sm font-medium text-primary-300 uppercase tracking-wider">Applied Practice</span>
+            </div>
+          </div>
+        </div>
+
+        {/* FRQ Assignments Section Header */}
+        <div className="mb-8">
+          <div className="flex items-center gap-4 mb-3">
+            <h2 className="text-3xl font-bold text-white">FRQ Assignments</h2>
+            <div className="flex-1 h-px bg-gradient-to-r from-white/30 to-transparent" />
+          </div>
+          <p className="text-sm text-primary-400 ml-1">
+            Weekly free-response questions assigned after MathAcademy quiz completion
+          </p>
+        </div>
+
         {/* FRQ Cards */}
         <div className="relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl shadow-glass overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-accent-500/5 via-transparent to-secondary-500/5 pointer-events-none" />
 
           <div className="relative p-8">
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-white mb-2">Your FRQ Assignments</h2>
-              <p className="text-primary-300">
-                Weekly free-response questions to practice justification and reasoning
-              </p>
-            </div>
 
             {/* Blocked FRQs Section */}
             {blockedFRQs.length > 0 && (
