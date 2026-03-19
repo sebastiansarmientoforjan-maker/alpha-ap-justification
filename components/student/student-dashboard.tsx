@@ -503,7 +503,7 @@ export function StudentDashboard({
           </div>
         </div>
 
-        {/* Week 4 Boss Battle */}
+        {/* Week 4 Final Challenge */}
         <div className="relative rounded-3xl border-2 border-red-500/40 bg-white/5 backdrop-blur-2xl shadow-glass overflow-hidden mb-16">
           <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 via-transparent to-orange-500/10 pointer-events-none" />
 
@@ -512,7 +512,7 @@ export function StudentDashboard({
               <div className="flex items-center gap-3 mb-2">
                 <h3 className="text-2xl font-bold text-white">Week 4</h3>
                 <div className="text-sm text-primary-400">•</div>
-                <div className="text-sm font-medium text-red-300">Boss Battle</div>
+                <div className="text-sm font-medium text-red-300">Final Challenge</div>
                 <div className="inline-flex px-3 py-1 rounded-full bg-gradient-to-r from-red-500/20 to-orange-500/20 border border-red-500/50">
                   <span className="text-xs font-bold text-red-300 uppercase tracking-wider">Final Challenge</span>
                 </div>
@@ -569,7 +569,7 @@ export function StudentDashboard({
                   </div>
 
                   <div className="flex items-center gap-2 text-red-400 group-hover:text-red-300 transition-colors">
-                    <span className="text-sm font-medium">Enter Boss Battle</span>
+                    <span className="text-sm font-medium">Enter Final Challenge</span>
                     <ChevronRight className="w-5 h-5" />
                   </div>
                 </div>

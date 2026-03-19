@@ -95,7 +95,7 @@ export default function Week4Landing() {
         <Breadcrumbs
           items={[
             { label: "Week 4", href: "/student/week/4" },
-            { label: "Boss Battle" },
+            { label: "Final Challenge" },
           ]}
         />
       </div>
@@ -111,7 +111,7 @@ export default function Week4Landing() {
 
         <BlurFade delay={0.2}>
           <h1 className="text-7xl md:text-8xl font-bold text-center mb-6 bg-clip-text text-transparent bg-gradient-to-r from-red-400 via-orange-300 to-yellow-200">
-            Boss Battle
+            Final Challenge
           </h1>
         </BlurFade>
 
@@ -142,7 +142,7 @@ export default function Week4Landing() {
           <div className="flex flex-col sm:flex-row items-center gap-4 mb-12">
             <Link href="/student/week/4/battle">
               <ShimmerButton className="px-10 py-5 text-xl bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700">
-                Enter Boss Battle ⚔️
+                Enter Final Challenge →
               </ShimmerButton>
             </Link>
             <Link
@@ -182,7 +182,7 @@ export default function Week4Landing() {
                 <strong className="text-white">Week 3:</strong> You synthesized multiple concepts without scaffolding.
               </p>
               <p className="text-red-200 font-semibold text-xl mt-6">
-                <strong className="text-red-300">Week 4:</strong> Now you face the Boss Battle - a multi-phase challenge that tests EVERYTHING.
+                <strong className="text-red-300">Week 4:</strong> Now you face the Final Challenge - a multi-phase challenge that tests EVERYTHING.
               </p>
             </div>
           </div>
@@ -330,11 +330,11 @@ export default function Week4Landing() {
                       </p>
                       <Link href="/student/week/4/battle">
                         <ShimmerButton className="px-12 py-6 text-2xl bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700">
-                          Enter Boss Battle ⚔️
+                          Enter Final Challenge →
                         </ShimmerButton>
                       </Link>
                       <p className="mt-6 text-primary-300 text-sm">
-                        1 boss battle • ~50 minutes total • Phase 3 is timed (15 min)
+                        1 challenge • ~50 minutes total • Phase 3 is timed (15 min)
                       </p>
                     </div>
                   </div>
@@ -342,7 +342,7 @@ export default function Week4Landing() {
 
                 {activeTab === "strategy" && (
                   <div className="space-y-6 text-base text-primary-200">
-                    <h3 className="text-3xl font-bold mb-6">Approaching the Boss Battle</h3>
+                    <h3 className="text-3xl font-bold mb-6">Approaching the Final Challenge</h3>
 
                     <p>
                       Week 4 is YOUR ultimate test - an individual challenge that integrates everything you've learned across Weeks 1-3.
@@ -418,11 +418,11 @@ export default function Week4Landing() {
                       </p>
                       <Link href="/student/week/4/battle">
                         <ShimmerButton className="px-12 py-6 text-2xl bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700">
-                          Enter Boss Battle ⚔️
+                          Enter Final Challenge →
                         </ShimmerButton>
                       </Link>
                       <p className="mt-6 text-primary-300 text-sm">
-                        1 boss battle • ~50 minutes total • Phase 3 is timed (15 min)
+                        1 challenge • ~50 minutes total • Phase 3 is timed (15 min)
                       </p>
                     </div>
                   </div>
@@ -512,11 +512,11 @@ export default function Week4Landing() {
                       </p>
                       <Link href="/student/week/4/battle">
                         <ShimmerButton className="px-12 py-6 text-2xl bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700">
-                          Enter Boss Battle ⚔️
+                          Enter Final Challenge →
                         </ShimmerButton>
                       </Link>
                       <p className="mt-6 text-primary-300 text-sm">
-                        1 boss battle • ~50 minutes total • Phase 3 is timed (15 min)
+                        1 challenge • ~50 minutes total • Phase 3 is timed (15 min)
                       </p>
                     </div>
                   </div>
@@ -524,7 +524,7 @@ export default function Week4Landing() {
 
                 {activeTab === "victory" && (
                   <div className="space-y-6 text-base text-primary-200">
-                    <h3 className="text-3xl font-bold mb-6">Victory: The Boss Slayer Badge</h3>
+                    <h3 className="text-3xl font-bold mb-6">Victory: The Challenge Master Badge</h3>
 
                     <div className="text-center p-8 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-2 border-yellow-500/50 rounded-2xl">
                       <div className="text-7xl mb-4">⚔️</div>
@@ -533,7 +533,7 @@ export default function Week4Landing() {
                     </div>
 
                     <p>
-                      Earning the <strong className="text-yellow-300">Boss Slayer</strong> badge means you:
+                      Earning the <strong className="text-yellow-300">Challenge Master</strong> badge means you:
                     </p>
 
                     <ul className="space-y-3">
@@ -575,7 +575,7 @@ export default function Week4Landing() {
                           <span className="font-bold text-accent-400">+40 XP</span>
                         </li>
                         <li className="flex items-center justify-between border-t border-accent-500/30 pt-2 mt-2">
-                          <span className="font-bold">Boss Slayer Badge</span>
+                          <span className="font-bold">Challenge Master Badge</span>
                           <span className="font-bold text-yellow-400">+50 XP</span>
                         </li>
                         <li className="flex items-center justify-between text-lg font-bold border-t-2 border-accent-500/50 pt-3 mt-3">
@@ -586,9 +586,9 @@ export default function Week4Landing() {
                     </div>
 
                     <div className="p-6 bg-green-500/10 border-l-4 border-green-500 rounded-lg">
-                      <p className="font-semibold text-green-300 mb-2">After Boss Battle:</p>
+                      <p className="font-semibold text-green-300 mb-2">After Final Challenge:</p>
                       <p className="text-sm">
-                        Once you beat the Boss Battle, you've completed all 4 weeks of training.
+                        Once you beat the Final Challenge, you've completed all 4 weeks of training.
                         You're ready for the AP exam. You know how to verify conditions, justify rigorously,
                         synthesize concepts, and perform under pressure.
                         <span className="text-green-400 font-bold"> You've got this.</span>
@@ -621,11 +621,11 @@ export default function Week4Landing() {
                       </p>
                       <Link href="/student/week/4/battle">
                         <ShimmerButton className="px-12 py-6 text-2xl bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700">
-                          Enter Boss Battle ⚔️
+                          Enter Final Challenge →
                         </ShimmerButton>
                       </Link>
                       <p className="mt-6 text-primary-300 text-sm">
-                        1 boss battle • ~50 minutes total • Phase 3 is timed (15 min)
+                        1 challenge • ~50 minutes total • Phase 3 is timed (15 min)
                       </p>
                     </div>
                   </div>

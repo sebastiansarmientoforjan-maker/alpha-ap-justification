@@ -1,6 +1,6 @@
 /**
- * Boss Battle Interface
- * Three-phase collaborative challenge with timed curveball
+ * Final Challenge Interface
+ * Three-phase individual challenge with timed curveball
  */
 "use client";
 
@@ -159,7 +159,7 @@ export default function BossBattlePage() {
   };
 
   const calculateXP = () => {
-    let xp = 50; // Base XP for Boss Battle
+    let xp = 50; // Base XP for Final Challenge
     const bonuses: { name: string; amount: number }[] = [];
 
     // Phase completion bonuses
@@ -187,7 +187,7 @@ export default function BossBattlePage() {
       }
     }
 
-    // Team collaboration bonus (always awarded in Boss Battle)
+    // Team collaboration bonus (always awarded in Final Challenge)
     bonuses.push({ name: "👥 Team Collaboration", amount: 30 });
     xp += 30;
 
@@ -197,11 +197,11 @@ export default function BossBattlePage() {
       xp += 20;
     }
 
-    // Boss Slayer badge (all phases complete with good quality)
+    // Challenge Master badge (all phases complete with good quality)
     if (battleData.phases.phase1.completed &&
         battleData.phases.phase2.completed &&
         battleData.phases.phase3.completed) {
-      bonuses.push({ name: "⚔️ BOSS SLAYER BADGE", amount: 50 });
+      bonuses.push({ name: "🏆 CHALLENGE MASTER BADGE", amount: 50 });
       xp += 50;
     }
 
@@ -230,7 +230,7 @@ export default function BossBattlePage() {
             items={[
               { label: "Dashboard", href: "/student" },
               { label: "Week 4", href: "/student/week/4" },
-              { label: "Boss Battle" },
+              { label: "Final Challenge" },
             ]}
           />
           <Link
@@ -238,7 +238,7 @@ export default function BossBattlePage() {
             className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 transition-colors text-sm font-medium"
           >
             <ArrowLeft className="w-4 h-4" />
-            Exit Battle
+            Exit Challenge
           </Link>
         </div>
       </div>
@@ -526,7 +526,7 @@ export default function BossBattlePage() {
                   disabled={battleData.phases.phase3.adaptedConclusion.trim().length < 50 || phase3Timer === 0}
                   className="w-full py-4 text-lg bg-gradient-to-r from-red-600 to-orange-600"
                 >
-                  {phase3Timer === 0 ? "Time's Up!" : "Complete Boss Battle ⚔️"}
+                  {phase3Timer === 0 ? "Time's Up!" : "Complete Final Challenge →"}
                 </ShimmerButton>
 
                 {phase3Timer === 0 && (
@@ -625,7 +625,7 @@ export default function BossBattlePage() {
 
               <div className="space-y-3 mb-6">
                 <div className="flex items-center justify-between p-3 bg-primary-800/60 rounded-lg">
-                  <span className="text-primary-200">Base XP (Boss Battle)</span>
+                  <span className="text-primary-200">Base XP (Final Challenge)</span>
                   <span className="font-bold text-white">+{xpBreakdown.base}</span>
                 </div>
 

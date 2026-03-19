@@ -1,6 +1,6 @@
 /**
- * Week 4: Boss Battle
- * Focus: Multi-phase collaborative challenge with timed curveball
+ * Week 4: Final Challenge
+ * Focus: Multi-phase individual challenge with timed curveball
  * Structure: Individual → Team → Curveball (15 min timed)
  */
 
@@ -228,10 +228,10 @@ where $0 \\le t \\le 10$ minutes.
 
 export const week4Config = {
   weekNumber: 4,
-  title: "Boss Battle",
-  focus: "Multi-phase collaborative challenge with timed curveball - AP exam simulation",
+  title: "Final Challenge",
+  focus: "Multi-phase individual challenge with timed curveball - AP exam simulation",
   scaffoldingLevel: "boss" as const,
-  description: `This is it. The final week. Everything you've learned converges into ONE epic collaborative challenge.
+  description: `This is it. The final week. Everything you've learned converges into ONE epic individual challenge.
 
 **Three Phases:**
 
@@ -239,14 +239,14 @@ export const week4Config = {
 Work alone to decode the complex problem setup. This tests your ability to identify the right approach and verify conditions.
 
 **Phase 2 - Team: Construct the Argument**
-Collaborate with your cohort to build a unified CERC justification. Pool your insights. Debate the approach. Learn from each other.
+Continue building your CERC justification. Apply your insights. Refine the approach. Demonstrate your mastery.
 
 **Phase 3 - Curveball: Adapt Under Pressure**
 Just when you think you've solved it, new information arrives. The problem changes. You have 15 MINUTES (timed) to adapt your conclusion.
 
 **This simulates the AP exam:** unexpected constraints, time pressure, and the need to think critically under stress.
 
-The Boss Battle is the ultimate test. Beat it, and you're ready for the AP exam.`,
+The Final Challenge is the ultimate test. Beat it, and you're ready for the AP exam.`,
   objectives: [
     "Synthesize ALL skills from Weeks 1-3 under challenging conditions",
     "Collaborate effectively to construct complex arguments",

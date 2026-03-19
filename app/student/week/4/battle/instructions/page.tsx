@@ -5,15 +5,15 @@ import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { ActivityInstructions } from "@/components/student/activity-instructions";
 import { AlertCircle, Clock, Users, Zap } from "lucide-react";
 
-export default function BossBattleInstructionsPage() {
+export default function FinalChallengeInstructionsPage() {
   const router = useRouter();
 
   const handleComplete = () => {
     router.push("/student/week/4/battle");
   };
 
-  // Custom instructions for Boss Battle (more intense)
-  const bossBattleInstructions = [
+  // Custom instructions for Final Challenge (more intense)
+  const finalChallengeInstructions = [
     {
       id: 1,
       text: "I have paper, pencil, and calculator ready. This is a multi-part problem requiring full calculations.",
@@ -27,7 +27,7 @@ export default function BossBattleInstructionsPage() {
     },
     {
       id: 2,
-      text: "I understand this is a 3-phase Boss Battle: Phase 1 (Individual) → Phase 2 (Team CERC) → Phase 3 (Curveball - TIMED 15 min).",
+      text: "I understand this is a 3-phase Final Challenge: Phase 1 (Individual) → Phase 2 (Team CERC) → Phase 3 (Curveball - TIMED 15 min).",
       icon: <Zap className="w-5 h-5" />,
       colorClasses: {
         checked: "bg-yellow-500/10 border-yellow-500/30",
@@ -77,18 +77,18 @@ export default function BossBattleInstructionsPage() {
         <Breadcrumbs
           items={[
             { label: "Week 4", href: "/student/week/4" },
-            { label: "Boss Battle", href: "/student/week/4/battle" },
+            { label: "Final Challenge", href: "/student/week/4/battle" },
             { label: "Instructions" },
           ]}
         />
 
         <div className="mt-8">
           <ActivityInstructions
-            activityType="boss-battle"
-            activityId="boss-battle"
-            activityTitle="Week 4: Boss Battle"
+            activityType="final-challenge"
+            activityId="final-challenge"
+            activityTitle="Week 4: Final Challenge"
             onComplete={handleComplete}
-            customInstructions={bossBattleInstructions}
+            customInstructions={finalChallengeInstructions}
           />
         </div>
       </div>
