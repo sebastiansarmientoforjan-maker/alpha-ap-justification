@@ -8,6 +8,7 @@ import { Spotlight } from "@/components/ui/spotlight";
 import { Meteors } from "@/components/ui/meteors";
 import ShimmerButton from "@/components/ui/shimmer-button";
 import BlurFade from "@/components/ui/blur-fade";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import {
   Target,
   Zap,
@@ -545,12 +546,22 @@ export default function Week1Landing() {
       </nav>
 
       <div className="relative z-10">
+        {/* Breadcrumbs */}
+        <div className="container mx-auto px-6 pt-24 pb-6">
+          <Breadcrumbs
+            items={[
+              { label: "Week 1", href: "/student/week/1" },
+              { label: "Error-Forcing Problems" },
+            ]}
+          />
+        </div>
+
         {/* Hero Section - Full Screen */}
         <section
           id="main-content"
           ref={heroRef}
           data-section="hero"
-          className="flex flex-col items-center justify-center px-4 py-24 md:py-32 text-center"
+          className="flex flex-col items-center justify-center px-4 py-16 md:py-24 text-center"
         >
           <BlurFade delay={0.1}>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-accent-500/30 bg-accent-500/10 backdrop-blur-sm mb-8">

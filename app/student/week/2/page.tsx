@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Spotlight } from "@/components/ui/spotlight";
 import ShimmerButton from "@/components/ui/shimmer-button";
 import BlurFade from "@/components/ui/blur-fade";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import {
   Target,
   CheckCircle,
@@ -110,8 +111,18 @@ export default function Week2Landing() {
       </Link>
 
       <div className="relative z-10">
+        {/* Breadcrumbs */}
+        <div className="container mx-auto px-6 pt-24 pb-6">
+          <Breadcrumbs
+            items={[
+              { label: "Week 2", href: "/student/week/2" },
+              { label: "Condition Verification" },
+            ]}
+          />
+        </div>
+
         {/* Hero Section */}
-        <section className="flex flex-col items-center justify-center px-4 py-24 md:py-32 text-center">
+        <section className="flex flex-col items-center justify-center px-4 py-16 md:py-24 text-center">
           <BlurFade delay={0.1}>
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-accent-500/30 bg-accent-500/10 backdrop-blur-sm mb-8">
               <div className="w-2 h-2 rounded-full bg-accent-400 animate-pulse" />

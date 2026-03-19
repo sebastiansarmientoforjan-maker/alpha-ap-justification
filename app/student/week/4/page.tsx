@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Meteors } from "@/components/ui/meteors";
 import ShimmerButton from "@/components/ui/shimmer-button";
 import BlurFade from "@/components/ui/blur-fade";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import {
   Target,
   CheckCircle,
@@ -89,8 +90,18 @@ export default function Week4Landing() {
         </span>
       </Link>
 
+      {/* Breadcrumbs */}
+      <div className="container mx-auto px-6 pt-24 pb-6 relative z-10">
+        <Breadcrumbs
+          items={[
+            { label: "Week 4", href: "/student/week/4" },
+            { label: "Boss Battle" },
+          ]}
+        />
+      </div>
+
       {/* Hero Section */}
-      <div className="relative min-h-[70vh] flex flex-col items-center justify-center px-6 pt-20 pb-16 z-10">
+      <div className="relative min-h-[70vh] flex flex-col items-center justify-center px-6 pt-12 pb-16 z-10">
         <BlurFade delay={0.1}>
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-500/20 to-orange-500/20 border border-red-500/50 rounded-full mb-6 shadow-lg shadow-red-500/20">
             <Trophy className="w-5 h-5 text-red-300" />
