@@ -11,6 +11,7 @@ interface CERCFormProps {
   studentId: string;
   existingResponse: CERCResponse | null;
   onSubmitSuccess: () => void;
+  showFeedbackTeaser?: boolean;
 }
 
 const CERC_FIELDS = [
@@ -50,6 +51,7 @@ export function CERCForm({
   studentId,
   existingResponse,
   onSubmitSuccess,
+  showFeedbackTeaser = true,
 }: CERCFormProps) {
   const router = useRouter();
   const [formData, setFormData] = useState<Omit<CERCResponse, "problemId" | "timestamp">>({
@@ -197,13 +199,15 @@ export function CERCForm({
             )}
           </button>
 
-          {/* AI Feedback Teaser */}
-          <div className="mt-4 p-3 rounded-lg bg-accent-500/5 border border-accent-500/20">
-            <div className="flex items-center gap-2 text-xs text-accent-300">
-              <Sparkles className="w-4 h-4" />
-              <span>AI feedback will appear here after submission</span>
+          {/* Feedback Teaser (optional) */}
+          {showFeedbackTeaser && (
+            <div className="mt-4 p-3 rounded-lg bg-accent-500/5 border border-accent-500/20">
+              <div className="flex items-center gap-2 text-xs text-accent-300">
+                <Sparkles className="w-4 h-4" />
+                <span>Feedback will appear here after submission</span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

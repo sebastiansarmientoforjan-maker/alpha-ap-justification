@@ -104,10 +104,10 @@ export default function PracticeDemoPage() {
             <BookOpen className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
             <div>
               <div className="text-sm font-medium text-blue-300 mb-1">
-                Practice Demo - No XP, Learning Only
+                Diagnostic Assessment
               </div>
               <div className="text-xs text-primary-300 leading-relaxed">
-                This practice problem prepares you for the 6 training problems. Use the same split-screen format: read the problem on the left, fill in your CERC response on the right, then submit.
+                This practice problem prepares you for the 6 training problems. Your response will be reviewed by your instructor to assess your baseline reasoning skills. Use the same split-screen format: read the problem on the left, fill in your CERC response on the right, then submit.
               </div>
             </div>
           </div>
@@ -144,6 +144,7 @@ export default function PracticeDemoPage() {
                 studentId={studentId}
                 existingResponse={null}
                 onSubmitSuccess={handleSubmitSuccess}
+                showFeedbackTeaser={false}
               />
             )}
           </div>
