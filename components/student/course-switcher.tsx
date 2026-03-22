@@ -57,7 +57,7 @@ export function CourseSwitcher({ currentCourse, currentStudentName }: CourseSwit
   };
 
   return (
-    <div ref={dropdownRef} className="relative">
+    <div ref={dropdownRef} className="relative z-50">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 hover:border-purple-400/50 transition-all backdrop-blur-sm group"
@@ -71,7 +71,7 @@ export function CourseSwitcher({ currentCourse, currentStudentName }: CourseSwit
       </button>
 
       {isOpen && (
-        <div className="absolute top-full mt-2 right-0 w-64 rounded-xl border border-white/10 bg-primary-900/95 backdrop-blur-xl shadow-2xl overflow-hidden z-50">
+        <div className="absolute top-full mt-2 right-0 w-64 rounded-xl border border-white/10 bg-primary-900/95 backdrop-blur-xl shadow-2xl overflow-hidden z-[100]">
           <div className="p-3 border-b border-white/10">
             <p className="text-xs text-primary-400">Switch Student View</p>
           </div>

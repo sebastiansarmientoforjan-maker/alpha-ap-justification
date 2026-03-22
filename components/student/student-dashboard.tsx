@@ -54,7 +54,7 @@ export function StudentDashboard({
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#2C4F5E1a_1px,transparent_1px),linear-gradient(to_bottom,#2C4F5E1a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
 
       {/* Header */}
-      <header className="relative z-10 border-b border-white/10 bg-primary-900/80 backdrop-blur-xl">
+      <header className="relative z-40 border-b border-white/10 bg-primary-900/80 backdrop-blur-xl">
         <div className="container mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-6">
