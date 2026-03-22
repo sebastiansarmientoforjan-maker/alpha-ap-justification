@@ -15,6 +15,7 @@ import {
   TrendingUp,
   Play,
   X,
+  CheckCircle,
   AlertTriangle,
   Lightbulb,
   Trophy,
@@ -28,9 +29,11 @@ import {
 export default function Week1Landing() {
   const [activeTab, setActiveTab] = useState<"problem" | "solution" | "method" | "path">("problem");
   const [showModal, setShowModal] = useState(false);
+  const [viewedSections, setViewedSections] = useState<Set<string>>(new Set());
   const [practiceCompleted, setPracticeCompleted] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showMobileProgress, setShowMobileProgress] = useState(false);
   const [modalViewed, setModalViewed] = useState(false);
   const [showKeyboardHelp, setShowKeyboardHelp] = useState(false);
   const [videoCompleted, setVideoCompleted] = useState(false);
@@ -61,6 +64,37 @@ export default function Week1Landing() {
     window.scrollTo(0, 0);
   }, []);
 
+  // Mark active tab as viewed when tab panel comes into view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Special handling for "solution" tab - only mark as viewed if video is completed
+            if (activeTab === "solution" && !videoCompleted) {
+              return;
+            }
+
+            setViewedSections((prev) => {
+              if (prev.has(activeTab)) return prev;
+              return new Set(prev).add(activeTab);
+            });
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (tabPanelRef.current) {
+      observer.observe(tabPanelRef.current);
+    }
+
+    return () => {
+      if (tabPanelRef.current) {
+        observer.unobserve(tabPanelRef.current);
+      }
+    };
+  }, [activeTab, videoCompleted]);
 
   // Auto-scroll to center tabs section when it comes into view
   useEffect(() => {
@@ -90,7 +124,28 @@ export default function Week1Landing() {
     };
   }, []);
 
+  // Mark "solution" as viewed when video is completed
+  useEffect(() => {
+    if (videoCompleted && activeTab === "solution") {
+      setViewedSections((prev) => new Set(prev).add("solution"));
+    }
+  }, [videoCompleted, activeTab]);
 
+  // Show mobile progress indicator on scroll
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    const handleScroll = () => {
+      setShowMobileProgress(true);
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => setShowMobileProgress(false), 2000);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(timeoutId);
+    };
+  }, []);
 
   // Modal focus trap and accessibility
   useEffect(() => {
@@ -211,9 +266,60 @@ export default function Week1Landing() {
     }
   }, []);
 
+  // Track section views with Intersection Observer (with debounce and dynamic threshold)
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
 
+    // Dynamic threshold based on viewport height
+    const calculateThreshold = () => {
+      const viewportHeight = window.innerHeight;
+      // For small viewports (mobile), use lower threshold
+      // For large viewports, use higher threshold
+      if (viewportHeight < 700) return 0.2; // Small mobile
+      if (viewportHeight < 900) return 0.3; // Large mobile / small tablet
+      return 0.4; // Desktop
+    };
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: calculateThreshold(),
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      // Debounce to avoid excessive state updates
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.getAttribute('data-section');
+            if (sectionId) {
+              setViewedSections((prev) => {
+                if (prev.has(sectionId)) return prev; // Avoid unnecessary re-render
+                return new Set(prev).add(sectionId);
+              });
+            }
+          }
+        });
+      }, 300); // 300ms debounce
+    }, observerOptions);
+
+    // Observe all sections
+    const sections = document.querySelectorAll('[data-section]');
+    sections.forEach((section) => observer.observe(section));
+
+    return () => {
+      clearTimeout(timeoutId);
+      observer.disconnect();
+    };
+  }, [activeTab]); // Re-observe when tab changes
+
+  // Calculate progress
+  const totalSections = 5; // hero, 4 tabs
+  const progress = (viewedSections.size / totalSections) * 100;
   // TEMPORARY: Unlock all for review
-  const canAccessProblems = true; // practiceCompleted;
+  const allSectionsViewed = true; // viewedSections.size >= totalSections;
+  const canAccessProblems = true; // practiceCompleted && allSectionsViewed;
 
   // Handle tab change with loading state and focus management (NO scroll changes)
   const handleTabChange = (tabId: "problem" | "solution" | "method" | "path") => {
@@ -312,6 +418,132 @@ export default function Week1Landing() {
 
       {/* Geometric Grid Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#2C4F5E1a_1px,transparent_1px),linear-gradient(to_bottom,#2C4F5E1a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
+
+      {/* Progress Bar - Fixed Top */}
+      <div
+        className="fixed top-0 left-0 right-0 z-50 h-1 bg-primary-900/50 backdrop-blur-sm"
+        role="progressbar"
+        aria-label="Week 1 completion progress"
+        aria-valuenow={Math.round(progress)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      >
+        <motion.div
+          className="h-full bg-gradient-to-r from-accent-500 to-secondary-500"
+          initial={{ width: 0 }}
+          animate={{ width: `${progress}%` }}
+          transition={{ duration: 0.3 }}
+        />
+      </div>
+
+      {/* Mobile Progress Indicator - Shows on scroll */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{
+          opacity: showMobileProgress ? 1 : 0,
+          y: showMobileProgress ? 0 : -20
+        }}
+        transition={{ duration: 0.2 }}
+        className="fixed top-4 left-1/2 -translate-x-1/2 z-50 lg:hidden"
+      >
+        <div className="px-6 py-3 rounded-full bg-primary-900/90 backdrop-blur-xl border border-accent-500/30 shadow-xl">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-accent-400" />
+              <span className="text-sm font-semibold text-white">
+                {viewedSections.size}/{totalSections}
+              </span>
+            </div>
+            <div className="w-px h-4 bg-white/20" />
+            <span className="text-xs text-primary-200">
+              {allSectionsViewed ? 'Complete!' : 'Keep exploring'}
+            </span>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Checkpoint Indicator - Fixed Right (Desktop) */}
+      <nav
+        className="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col gap-4"
+        aria-label="Section completion progress"
+      >
+        {[
+          { id: "hero", label: "Intro", checked: viewedSections.has("hero") },
+          { id: "problem", label: "Problem", checked: viewedSections.has("problem") },
+          { id: "solution", label: "Solution", checked: viewedSections.has("solution") },
+          { id: "method", label: "Method", checked: viewedSections.has("method") },
+          { id: "path", label: "Path", checked: viewedSections.has("path") },
+          { id: "practice", label: "Practice", checked: practiceCompleted, isPractice: true },
+        ].map((checkpoint, index) => (
+          <div
+            key={checkpoint.id}
+            className="group flex items-center gap-3"
+            aria-label={`${checkpoint.label} section: ${checkpoint.checked ? 'completed' : checkpoint.isPractice ? 'locked - required' : 'not viewed'}`}
+          >
+            <div className="flex flex-col items-end gap-1">
+              <span
+                className={`text-xs font-medium transition-all duration-300 ${
+                  checkpoint.checked
+                    ? "text-accent-200 opacity-100"
+                    : "text-primary-400 opacity-0 group-hover:opacity-100"
+                }`}
+              >
+                {checkpoint.label}
+              </span>
+              {checkpoint.isPractice && !checkpoint.checked && (
+                <span className="text-xs text-red-300 opacity-0 group-hover:opacity-100">
+                  Required
+                </span>
+              )}
+            </div>
+            {checkpoint.checked ? (
+              <CheckCircle className="w-5 h-5 text-accent-400" aria-hidden="true" />
+            ) : checkpoint.isPractice ? (
+              <Lock className="w-5 h-5 text-red-400" aria-hidden="true" />
+            ) : (
+              <div className="w-3 h-3 rounded-full border-2 border-primary-500/50" aria-hidden="true" />
+            )}
+          </div>
+        ))}
+      </nav>
+
+      {/* Checkpoint Indicator - Bottom (Mobile/Tablet) */}
+      <nav
+        className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 lg:hidden"
+        aria-label="Section completion progress"
+      >
+        <div className="px-4 py-2 rounded-full bg-primary-900/90 backdrop-blur-xl border border-accent-500/30 shadow-xl">
+          <div className="flex items-center gap-3" role="list">
+            {[
+              { id: "hero", label: "Intro", checked: viewedSections.has("hero") },
+              { id: "problem", label: "Problem", checked: viewedSections.has("problem") },
+              { id: "solution", label: "Solution", checked: viewedSections.has("solution") },
+              { id: "method", label: "Method", checked: viewedSections.has("method") },
+              { id: "path", label: "Path", checked: viewedSections.has("path") },
+              { id: "practice", label: "Practice", checked: practiceCompleted, isPractice: true },
+            ].map((checkpoint, index) => (
+              <div
+                key={checkpoint.id}
+                className="relative group"
+                role="listitem"
+                aria-label={`${checkpoint.label}: ${checkpoint.checked ? 'completed' : checkpoint.isPractice ? 'locked' : 'not viewed'}`}
+              >
+                {checkpoint.checked ? (
+                  <CheckCircle className="w-4 h-4 text-accent-400" aria-hidden="true" />
+                ) : checkpoint.isPractice ? (
+                  <Lock className="w-4 h-4 text-red-400" aria-hidden="true" />
+                ) : (
+                  <div className="w-2 h-2 rounded-full border-2 border-primary-500/50" aria-hidden="true" />
+                )}
+                {/* Tooltip on touch/hover */}
+                <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-primary-900 border border-accent-500/30 rounded text-xs text-white whitespace-nowrap opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity pointer-events-none">
+                  {checkpoint.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </nav>
 
       <div className="relative z-10">
         {/* Breadcrumbs */}
@@ -418,6 +650,7 @@ export default function Week1Landing() {
                 <div className="flex flex-col gap-3">
                   {tabs.map((tab) => {
                     const Icon = tab.icon;
+                    const isViewed = viewedSections.has(tab.id);
                     return (
                       <button
                         key={tab.id}
@@ -450,6 +683,9 @@ export default function Week1Landing() {
                               >
                                 {tab.label}
                               </span>
+                              {isViewed && (
+                                <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                              )}
                             </div>
                             <div className="flex items-center gap-1 text-xs text-primary-400 mt-1">
                               <div className="w-1 h-1 rounded-full bg-primary-400" />
@@ -629,7 +865,8 @@ export default function Week1Landing() {
                     <Link href="/student/week/1/practice/instructions">
                       <ShimmerButton
                         className="w-full py-4 text-lg"
-                        shimmerColor="#9D4EDD"
+                        disabled={!allSectionsViewed}
+                        shimmerColor={allSectionsViewed ? "#9D4EDD" : "#1A303C"}
                       >
                         {practiceCompleted ? '↻ Review Demo' : 'Start Practice Demo →'}
                       </ShimmerButton>
