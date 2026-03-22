@@ -32,7 +32,7 @@ Use the CERC framework to structure your argument. Explicitly verify all theorem
     reasoning: "The Mean Value Theorem requires the function to be continuous on the closed interval [a, b] and differentiable on the open interval (a, b).",
     conditions: "Checking continuity: f(x) = 1/x² is discontinuous at x = 0 because lim(x→0) f(x) = ∞ (the function is not defined at x=0). Since 0 ∈ [-1,1], the continuity condition fails."
   },
-  sentenceFrame: "The Mean Value Theorem [applies / does not apply] to this function on [-1, 1] because... Check continuity on [a,b] by examining x = 0..."
+  sentenceFrame: null // Diagnostic assessment - no hints
 };
 
 export default function PracticeDemoPage() {

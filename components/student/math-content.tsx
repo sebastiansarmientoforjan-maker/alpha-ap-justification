@@ -47,7 +47,9 @@ export function MathContent({ content }: MathContentProps) {
 
         // Add inline math
         parts.push(
-          <InlineMath key={`inline-${key++}`} math={inlineMatch[1].trim()} />
+          <span key={`inline-${key++}`} className="inline-flex items-center mx-1 text-lg">
+            <InlineMath math={inlineMatch[1].trim()} />
+          </span>
         );
 
         segmentLastIndex = inlineMatch.index + inlineMatch[0].length;
