@@ -783,12 +783,12 @@ export default function Week1Landing() {
             </h2>
             <p className="text-base text-primary-300 text-center mb-8 max-w-xl mx-auto">
               {!practiceCompleted
-                ? "Complete the practice demo, then tackle error-forcing problems"
-                : "Practice complete! Now master the real challenges."}
+                ? "Complete the diagnostic assessment, then tackle error-forcing problems"
+                : "Diagnostic complete! Now master the real challenges."}
             </p>
 
             <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-              {/* Practice Demo - Next Chapter Card */}
+              {/* Diagnostic Assessment - Next Chapter Card */}
               <div className={`group relative ${!allSectionsViewed ? 'opacity-40' : ''}`}>
                 {/* Animated gradient border */}
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-secondary-500 to-secondary-600 rounded-2xl opacity-20 group-hover:opacity-40 blur-lg transition duration-500"></div>
@@ -828,7 +828,7 @@ export default function Week1Landing() {
 
                     {/* Title */}
                     <h3 className="text-2xl font-bold text-white mb-3">
-                      Practice Demo
+                      Diagnostic Assessment
                     </h3>
 
                     {/* Description */}
@@ -868,7 +868,7 @@ export default function Week1Landing() {
                         disabled={!allSectionsViewed}
                         shimmerColor={allSectionsViewed ? "#9D4EDD" : "#1A303C"}
                       >
-                        {practiceCompleted ? '↻ Review Demo' : 'Start Practice Demo →'}
+                        {practiceCompleted ? '↻ Review Diagnostic' : 'Start Diagnostic →'}
                       </ShimmerButton>
                     </Link>
                   </div>
@@ -889,7 +889,7 @@ export default function Week1Landing() {
                           <Lock className="w-8 h-8 text-red-400" />
                         </div>
                         <p className="text-base font-bold text-white mb-2">
-                          {!practiceCompleted ? 'Complete Practice Demo First' : 'Complete All 4 Tabs First'}
+                          {!practiceCompleted ? 'Complete Diagnostic First' : 'Complete All 4 Tabs First'}
                         </p>
                         <p className="text-sm text-primary-300">
                           {!practiceCompleted ? 'Mandatory training required' : 'Read all learning sections to unlock'}

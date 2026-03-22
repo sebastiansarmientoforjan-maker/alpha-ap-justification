@@ -1,6 +1,6 @@
 /**
- * Week 1 Practice Demo
- * Practice problem using the same format as training problems
+ * Week 1 Diagnostic Assessment
+ * Baseline assessment using the same format as training problems
  */
 "use client";
 
@@ -82,7 +82,7 @@ export default function PracticeDemoPage() {
               <Breadcrumbs
                 items={[
                   { label: "Week 1", href: "/student/week/1" },
-                  { label: "Practice Demo" },
+                  { label: "Diagnostic Assessment" },
                 ]}
               />
             </div>
@@ -91,7 +91,7 @@ export default function PracticeDemoPage() {
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary-500/10 border border-secondary-500/30">
                 <Target className="w-4 h-4 text-secondary-400" />
                 <span className="text-sm font-medium text-secondary-300">
-                  Practice Demo
+                  Diagnostic Assessment
                 </span>
               </div>
             </div>

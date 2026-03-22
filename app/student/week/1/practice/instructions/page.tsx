@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { ActivityInstructions } from "@/components/student/activity-instructions";
 
-export default function PracticeDemoInstructionsPage() {
+export default function DiagnosticInstructionsPage() {
   const router = useRouter();
 
   const handleComplete = () => {
@@ -17,7 +17,7 @@ export default function PracticeDemoInstructionsPage() {
         <Breadcrumbs
           items={[
             { label: "Week 1", href: "/student/week/1" },
-            { label: "Practice Demo", href: "/student/week/1/practice" },
+            { label: "Diagnostic Assessment", href: "/student/week/1/practice" },
             { label: "Instructions" },
           ]}
         />
@@ -25,8 +25,8 @@ export default function PracticeDemoInstructionsPage() {
         <div className="mt-8">
           <ActivityInstructions
             activityType="practice"
-            activityId="practice-demo"
-            activityTitle="Practice Demo"
+            activityId="diagnostic-assessment"
+            activityTitle="Diagnostic Assessment"
             onComplete={handleComplete}
           />
         </div>
