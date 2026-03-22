@@ -369,9 +369,9 @@ export default function APExamPage() {
                 </div>
               </div>
 
-              <Link href="/student">
+              <Link href="/">
                 <ShimmerButton>
-                  Return to Dashboard
+                  Return to Roadmap
                 </ShimmerButton>
               </Link>
             </div>

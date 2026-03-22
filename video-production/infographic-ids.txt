@@ -1,0 +1,13 @@
+IDs de infografías para descargar:
+7a17ccd6-2b77-4126-84df-30391c6eeff0 | Breaking the Randomness Illusion Guide
+f51e7ba6-acbe-47a0-87a1-a5e63783a0fd | Proving Series Convergence Rigorously
+9a895386-fe45-45d8-bda2-c4cae3cf1ddd | BC Boss Battle Polar Challenge
+1f53d65a-aafd-47d1-9602-91a585256603 | Stats Boss Battle Study Critique
+040e3e04-c87a-47d6-81dd-7f46d4244e50 | AB Boss Battle CERC Challenge
+4f81ed96-efd6-4cc1-b721-e77308c1444f | Statistics Communication and Study Design
+725214f6-1db8-4d24-a416-266d84647f8d | BC Synthesis Without Training Wheels
+91a42925-0270-4972-a754-ab9ba6b930f6 | Week 3 Multi-Concept Integration Infographic
+be46797b-52f4-4919-8d38-6c99a7e5aeeb | Statistics CERC Proof Guide
+b4766ef0-80c9-427e-99cf-ec918b9a3078 | Rigorous Calculus Theorem Proof Guide
+24d4f235-4b25-4218-9895-ee40abab766b | Calculus BC Theorem Trap Guide
+2458c26e-c044-4fd4-91cc-656f2405653c | Calculus Theorem Application Guide

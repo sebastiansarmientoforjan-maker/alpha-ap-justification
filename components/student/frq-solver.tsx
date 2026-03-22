@@ -85,7 +85,7 @@ export function FRQSolver({ assignment, submission, user }: FRQSolverProps) {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/student/frq/submit", {
+      const response = await fetch("/api/student/frqs/frq/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -103,7 +103,7 @@ export function FRQSolver({ assignment, submission, user }: FRQSolverProps) {
       }
 
       router.refresh();
-      router.push("/student");
+      router.push("/student/frqs");
     } catch (error) {
       console.error("Error submitting FRQ:", error);
       alert("Failed to submit FRQ. Please try again.");
@@ -135,13 +135,13 @@ export function FRQSolver({ assignment, submission, user }: FRQSolverProps) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-6">
               <Link
-                href="/student"
+                href="/student/frqs"
                 className="group flex items-center gap-2 text-primary-200 hover:text-accent-400 transition-all duration-300"
               >
                 <div className="p-2 rounded-lg bg-white/5 group-hover:bg-accent-500/10 transition-all duration-300">
                   <ChevronLeft className="w-4 h-4" />
                 </div>
-                <span className="text-sm font-medium">Back to Dashboard</span>
+                <span className="text-sm font-medium">Back to FRQs</span>
               </Link>
               <div className="h-8 w-px bg-white/20" />
               <div>
