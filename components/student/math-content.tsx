@@ -91,17 +91,24 @@ export function MathContent({ content }: MathContentProps) {
     });
   };
 
+  // Split content by newlines first to preserve paragraph structure
+  const paragraphs = content.split('\n').filter(p => p.trim());
+
   return (
-    <div className="space-y-3">
-      {parseContent(content).map((part, index) =>
-        typeof part === "string" ? (
-          <span key={`text-${index}`} className="text-primary-100 leading-relaxed">
-            {processMarkdown(part)}
-          </span>
-        ) : (
-          part
-        )
-      )}
+    <div className="space-y-4">
+      {paragraphs.map((paragraph, pIndex) => (
+        <div key={`para-${pIndex}`} className="text-primary-100 leading-relaxed">
+          {parseContent(paragraph).map((part, index) =>
+            typeof part === "string" ? (
+              <span key={`text-${index}`}>
+                {processMarkdown(part)}
+              </span>
+            ) : (
+              part
+            )
+          )}
+        </div>
+      ))}
     </div>
   );
 }
