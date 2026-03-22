@@ -33,6 +33,7 @@ export interface WeekProblem {
     level2: string; // Which CERC element is broken
     level3: string; // Explicit correction
   };
+  expectedMinutes: number; // Expected time for XP calculation
 }
 
 export const week1Problems: WeekProblem[] = [
@@ -75,6 +76,7 @@ Use the CERC framework to structure your argument. Explicitly verify all theorem
       level2: "Your conditions section needs attention. You need to verify continuity on [a,b] before applying MVT. What happens at x = 0?",
       level3: "The function f(x) = 1/x² is discontinuous at x = 0, which is inside the interval [-1, 1]. Since continuity on [a,b] is a required hypothesis for MVT, the theorem does not apply. Your claim should state that MVT cannot be used here.",
     },
+    expectedMinutes: 15, // Basic MVT with sentence frame
   },
   {
     id: "w1-ivt-001",
@@ -112,6 +114,7 @@ Use the CERC framework. Explicitly check whether the Intermediate Value Theorem 
       level2: "Your conditions section is incomplete. You need to verify that g is continuous on the entire interval [0, 2]. Check the limit from the left at x = 1.",
       level3: "The function has a jump discontinuity at x = 1 because lim(x→1⁻) g(x) = 1 but g(1) = 3. Since IVT requires continuity on [a,b], and g is not continuous on [0,2], the theorem does not apply. Note: A value c where g(c) = 2 does exist (any c in approximately (0, √2)), but IVT cannot be used to prove it.",
     },
+    expectedMinutes: 16, // IVT with piecewise function - slightly more complex
   },
   {
     id: "w1-mvt-002",
@@ -151,6 +154,7 @@ Apply the CERC framework and verify all conditions.`,
       level2: "Your conditions section is missing differentiability verification. Look at x = 0 specifically - what is h'(0)?",
       level3: "At x = 0, the function has a sharp corner. The derivative from the left is -1 and from the right is +1, so h'(0) does not exist. Since differentiability on (a,b) is required for MVT and h is not differentiable at x=0 ∈ (-2,2), the theorem does not apply.",
     },
+    expectedMinutes: 18, // MVT with subtle trap - must check BOTH conditions
   },
 
   // AP STATISTICS PROBLEMS
@@ -194,6 +198,7 @@ Apply the CERC framework and verify all conditions.`,
       level2: "Your conditions section needs to address independence. Check whether the pre-test scores and post-test scores come from independent samples or from the same students.",
       level3: "The same 20 students were measured twice (pre and post). This creates paired/dependent data, not independent samples. The two-sample t-test requires independence, so it cannot be used here. The correct procedure is a paired t-test, which accounts for the dependency in the data.",
     },
+    expectedMinutes: 17, // Stats inference - need to analyze study design carefully
   },
   {
     id: "w1-stats-002",
@@ -230,6 +235,7 @@ Apply the CERC framework and verify all conditions.`,
       level2: "Your conditions section should address normality. With n = 8 (small sample), can you use CLT? What does the problem say about the distribution shape?",
       level3: "The sample size n = 8 is too small to invoke CLT (which requires n ≥ 30). Since the data are skewed (not approximately normal), the normality condition for the t-test is violated. You should not proceed with the t-test. A non-parametric test (like the sign test) would be more appropriate here.",
     },
+    expectedMinutes: 16, // Stats normality check - straightforward condition verification
   },
   {
     id: "w1-stats-003",
@@ -266,6 +272,7 @@ Apply the CERC framework and verify all conditions.`,
       level2: "Your conditions section should address random sampling. Consider whether AP Statistics students are typical of all students at the school in terms of homework hours.",
       level3: "The sample was taken only from the AP Statistics class, which is a convenience sample, not a random sample. AP Statistics students are likely not representative of all students (they may spend more time on homework due to taking more rigorous courses). Without random sampling, the confidence interval cannot be used to make valid inferences about all students at the school.",
     },
+    expectedMinutes: 17, // Stats sampling bias - requires careful reading of context
   },
 ];
 

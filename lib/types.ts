@@ -16,6 +16,7 @@ export interface Problem {
   };
   sentenceFrame?: string | null;
   difficulty?: "basic" | "intermediate" | "advanced";
+  expectedMinutes: number; // Expected completion time for XP calculation
 }
 
 export interface CERCResponse {

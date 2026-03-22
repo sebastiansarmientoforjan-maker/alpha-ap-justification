@@ -62,6 +62,7 @@ export function CERCForm({
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSaved, setIsSaved] = useState(!!existingResponse);
+  const [startTime] = useState<number>(() => Date.now());
 
   const handleFieldChange = (field: keyof typeof formData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -71,6 +72,9 @@ export function CERCForm({
   const handleSubmit = async () => {
     setIsSubmitting(true);
 
+    // Calculate time spent in seconds
+    const timeSpentSeconds = Math.round((Date.now() - startTime) / 1000);
+
     try {
       const response = await fetch("/api/cerc/submit", {
         method: "POST",
@@ -79,6 +83,8 @@ export function CERCForm({
           studentId,
           weekNumber,
           problemId: problem.id,
+          expectedMinutes: problem.expectedMinutes,
+          timeSpentSeconds,
           ...formData,
         }),
       });

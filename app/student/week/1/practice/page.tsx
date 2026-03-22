@@ -35,7 +35,8 @@ $$f'(c) = \\frac{f(b) - f(a)}{b - a}$$`,
     reasoning: "The Mean Value Theorem requires the function to be continuous on the closed interval [a, b] and differentiable on the open interval (a, b).",
     conditions: "Checking continuity: f(x) = 1/x² is discontinuous at x = 0 because lim(x→0) f(x) = ∞ (the function is not defined at x=0). Since 0 ∈ [-1,1], the continuity condition fails."
   },
-  sentenceFrame: null // Diagnostic assessment - no hints
+  sentenceFrame: null, // Diagnostic assessment - no hints
+  expectedMinutes: 18 // Diagnostic baseline: read theorem, analyze, write full CERC
 };
 
 export default function PracticeDemoPage() {
