@@ -1,46 +1,33 @@
 /**
- * Week 4: Final Challenge
- * Focus: Multi-phase individual challenge with timed curveball
- * Structure: Individual → Team → Curveball (15 min timed)
+ * Week 4: AP Exam Simulation
+ * Focus: Individual timed FRQ under exam conditions
+ * Structure: Single long-form FRQ, 25-30 minutes, individual work only
  */
 
-export interface BossBattle {
+export interface APExamSimulation {
   id: string;
   title: string;
   course: "calculus-ab" | "calculus-bc" | "statistics";
-  difficulty: "epic";
-  phases: {
-    phase1: {
-      title: string;
-      description: string;
-      task: string;
-      timeEstimate: string;
-    };
-    phase2: {
-      title: string;
-      description: string;
-      task: string;
-      timeEstimate: string;
-    };
-    phase3: {
-      title: string;
-      description: string;
-      curveball: string;
-      task: string;
-      timeLimit: number; // minutes
-    };
-  };
+  difficulty: "exam-level";
+  timeLimit: number; // minutes
   problemStatement: string;
-  dataProvided: Record<string, any>;
-  correctResponse: {
-    phase1Solution: string;
-    phase2CERC: {
-      claim: string;
-      evidence: string;
-      reasoning: string;
-      conditions: string;
-    };
-    phase3AdaptedConclusion: string;
+  parts: {
+    partA: string;
+    partB: string;
+    partC: string;
+    partD?: string; // Optional fourth part
+  };
+  scoringRubric: {
+    partA: string[];
+    partB: string[];
+    partC: string[];
+    partD?: string[];
+  };
+  correctCERCResponse: {
+    claim: string;
+    evidence: string;
+    reasoning: string;
+    conditions: string;
   };
   theoremInfo: {
     name: string;
@@ -48,179 +35,234 @@ export interface BossBattle {
     hypotheses: string[];
   };
   hints: {
-    phase1: string[];
-    phase2: string[];
-    phase3: string[];
+    setup: string[];
+    calculation: string[];
+    justification: string[];
   };
 }
 
-export const bossBattles: BossBattle[] = [
-  // CALCULUS BOSS BATTLE
+export const apExamSimulations: APExamSimulation[] = [
+  // CALCULUS AB EXAM SIMULATION
   {
-    id: "boss-calculus-water-tank",
-    course: "calculus-bc",
-    difficulty: "epic",
-    title: "The Water Tank Crisis",
-    phases: {
-      phase1: {
-        title: "Phase 1: Untangle the Evidence",
-        description: "A cylindrical water tank is being filled and drained simultaneously. Your first task: decode the complex rate situation.",
-        task: "Analyze the given rate functions and determine at what time(s) the instantaneous rate of water height change is at its maximum. Show all calculus work.",
-        timeEstimate: "15 minutes (untimed)"
-      },
-      phase2: {
-        title: "Phase 2: Construct the Team Argument",
-        description: "Now collaborate as a team to build the complete CERC justification using the Mean Value Theorem.",
-        task: "Set up an integral for total volume change from t=0 to t=10. Then use MVT to prove there exists a time when instantaneous rate equals average rate. Construct a complete CERC argument.",
-        timeEstimate: "20 minutes (untimed)"
-      },
-      phase3: {
-        title: "Phase 3: The Curveball",
-        description: "ALERT: New information just arrived. The drain became clogged at t=7 minutes!",
-        curveball: "At t = 7 minutes, the drain becomes completely clogged and R_out drops to ZERO. All water now flows IN with no drainage.",
-        task: "Recalculate the average rate of height change from t=7 to t=10. Determine if the tank will overflow (given: initial height h(0)=2m, tank depth=8m, radius=3m). Adapt your conclusion under time pressure.",
-        timeLimit: 15
-      }
-    },
-    problemStatement: `A cylindrical water tank with radius 3 meters is being filled and drained simultaneously.
-
-**Water flows IN** at a rate of:
-$$R_{\\text{in}}(t) = 5 + 2\\sin\\left(\\frac{\\pi t}{6}\\right) \\text{ cubic meters per minute}$$
-
-**Water flows OUT** at a rate of:
-$$R_{\\text{out}}(t) = 3 + 0.5t \\text{ cubic meters per minute}$$
-
-where $0 \\le t \\le 10$ minutes.
+    id: "exam-ab-related-rates",
+    course: "calculus-ab",
+    difficulty: "exam-level",
+    title: "Related Rates with Optimization",
+    timeLimit: 25,
+    problemStatement: `A water tank has the shape of an inverted circular cone with base radius 2 meters and height 4 meters. Water is being pumped into the tank at a rate of 2 cubic meters per minute.
 
 **Given:**
-- Tank radius: $r = 3$ meters
-- Initial water height: $h(0) = 2$ meters
-- Maximum tank depth: $8$ meters
-- Volume of water: $V = \\pi r^2 h$ (cylinder)`,
-    dataProvided: {
-      radius: 3,
-      initialHeight: 2,
-      maxDepth: 8,
-      timeInterval: [0, 10]
+- Base radius: $r = 2$ meters
+- Height: $h = 4$ meters
+- Volume of cone: $V = \\frac{1}{3}\\pi r^2 h$
+- Water flows in at: $\\frac{dV}{dt} = 2$ cubic meters per minute`,
+    parts: {
+      partA: "Find the rate at which the water level is rising when the water is 2 meters deep. Show all work and include units.",
+      partB: "Use the Mean Value Theorem to prove that there exists a time when the instantaneous rate of height change equals the average rate over the first 5 minutes. Verify all conditions.",
+      partC: "At what depth is the water rising most slowly? Justify your answer using calculus and verify that your answer represents a minimum rate."
     },
-    correctResponse: {
-      phase1Solution: "The net rate is R_net(t) = R_in(t) - R_out(t) = (5 + 2sin(πt/6)) - (3 + 0.5t) = 2 + 2sin(πt/6) - 0.5t. [AP Rubric: 1 point - Setting up net rate] To find maximum, take derivative: R_net'(t) = 2(π/6)cos(πt/6) - 0.5 = (π/3)cos(πt/6) - 0.5. Set equal to zero: (π/3)cos(πt/6) = 0.5, so cos(πt/6) = 1.5/π ≈ 0.477. Then πt/6 = arccos(0.477) ≈ 1.068 rad, giving t ≈ 2.04 minutes. [AP Rubric: 1 point - Finding critical point] To convert to height rate: dh/dt = R_net(t)/(πr²) = R_net(t)/(9π). Maximum height rate occurs at t ≈ 2.04 min. [AP Rubric: 1 point - Answering in correct context with units]",
-      phase2CERC: {
-        claim: "By the Mean Value Theorem for Integrals, there exists a time c in (0,10) at which the instantaneous net flow rate equals the average net flow rate over the interval. [AP Rubric: 1 point - Correct conclusion invoking theorem]",
-        evidence: "Average rate = (1/10)∫₀¹⁰ R_net(t) dt. Compute: ∫₀¹⁰ [2 + 2sin(πt/6) - 0.5t] dt = [2t - 12(cos(πt/6))/(π) - 0.25t²]₀¹⁰ = 20 - 12cos(5π/3)/π - 25 - (-12/π) = -5 + 12(1-cos(5π/3))/π. Since cos(5π/3) = 0.5, this gives -5 + 12(0.5)/π ≈ -5 + 1.91 ≈ -3.09 m³. Average = -3.09/10 ≈ -0.309 m³/min. By MVT, ∃c such that R_net(c) = -0.309. [AP Rubric: 1 point - Correct integral setup and evaluation]",
-        reasoning: "The MVT for integrals states that if f is continuous on [a,b], then there exists c in (a,b) such that f(c) equals the average value of f over [a,b]. Since R_net(t) is continuous (sum/difference of continuous trig and polynomial functions), MVT applies. [AP Rubric: 1 point - Connecting theorem to problem]",
-        conditions: "Verifying MVT conditions: R_net(t) = 2 + 2sin(πt/6) - 0.5t is continuous on [0,10] because sine and polynomials are continuous everywhere. Therefore MVT for integrals applies, guaranteeing such a c exists. [AP Rubric: 1 point - Explicitly verifying hypothesis]"
-      },
-      phase3AdaptedConclusion: "With the clogged drain at t=7, only R_in flows for t∈[7,10]. Volume added = ∫₇¹⁰ (5+2sin(πt/6))dt ≈ 15.3 m³. [AP Rubric: 1 point - Adapting calculation to new constraint] Height increase = 15.3/(9π) ≈ 0.54 m. New height = 2 + (height change from 0 to 7) + 0.54. We need to calculate height at t=7 first. If h(7) was already near the limit, adding 0.54m could cause overflow. [AP Rubric: 1 point - Logical reasoning with changed conditions] CONCLUSION: We must check if h(7) + 0.54 > 8. If so, the tank WILL overflow. [AP Rubric: 1 point - Clear conclusion addressing the question]"
+    scoringRubric: {
+      partA: [
+        "Sets up relationship between V and h using similar triangles: r/h = 2/4 = 1/2",
+        "Expresses V in terms of h only: V = (1/3)π(h/2)²h = πh³/12",
+        "Differentiates implicitly: dV/dt = (πh²/4)(dh/dt)",
+        "Solves for dh/dt when h=2: 2 = (π·4/4)(dh/dt) → dh/dt = 2/π ≈ 0.637 m/min"
+      ],
+      partB: [
+        "States MVT: If f is continuous on [a,b] and differentiable on (a,b), then ∃c such that f'(c) = [f(b)-f(a)]/(b-a)",
+        "Verifies continuity: h(t) is continuous because volume accumulates continuously",
+        "Verifies differentiability: h(t) is differentiable because dh/dt exists for all depths",
+        "Calculates average rate over 5 minutes and concludes MVT applies"
+      ],
+      partC: [
+        "Sets up rate equation: dh/dt = 8/(πh²)",
+        "Takes derivative: d²h/dt² to analyze rate of change of rate",
+        "Identifies that dh/dt is minimized as h increases (inverse square relationship)",
+        "Concludes slowest rate occurs at maximum depth (h=4m) with justification"
+      ]
+    },
+    correctCERCResponse: {
+      claim: "By the Mean Value Theorem, there exists a time c in (0,5) minutes at which the instantaneous rate of water height change equals the average rate of height change over the interval [0,5]. Additionally, the water rises most slowly at the maximum depth of 4 meters.",
+      evidence: "Part A: When h=2m, dh/dt = 2/π ≈ 0.637 m/min. Part B: Average rate = [h(5)-h(0)]/5 where h(0)=0. Using V=2t and V=πh³/12, we get h(t)=(24t/π)^(1/3). At t=5, h≈2.88m, so average = 2.88/5 ≈ 0.576 m/min. Part C: Rate equation dh/dt = 8/(πh²) shows rate decreases as h increases.",
+      reasoning: "MVT requires continuity and differentiability of h(t). Since water accumulates continuously at constant rate, h(t) is both continuous and differentiable on any finite interval. Therefore MVT guarantees a time c where instantaneous rate equals average rate. For Part C, the rate dh/dt = 8/(πh²) is an inverse square function, meaning rate decreases as depth increases, making h=4m the point of slowest rise.",
+      conditions: "Continuity: h(t) is continuous because volume V(t)=2t is continuous, and h(t)=(24t/π)^(1/3) is a continuous function of t. Differentiability: h(t) is differentiable for all t>0 because dh/dt = 8/(πh²) exists whenever h>0. Since both conditions hold on [0,5], MVT applies."
     },
     theoremInfo: {
-      name: "Mean Value Theorem for Integrals",
-      statement: "If f is continuous on [a,b], then there exists c in (a,b) such that f(c) = (1/(b-a))∫[a to b] f(x)dx. The function attains its average value at some point in the interval.",
+      name: "Mean Value Theorem",
+      statement: "If f is continuous on [a,b] and differentiable on (a,b), then there exists at least one c in (a,b) such that f'(c) = [f(b)-f(a)]/(b-a).",
       hypotheses: [
-        "f must be continuous on [a,b]",
-        "The interval [a,b] must be finite"
+        "f must be continuous on the closed interval [a,b]",
+        "f must be differentiable on the open interval (a,b)"
       ]
     },
     hints: {
-      phase1: [
-        "The net rate is R_in(t) - R_out(t). Find its derivative and set to zero.",
-        "Don't forget to verify it's a maximum (check second derivative or endpoints).",
-        "Convert volume rate to height rate using dh/dt = (dV/dt)/(πr²)."
+      setup: [
+        "Use similar triangles to relate r and h: r/h = 1/2",
+        "Express volume V in terms of h only before differentiating",
+        "Remember: dV/dt is given as constant 2 m³/min"
       ],
-      phase2: [
-        "Set up the integral ∫₀¹⁰ [R_in(t) - R_out(t)] dt for total net volume change.",
-        "MVT for integrals says the continuous function attains its average value somewhere.",
-        "Your Conditions section must verify R_net is continuous on [0,10]."
+      calculation: [
+        "For Part A: Use implicit differentiation with respect to time",
+        "For Part B: Find h(t) by solving V=2t with V=πh³/12",
+        "For Part C: Analyze how dh/dt changes as h changes"
       ],
-      phase3: [
-        "From t=7 to t=10, only R_in flows (R_out = 0 due to clog).",
-        "Calculate ∫₇¹⁰ R_in(t) dt to find volume added in those 3 minutes.",
-        "Check if h(7) + Δh > 8 meters. If yes, overflow occurs."
+      justification: [
+        "Always verify MVT conditions explicitly",
+        "Include units in all rate calculations",
+        "Use calculus (derivatives) to justify 'slowest' claim in Part C"
       ]
     }
   },
 
-  // STATISTICS BOSS BATTLE
+  // CALCULUS BC EXAM SIMULATION
   {
-    id: "boss-statistics-drug-trial",
-    course: "statistics",
-    difficulty: "epic",
-    title: "The Pharmaceutical Trial Dilemma",
-    phases: {
-      phase1: {
-        title: "Phase 1: Untangle the Evidence",
-        description: "A pharmaceutical company tests a new drug. Your first task: identify the correct statistical procedure and verify conditions.",
-        task: "Examine the study design. Determine whether this is an experiment or observational study. Identify the appropriate inference procedure (one-sample? two-sample? paired?) and verify ALL conditions.",
-        timeEstimate: "15 minutes (untimed)"
-      },
-      phase2: {
-        title: "Phase 2: Construct the Team Argument",
-        description: "Collaborate to conduct the hypothesis test and interpret results.",
-        task: "State hypotheses, calculate test statistic, find p-value, and draw a conclusion in context. Can you conclude the drug is EFFECTIVE? Build a complete CERC argument addressing causation.",
-        timeEstimate: "20 minutes (untimed)"
-      },
-      phase3: {
-        title: "Phase 3: The Curveball",
-        description: "ALERT: Post-study analysis reveals a confounding variable!",
-        curveball: "A follow-up reveals that 15 patients in the drug group had prior treatment with a similar medication (were NOT treatment-naive). This was not disclosed initially.",
-        task: "Does this confounding issue invalidate your original conclusion? Explain the impact on causation. Adapt your conclusion to address this new information under time pressure.",
-        timeLimit: 15
-      }
-    },
-    problemStatement: `A pharmaceutical company tests a new drug designed to reduce chronic pain. They recruit 120 patients with chronic pain and randomly assign them:
-
-**Treatment Group (Drug):** 60 patients receive the new drug for 8 weeks
-**Control Group (Placebo):** 60 patients receive a placebo for 8 weeks
-
-**Results after 8 weeks:**
-- Drug group: 45 out of 60 reported significant pain reduction
-- Placebo group: 30 out of 60 reported significant pain reduction
+    id: "exam-bc-polar-parametric",
+    course: "calculus-bc",
+    difficulty: "exam-level",
+    title: "Polar Curves and Arc Length",
+    timeLimit: 30,
+    problemStatement: `Consider the polar curve $r = 2 + 2\\cos\\theta$ for $0 \\le \\theta \\le 2\\pi$ (a cardioid).
 
 **Given:**
-- Random assignment was used
-- All patients gave informed consent
-- Significance level: α = 0.05`,
-    dataProvided: {
-      drugSuccess: 45,
-      drugTotal: 60,
-      placeboSuccess: 30,
-      placeboTotal: 60,
-      alpha: 0.05
+- Polar curve: $r = 2 + 2\\cos\\theta$
+- Area in polar: $A = \\frac{1}{2}\\int_{\\alpha}^{\\beta} r^2 \\, d\\theta$
+- Arc length in polar: $L = \\int_{\\alpha}^{\\beta} \\sqrt{r^2 + \\left(\\frac{dr}{d\\theta}\\right)^2} \\, d\\theta$`,
+    parts: {
+      partA: "Find the total area enclosed by the cardioid. Show all work and verify the curve is traced exactly once on [0, 2π].",
+      partB: "Prove using the Mean Value Theorem that there exists an angle θ = c where the instantaneous radius r(c) equals the average radius over [0, 2π]. Verify all conditions.",
+      partC: "Set up (do not evaluate) the integral for the arc length of the cardioid. Verify that the integrand is continuous on [0, 2π].",
+      partD: "At what angle(s) θ is the curve farthest from the origin? Justify using calculus."
     },
-    correctResponse: {
-      phase1Solution: "This is an EXPERIMENT because random assignment was used. [AP Rubric: 1 point - Identifying study design] The appropriate procedure is a TWO-SAMPLE Z-TEST FOR PROPORTIONS (not paired, since different patients). [AP Rubric: 1 point - Naming correct procedure] Conditions: (1) Random assignment ✓ (stated). (2) Independence: samples are independent (different patients), and 120 patients < 10% of all chronic pain patients ✓. (3) Success-failure: Drug: np₁=45≥10✓, n(1-p₁)=15≥10✓. Placebo: np₂=30≥10✓, n(1-p₂)=30≥10✓. All conditions satisfied. [AP Rubric: 1 point - Verifying all conditions with calculations]",
-      phase2CERC: {
-        claim: "We reject the null hypothesis. There is convincing statistical evidence at α=0.05 that the new drug CAUSES a higher proportion of patients to experience pain reduction compared to placebo. [AP Rubric: 1 point - Correct conclusion with causal language justified by experiment]",
-        evidence: "H₀: p_drug = p_placebo (no difference). Hₐ: p_drug > p_placebo. Sample proportions: p̂₁ = 45/60 = 0.75, p̂₂ = 30/60 = 0.50. Pooled proportion: p̂ = (45+30)/(60+60) = 75/120 = 0.625. Test statistic: z = (0.75-0.50)/√(0.625·0.375/60 + 0.625·0.375/60) = 0.25/√(0.00781) = 0.25/0.0884 ≈ 2.83. P-value = P(Z > 2.83) ≈ 0.0023. Since 0.0023 < 0.05, reject H₀. [AP Rubric: 1 point - Correct test statistic and p-value]",
-        reasoning: "A two-sample z-test compares proportions from two independent groups. The p-value represents the probability of observing a difference as extreme as ours (or more) if the null hypothesis were true. Since p-value < α, the data provide strong evidence against H₀. Because RANDOM ASSIGNMENT was used (experiment), we can conclude causation. [AP Rubric: 1 point - Linking random assignment to causal conclusion]",
-        conditions: "Conditions verified in Phase 1: random assignment, independence, and success-failure all satisfied. Additionally, because this is an experiment (not observational), we can make causal claims about the drug's effectiveness. [AP Rubric: 1 point - Explaining why causation is justified]"
-      },
-      phase3AdaptedConclusion: "The confounding variable (prior treatment) DOES affect our conclusion about causation. [AP Rubric: 1 point - Recognizing impact of confounder] If 15/60 drug patients had prior similar treatment, they may have been predisposed to respond better regardless of the new drug. This introduces selection bias despite random assignment (the groups were not truly equivalent at baseline). [AP Rubric: 1 point - Explaining mechanism of confounding] ADAPTED CONCLUSION: While we still have evidence of a difference in proportions, we cannot confidently claim the drug CAUSED the improvement. The prior treatment is a confounding factor that may explain part or all of the observed effect. The study design is compromised. [AP Rubric: 1 point - Clear revised conclusion addressing validity]"
+    scoringRubric: {
+      partA: [
+        "Sets up integral: A = (1/2)∫₀^(2π) (2+2cosθ)² dθ",
+        "Expands: (2+2cosθ)² = 4 + 8cosθ + 4cos²θ",
+        "Uses identity: cos²θ = (1+cos2θ)/2",
+        "Evaluates correctly: A = 6π square units"
+      ],
+      partB: [
+        "States MVT for integrals or regular MVT",
+        "Verifies r(θ) = 2+2cosθ is continuous on [0,2π]",
+        "Calculates average: r_avg = (1/2π)∫₀^(2π) (2+2cosθ)dθ = 2",
+        "Concludes ∃c where r(c) = 2, which occurs at θ = π/2 and 3π/2"
+      ],
+      partC: [
+        "Finds dr/dθ = -2sinθ",
+        "Sets up: L = ∫₀^(2π) √[(2+2cosθ)² + (-2sinθ)²] dθ",
+        "Simplifies: √[4+8cosθ+4cos²θ+4sin²θ] = √[8+8cosθ] = 2√[2(1+cosθ)]",
+        "Verifies integrand is continuous except possibly where 1+cosθ=0 (at θ=π)"
+      ],
+      partD: [
+        "Takes derivative: dr/dθ = -2sinθ",
+        "Sets equal to zero: -2sinθ = 0 → θ = 0, π, 2π",
+        "Evaluates r at critical points: r(0)=4, r(π)=0, r(2π)=4",
+        "Concludes maximum distance is 4 at θ=0 and θ=2π"
+      ]
+    },
+    correctCERCResponse: {
+      claim: "The total area enclosed by the cardioid is 6π square units. By the Mean Value Theorem, there exists an angle c in (0,2π) where r(c) equals the average radius of 2. The curve is farthest from the origin at θ=0 and θ=2π, where r=4.",
+      evidence: "Part A: A = (1/2)∫₀^(2π) (4+8cosθ+4cos²θ)dθ = (1/2)[4θ+8sinθ+2θ+sin2θ]₀^(2π) = (1/2)(12π) = 6π. Part B: Average radius = (1/2π)∫₀^(2π)(2+2cosθ)dθ = (1/2π)[2θ+2sinθ]₀^(2π) = 2. Part D: Critical points at θ=0,π,2π give r=4,0,4 respectively.",
+      reasoning: "For Part A, the area formula for polar curves integrates (1/2)r² over one complete trace. For Part B, MVT for integrals states that a continuous function attains its average value at some point in the interval. For Part D, the maximum distance from origin occurs at critical points of r(θ), found by setting dr/dθ=0.",
+      conditions: "MVT conditions: r(θ)=2+2cosθ is continuous on [0,2π] because cosine is continuous everywhere. For arc length (Part C), the integrand √[r²+(dr/dθ)²] = 2√[2(1+cosθ)] is continuous on [0,2π] except at θ=π where 1+cosθ=0, creating a cusp (the integrand approaches 0, making the integral convergent but the curve non-smooth at that point)."
     },
     theoremInfo: {
-      name: "Two-Sample Z-Test for Proportions",
-      statement: "A two-sample z-test for proportions tests whether there is a significant difference between the proportions of success in two independent groups.",
+      name: "Mean Value Theorem (for functions and integrals)",
+      statement: "If f is continuous on [a,b] and differentiable on (a,b), then ∃c such that f'(c)=[f(b)-f(a)]/(b-a). Equivalently, for continuous f, ∃c where f(c) equals the average value of f over [a,b].",
       hypotheses: [
-        "Random sampling or random assignment",
-        "Independence: samples are independent, and each sample size < 10% of population",
-        "Success-failure: np ≥ 10 and n(1-p) ≥ 10 for BOTH groups"
+        "For regular MVT: continuity on [a,b] and differentiability on (a,b)",
+        "For MVT for integrals: continuity on [a,b] only"
       ]
     },
     hints: {
-      phase1: [
-        "Random assignment makes this an experiment, not observational.",
-        "Two independent groups (not paired) → two-sample procedure.",
-        "Check success-failure for BOTH drug and placebo groups separately."
+      setup: [
+        "Verify the curve completes one full loop by checking r(0) and r(2π)",
+        "Use trig identities: cos²θ = (1+cos2θ)/2",
+        "For arc length, simplify the radical before setting up the integral"
       ],
-      phase2: [
-        "Use pooled proportion for test statistic: p̂ = (x₁+x₂)/(n₁+n₂).",
-        "Because this is an experiment with random assignment, you CAN use 'causes' in conclusion.",
-        "Address the causation question explicitly in your reasoning."
+      calculation: [
+        "For Part A: Expand (2+2cosθ)² before integrating",
+        "For Part B: Average value = (1/length)∫ f(θ)dθ",
+        "For Part D: Check endpoints and critical points"
       ],
-      phase3: [
-        "Confounding occurs when a third variable influences both treatment and outcome.",
-        "Prior treatment creates an imbalance between groups DESPITE random assignment.",
-        "Your adapted conclusion should explain why causation is now uncertain."
+      justification: [
+        "Always verify MVT conditions with explicit statements",
+        "Address the cusp at θ=π in Part C",
+        "Use second derivative test or endpoint analysis for Part D"
+      ]
+    }
+  },
+
+  // STATISTICS EXAM SIMULATION
+  {
+    id: "exam-stats-study-design",
+    course: "statistics",
+    difficulty: "exam-level",
+    title: "Study Design Critique and Inference",
+    timeLimit: 25,
+    problemStatement: `A researcher investigates whether a new teaching method improves test scores. She selects 100 students and randomly assigns 50 to the new method (treatment) and 50 to traditional method (control).
+
+**Results:**
+- Treatment group: mean = 78, standard deviation = 12
+- Control group: mean = 72, standard deviation = 15
+- Both groups' scores appear approximately normal
+
+**Significance level:** α = 0.05`,
+    parts: {
+      partA: "Identify the appropriate inference procedure and verify ALL conditions for this test. Be explicit about each condition.",
+      partB: "Conduct the hypothesis test. State hypotheses, calculate the test statistic, determine the p-value, and state your conclusion in context. Can you conclude the new method CAUSES higher scores?",
+      partC: "The researcher later discovers that students in the treatment group had access to additional tutoring resources that the control group did not. How does this affect your conclusion from Part B? Explain the impact on causation."
+    },
+    scoringRubric: {
+      partA: [
+        "Identifies: Two-sample t-test for means",
+        "Condition 1: Random assignment (stated in problem) ✓",
+        "Condition 2: Independence - samples are independent, both n<10% of all students ✓",
+        "Condition 3: Normality - both groups appear approximately normal (stated) ✓"
+      ],
+      partB: [
+        "States hypotheses: H₀: μ_treatment = μ_control vs Hₐ: μ_treatment > μ_control",
+        "Calculates pooled standard error or uses separate variances",
+        "Finds test statistic: t ≈ 2.14 with appropriate df",
+        "Determines p-value ≈ 0.017 < 0.05",
+        "Conclusion: Reject H₀; evidence that new method causes higher scores (because random assignment)"
+      ],
+      partC: [
+        "Identifies confounding variable: additional tutoring",
+        "Explains impact: Treatment and control groups no longer equivalent",
+        "Revised conclusion: Cannot conclude causation - confounding present",
+        "Suggests improved design: Control access to tutoring in both groups"
+      ]
+    },
+    correctCERCResponse: {
+      claim: "Based on the original data with random assignment, there is convincing statistical evidence that the new teaching method causes higher test scores (p=0.017<0.05). However, the discovery of unequal tutoring access invalidates this causal conclusion.",
+      evidence: "Two-sample t-test: H₀: μ₁=μ₂ vs Hₐ: μ₁>μ₂. Using x̄₁=78, s₁=12, n₁=50 and x̄₂=72, s₂=15, n₂=50. Standard error = √(144/50 + 225/50) = √7.38 ≈ 2.72. Test statistic: t = (78-72)/2.72 ≈ 2.21. With df≈98, p-value ≈ 0.015. Since 0.015<0.05, we reject H₀.",
+      reasoning: "A two-sample t-test compares means from two independent groups. The p-value represents the probability of observing this difference (or more extreme) if the null hypothesis were true. Because random assignment was used, we can initially conclude causation. However, the confounding variable (tutoring access) compromises the study design. Random assignment alone does not guarantee equivalent groups if an uncontrolled variable differs between them.",
+      conditions: "Part A conditions: (1) Random assignment ✓ allows causal inference if properly controlled. (2) Independence ✓: samples are independent groups, each n<10% of population. (3) Normality ✓: stated that distributions appear approximately normal. Part C revision: The tutoring access confounder violates the assumption that random assignment created equivalent groups. This confounding variable may explain part or all of the observed difference, making causation uncertain."
+    },
+    theoremInfo: {
+      name: "Two-Sample t-Test for Means",
+      statement: "A two-sample t-test compares the means of two independent groups to determine if there is statistical evidence of a difference.",
+      hypotheses: [
+        "Random sampling or random assignment",
+        "Independence: both within groups and between groups, each n<10% of population",
+        "Normality: approximately normal distributions (or large samples n≥30)"
+      ]
+    },
+    hints: {
+      setup: [
+        "Random assignment makes this an experiment (not observational)",
+        "Identify which conditions allow causal conclusions",
+        "Note: equal vs unequal variances affects SE calculation"
+      ],
+      calculation: [
+        "Use formula: SE = √(s₁²/n₁ + s₂²/n₂)",
+        "Test statistic: t = (x̄₁-x̄₂)/SE",
+        "Use t-distribution with appropriate degrees of freedom"
+      ],
+      justification: [
+        "Part B: Link random assignment to causation explicitly",
+        "Part C: Explain mechanism of confounding",
+        "Part C: Propose how to improve the study design"
       ]
     }
   }
@@ -228,31 +270,36 @@ where $0 \\le t \\le 10$ minutes.
 
 export const week4Config = {
   weekNumber: 4,
-  title: "Final Challenge",
-  focus: "Multi-phase individual challenge with timed curveball - AP exam simulation",
-  scaffoldingLevel: "boss" as const,
-  description: `This is it. The final week. Everything you've learned converges into ONE epic individual challenge.
+  title: "AP Exam Simulation",
+  focus: "Individual timed FRQ under exam conditions - no scaffolding, real test pressure",
+  scaffoldingLevel: "none" as const,
+  description: `This is it. Week 4. The AP Exam Simulation.
 
-**Three Phases:**
+**What to Expect:**
 
-**Phase 1 - Individual: Untangle the Evidence**
-Work alone to decode the complex problem setup. This tests your ability to identify the right approach and verify conditions.
+You will face ONE long-form FRQ modeled after actual AP exam questions. This is individual work under timed conditions—just like the real AP exam in May.
 
-**Phase 2 - Team: Construct the Argument**
-Continue building your CERC justification. Apply your insights. Refine the approach. Demonstrate your mastery.
+**Time Limit:** 25-30 minutes (varies by course)
 
-**Phase 3 - Curveball: Adapt Under Pressure**
-Just when you think you've solved it, new information arrives. The problem changes. You have 15 MINUTES (timed) to adapt your conclusion.
+**No Scaffolding:** No sentence frames, no structural outlines, no hints until after time expires. Just you, the problem, and everything you've learned in Weeks 1-3.
 
-**This simulates the AP exam:** unexpected constraints, time pressure, and the need to think critically under stress.
+**Scoring:** Your response will be scored using the official AP rubric. Every point matters.
 
-The Final Challenge is the ultimate test. Beat it, and you're ready for the AP exam.`,
+**Skills Tested:**
+- Theorem verification (Week 1)
+- Rigorous condition checking (Week 2)
+- Multi-concept synthesis (Week 3)
+- Working under time pressure (Week 4)
+
+**This IS the exam.** The only difference is you'll see it 3 weeks early. Use this to identify gaps, practice time management, and build confidence.
+
+Beat this simulation, and you're ready for the real thing in May.`,
   objectives: [
-    "Synthesize ALL skills from Weeks 1-3 under challenging conditions",
-    "Collaborate effectively to construct complex arguments",
-    "Adapt mathematical reasoning when constraints change",
-    "Perform under timed pressure (Phase 3: 15 minutes)",
+    "Complete a full AP-style FRQ individually under timed conditions",
+    "Synthesize ALL justification skills from Weeks 1-3 without scaffolding",
+    "Demonstrate theorem verification, condition checking, and rigorous reasoning",
+    "Work effectively under exam time pressure (25-30 minutes)"
   ],
-  estimatedTime: "Phase 1: ~15 min | Phase 2: ~20 min | Phase 3: 15 min (TIMED)",
-  bossBattles: bossBattles,
+  estimatedTime: "25-30 minutes (TIMED - individual work only)",
+  apExamSimulations: apExamSimulations,
 };

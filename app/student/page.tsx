@@ -5,12 +5,17 @@ import { getAuthUser } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
-export default async function StudentDashboardPage() {
-  // TEMPORARY: Bypass auth for review - use default test student
-  // TODO: Re-enable auth checks before production deployment
+export default async function StudentDashboardPage({
+  searchParams,
+}: {
+  searchParams: { student?: string };
+}) {
+  // DEMO MODE: Allow switching between students for review
+  // In production, this will use real auth
   const authUser = await getAuthUser();
 
-  const currentUserId = authUser?.id || "ananya-001"; // Default to Ananya for review
+  // Priority: 1. URL param 2. Auth user 3. Default to Ananya
+  const currentUserId = searchParams.student || authUser?.id || "ananya-001";
 
   const dataService = await getDataService();
 

@@ -19,6 +19,7 @@ import {
   Zap,
   Lock,
 } from "lucide-react";
+import { CourseSwitcher } from "./course-switcher";
 
 interface StudentDashboardProps {
   user: User;
@@ -76,6 +77,12 @@ export function StudentDashboard({
             </div>
 
             <div className="flex items-center gap-3">
+              {/* Course Switcher */}
+              <CourseSwitcher
+                currentCourse={user.course || "calculus-bc"}
+                currentStudentName={user.name}
+              />
+
               {/* XP Display */}
               <div className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-accent-500/10 to-secondary-500/10 border border-accent-500/30 backdrop-blur-sm flex items-center gap-2">
                 <Zap className="w-4 h-4 text-accent-400" />
@@ -518,7 +525,7 @@ export function StudentDashboard({
                 </div>
               </div>
               <p className="text-primary-300">
-                Three-phase integrated challenge with timed curveball twist
+                Individual timed FRQ under real AP exam conditions (25-30 minutes)
               </p>
             </div>
 
@@ -548,28 +555,28 @@ export function StudentDashboard({
                       </div>
 
                       <p className="text-sm text-primary-300 mb-3">
-                        Three-phase integrated AP FRQ with timed curveball twist
+                        Individual timed FRQ with multi-part integration under exam conditions
                       </p>
 
                       <div className="flex items-center gap-6 text-xs text-primary-400">
                         <div className="flex items-center gap-2">
                           <Target className="w-4 h-4" />
-                          <span>3 Phases</span>
+                          <span>Multi-Part FRQ</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <Clock className="w-4 h-4" />
-                          <span>~50 min total</span>
+                          <span>25-30 min timed</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <Award className="w-4 h-4" />
-                          <span>Up to 195 XP</span>
+                          <span>Up to 235 XP</span>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2 text-red-400 group-hover:text-red-300 transition-colors">
-                    <span className="text-sm font-medium">Enter Final Challenge</span>
+                    <span className="text-sm font-medium">Start Exam</span>
                     <ChevronRight className="w-5 h-5" />
                   </div>
                 </div>

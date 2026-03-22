@@ -66,7 +66,7 @@ const mockUsers: User[] = [
     email: "emily.s@alphahigh.edu",
     name: "Emily Smith",
     role: "student",
-    course: "precalculus",
+    course: "statistics",
     createdAt: new Date("2025-01-15"),
   },
   {

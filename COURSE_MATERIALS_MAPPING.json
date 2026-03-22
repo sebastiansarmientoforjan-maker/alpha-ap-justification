@@ -1,0 +1,523 @@
+{
+  "lastUpdated": "2026-03-22T15:45:00Z",
+  "totalVideos": 19,
+  "totalInfographics": 12,
+  "courses": {
+    "calculus-ab": {
+      "courseName": "AP Calculus AB",
+      "weeks": {
+        "week1": {
+          "title": "Error-Forcing Problems",
+          "focus": "Breaking empirical illusions - MVT/IVT/EVT traps",
+          "infographics": [
+            {
+              "id": "2458c26e-c044-4fd4-91cc-656f2405653c",
+              "title": "Calculus Theorem Application Guide",
+              "filename": "mvt-ivt-evt-traps.png",
+              "path": "/course-materials/calculus-ab/week1/infographics/mvt-ivt-evt-traps.png",
+              "status": "completed",
+              "downloaded": true
+            }
+          ],
+          "videos": [
+            {
+              "id": "bd301f6b-7c86-46b3-8aa0-7cafea95b634",
+              "title": "Applying the MVT Correctly",
+              "filename": "mvt-verification.mp4",
+              "path": "/course-materials/calculus-ab/week1/videos/mvt-verification.mp4",
+              "status": "completed",
+              "downloaded": false,
+              "duration": "~12min",
+              "topics": ["MVT conditions", "Continuity verification", "Common traps"]
+            },
+            {
+              "id": "8be4cb58-0ee6-4457-ada6-f142e38aad96",
+              "title": "The Smart Student's Trap",
+              "filename": "error-forcing-intro.mp4",
+              "path": "/course-materials/calculus-ab/week1/videos/error-forcing-intro.mp4",
+              "status": "completed",
+              "downloaded": false,
+              "duration": "~12min",
+              "topics": ["Error-forcing methodology", "Empirical illusions"]
+            }
+          ]
+        },
+        "week2": {
+          "title": "Rigorous Verification",
+          "focus": "Complete IVT/MVT proofs with condition checks",
+          "infographics": [
+            {
+              "id": "b4766ef0-80c9-427e-99cf-ec918b9a3078",
+              "title": "Rigorous Calculus Theorem Proof Guide",
+              "filename": "rigorous-proof-guide.png",
+              "path": "/course-materials/calculus-ab/week2/infographics/rigorous-proof-guide.png",
+              "status": "completed",
+              "downloaded": true
+            }
+          ],
+          "videos": [
+            {
+              "id": "c8c9bf16-79f4-4954-bde2-73ba931c39c9",
+              "title": "Writing Complete IVT Proofs",
+              "filename": "complete-ivt-proofs.mp4",
+              "path": "/course-materials/calculus-ab/week2/videos/complete-ivt-proofs.mp4",
+              "status": "completed",
+              "downloaded": true,
+              "duration": "~12min",
+              "topics": ["IVT conditions", "Polynomial continuity", "Step-by-step proofs"]
+            }
+          ]
+        },
+        "week3": {
+          "title": "Synthesis Without Scaffolding",
+          "focus": "Multi-concept integration - related rates + MVT",
+          "infographics": [
+            {
+              "id": "91a42925-0270-4972-a754-ab9ba6b930f6",
+              "title": "Week 3 Multi-Concept Integration Infographic",
+              "filename": "multi-concept-integration.png",
+              "path": "/course-materials/calculus-ab/week3/infographics/multi-concept-integration.png",
+              "status": "completed",
+              "downloaded": true
+            }
+          ],
+          "videos": [
+            {
+              "id": "96ea4839-b6d1-4967-80c9-d5ffe6fee9ac",
+              "title": "The Week 3 Leap",
+              "filename": "multi-concept-synthesis.mp4",
+              "path": "/course-materials/calculus-ab/week3/videos/multi-concept-synthesis.mp4",
+              "status": "completed",
+              "downloaded": true,
+              "duration": "~12min",
+              "topics": ["Multi-concept problems", "Related rates", "MVT synthesis"]
+            }
+          ]
+        },
+        "week4": {
+          "title": "AP Exam Simulation",
+          "focus": "Individual timed FRQ (25 minutes)",
+          "infographics": [
+            {
+              "id": "040e3e04-c87a-47d6-81dd-7f46d4244e50",
+              "title": "AB Boss Battle CERC Challenge",
+              "filename": "exam-simulation-guide.png",
+              "path": "/course-materials/calculus-ab/week4/infographics/exam-simulation-guide.png",
+              "status": "completed",
+              "downloaded": true,
+              "note": "Keep filename as-is, content is correct for exam prep"
+            }
+          ],
+          "videos": [
+            {
+              "id": "82a9fcdd-49ae-404d-bd80-1b97694ab02e",
+              "title": "Mastering AP Justification",
+              "filename": "exam-simulation-strategies.mp4",
+              "path": "/course-materials/calculus-ab/week4/videos/exam-simulation-strategies.mp4",
+              "status": "pending",
+              "downloaded": false,
+              "duration": "~12min",
+              "topics": ["Time management", "Related rates FRQ", "MVT under pressure"]
+            }
+          ]
+        }
+      }
+    },
+    "calculus-bc": {
+      "courseName": "AP Calculus BC",
+      "weeks": {
+        "week1": {
+          "title": "Advanced Error-Forcing",
+          "focus": "Series convergence traps + parametric discontinuities",
+          "infographics": [
+            {
+              "id": "24d4f235-4b25-4218-9895-ee40abab766b",
+              "title": "Calculus BC Theorem Trap Guide",
+              "filename": "series-parametric-traps.png",
+              "path": "/course-materials/calculus-bc/week1/infographics/series-parametric-traps.png",
+              "status": "completed",
+              "downloaded": true
+            }
+          ],
+          "videos": [
+            {
+              "id": "f8cc8bfa-39af-41fd-b838-c41104d21553",
+              "title": "AST: The Hidden Trap",
+              "filename": "series-convergence-traps.mp4",
+              "path": "/course-materials/calculus-bc/week1/videos/series-convergence-traps.mp4",
+              "status": "completed",
+              "downloaded": false,
+              "duration": "~12min",
+              "topics": ["Series test selection", "Ratio test pitfalls", "Parametric conditions"]
+            },
+            {
+              "id": "fca2b838-3d50-43f5-a46b-f468e2cc68db",
+              "title": "The Justification Trap",
+              "filename": "bc-error-forcing-intro.mp4",
+              "path": "/course-materials/calculus-bc/week1/videos/bc-error-forcing-intro.mp4",
+              "status": "completed",
+              "downloaded": false,
+              "duration": "~12min",
+              "topics": ["BC-level error-forcing", "Advanced theorem traps"]
+            }
+          ]
+        },
+        "week2": {
+          "title": "Series Convergence Proofs",
+          "focus": "Rigorous series tests - comparison, integral, ratio",
+          "infographics": [
+            {
+              "id": "f51e7ba6-acbe-47a0-87a1-a5e63783a0fd",
+              "title": "Proving Series Convergence Rigorously",
+              "filename": "series-convergence-proofs.png",
+              "path": "/course-materials/calculus-bc/week2/infographics/series-convergence-proofs.png",
+              "status": "completed",
+              "downloaded": true
+            }
+          ],
+          "videos": [
+            {
+              "id": "39825b92-34b2-49ed-a726-af7eacf4204f",
+              "title": "The System for Perfect Proofs",
+              "filename": "series-convergence-system.mp4",
+              "path": "/course-materials/calculus-bc/week2/videos/series-convergence-system.mp4",
+              "status": "completed",
+              "downloaded": true,
+              "duration": "~12min",
+              "topics": ["Series test framework", "Comparison tests", "Integral test"]
+            },
+            {
+              "id": "4006dd3f-74b4-42e6-8efd-3f1be9cfc9c4",
+              "title": "The Architect's Blueprint",
+              "filename": "bc-rigorous-proofs.mp4",
+              "path": "/course-materials/calculus-bc/week2/videos/bc-rigorous-proofs.mp4",
+              "status": "completed",
+              "downloaded": false,
+              "duration": "~12min",
+              "topics": ["BC-level proof structure", "Advanced theorem verification"]
+            }
+          ]
+        },
+        "week3": {
+          "title": "BC Synthesis",
+          "focus": "Parametric arc length + polar area integration",
+          "infographics": [
+            {
+              "id": "725214f6-1db8-4d24-a416-266d84647f8d",
+              "title": "BC Synthesis Without Training Wheels",
+              "filename": "synthesis-without-scaffolding.png",
+              "path": "/course-materials/calculus-bc/week3/infographics/synthesis-without-scaffolding.png",
+              "status": "completed",
+              "downloaded": true
+            }
+          ],
+          "videos": [
+            {
+              "id": "3fca1c92-e473-4370-ae24-48de065de784",
+              "title": "BC Week 3: Arc Length",
+              "filename": "parametric-arc-length.mp4",
+              "path": "/course-materials/calculus-bc/week3/videos/parametric-arc-length.mp4",
+              "status": "completed",
+              "downloaded": true,
+              "duration": "~12min",
+              "topics": ["Parametric arc length", "Polar coordinates", "Integration synthesis"]
+            },
+            {
+              "id": "0de06b2b-c839-4c8c-9138-81cb210c9078",
+              "title": "The Architect's Gauntlet",
+              "filename": "bc-synthesis-challenge.mp4",
+              "path": "/course-materials/calculus-bc/week3/videos/bc-synthesis-challenge.mp4",
+              "status": "completed",
+              "downloaded": false,
+              "duration": "~12min",
+              "topics": ["Advanced synthesis", "Multi-step BC problems"]
+            }
+          ]
+        },
+        "week4": {
+          "title": "BC AP Exam Simulation",
+          "focus": "Individual timed FRQ (30 minutes) - polar curves",
+          "infographics": [
+            {
+              "id": "9a895386-fe45-45d8-bda2-c4cae3cf1ddd",
+              "title": "BC Boss Battle Polar Challenge",
+              "filename": "polar-curve-challenge.png",
+              "path": "/course-materials/calculus-bc/week4/infographics/polar-curve-challenge.png",
+              "status": "completed",
+              "downloaded": true,
+              "note": "Content is correct - polar curve exam prep"
+            }
+          ],
+          "videos": [
+            {
+              "id": "38ab676d-7085-4aa7-ac81-9401d8512364",
+              "title": "Conquering Advanced FRQs",
+              "filename": "bc-exam-simulation.mp4",
+              "path": "/course-materials/calculus-bc/week4/videos/bc-exam-simulation.mp4",
+              "status": "completed",
+              "downloaded": false,
+              "duration": "~12min",
+              "topics": ["Polar FRQ", "30-minute BC exam", "Advanced time management"]
+            }
+          ]
+        }
+      }
+    },
+    "statistics": {
+      "courseName": "AP Statistics",
+      "weeks": {
+        "week1": {
+          "title": "Inference Assumptions",
+          "focus": "Identifying non-random sampling + independence violations",
+          "infographics": [
+            {
+              "id": "7a17ccd6-2b77-4126-84df-30391c6eeff0",
+              "title": "Breaking the Randomness Illusion Guide",
+              "filename": "randomness-illusion-guide.png",
+              "path": "/course-materials/statistics/week1/infographics/randomness-illusion-guide.png",
+              "status": "completed",
+              "downloaded": true
+            }
+          ],
+          "videos": [
+            {
+              "id": "034b082e-6364-4735-b36c-678adc1870da",
+              "title": "Identifying Random Samples",
+              "filename": "identifying-random-samples.mp4",
+              "path": "/course-materials/statistics/week1/videos/identifying-random-samples.mp4",
+              "status": "completed",
+              "downloaded": true,
+              "duration": "~12min",
+              "topics": ["Random sampling", "Independence checks", "Sampling bias"]
+            }
+          ]
+        },
+        "week2": {
+          "title": "Condition Verification",
+          "focus": "4-condition checklist for inference tests",
+          "infographics": [
+            {
+              "id": "be46797b-52f4-4919-8d38-6c99a7e5aeeb",
+              "title": "Statistics CERC Proof Guide",
+              "filename": "inference-conditions-checklist.png",
+              "path": "/course-materials/statistics/week2/infographics/inference-conditions-checklist.png",
+              "status": "completed",
+              "downloaded": true
+            }
+          ],
+          "videos": [
+            {
+              "id": "f59afb46-49a1-4d23-9ce7-d111b4e4199d",
+              "title": "The Justification Engine",
+              "filename": "inference-conditions-system.mp4",
+              "path": "/course-materials/statistics/week2/videos/inference-conditions-system.mp4",
+              "status": "completed",
+              "downloaded": false,
+              "duration": "~12min",
+              "topics": ["4-condition framework", "CLT application", "10% rule"]
+            }
+          ]
+        },
+        "week3": {
+          "title": "Causation vs Correlation",
+          "focus": "Study design critique + confounding analysis",
+          "infographics": [
+            {
+              "id": "4f81ed96-efd6-4cc1-b721-e77308c1444f",
+              "title": "Statistics Communication and Study Design",
+              "filename": "causation-vs-correlation.png",
+              "path": "/course-materials/statistics/week3/infographics/causation-vs-correlation.png",
+              "status": "completed",
+              "downloaded": true
+            }
+          ],
+          "videos": [
+            {
+              "id": "cd9be360-96e6-49c9-9931-ef21938354f0",
+              "title": "Stats: Causation vs Corr.",
+              "filename": "causation-analysis.mp4",
+              "path": "/course-materials/statistics/week3/videos/causation-analysis.mp4",
+              "status": "completed",
+              "downloaded": false,
+              "duration": "~12min",
+              "topics": ["Observational vs experimental", "Confounders", "Causal language"]
+            },
+            {
+              "id": "185b1d13-6f3a-42f9-9f2b-9d90675a6974",
+              "title": "Causation vs. Correlation",
+              "filename": "study-design-critique.mp4",
+              "path": "/course-materials/statistics/week3/videos/study-design-critique.mp4",
+              "status": "completed",
+              "downloaded": false,
+              "duration": "~12min",
+              "topics": ["Study design flaws", "Improving designs"]
+            },
+            {
+              "id": "0c7042ee-91c8-45f1-ba15-7eca8c572dfd",
+              "title": "Study Design Critique",
+              "filename": "advanced-study-critique.mp4",
+              "path": "/course-materials/statistics/week3/videos/advanced-study-critique.mp4",
+              "status": "completed",
+              "downloaded": false,
+              "duration": "~12min",
+              "topics": ["Advanced critique methods", "Real study examples"]
+            }
+          ]
+        },
+        "week4": {
+          "title": "Stats AP Exam Simulation",
+          "focus": "Individual timed FRQ (25 minutes) - study critique + inference",
+          "infographics": [
+            {
+              "id": "1f53d65a-aafd-47d1-9602-91a585256603",
+              "title": "Stats Boss Battle Study Critique",
+              "filename": "study-critique-challenge.png",
+              "path": "/course-materials/statistics/week4/infographics/study-critique-challenge.png",
+              "status": "completed",
+              "downloaded": true,
+              "note": "Content is correct - study critique exam prep"
+            }
+          ],
+          "videos": [
+            {
+              "id": "96eddb13-ad6c-448f-a67f-20692b14b781",
+              "title": "AP Stats: Inference FRQ",
+              "filename": "stats-exam-simulation.mp4",
+              "path": "/course-materials/statistics/week4/videos/stats-exam-simulation.mp4",
+              "status": "pending",
+              "downloaded": false,
+              "duration": "~12min",
+              "topics": ["Inference FRQ", "Study design", "25-minute exam"]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "downloadQueue": {
+    "pending": [
+      {
+        "id": "8be4cb58-0ee6-4457-ada6-f142e38aad96",
+        "title": "The Smart Student's Trap",
+        "course": "calculus-ab",
+        "week": 1,
+        "priority": "high"
+      },
+      {
+        "id": "fca2b838-3d50-43f5-a46b-f468e2cc68db",
+        "title": "The Justification Trap",
+        "course": "calculus-bc",
+        "week": 1,
+        "priority": "high"
+      },
+      {
+        "id": "f8cc8bfa-39af-41fd-b838-c41104d21553",
+        "title": "AST: The Hidden Trap",
+        "course": "calculus-bc",
+        "week": 1,
+        "priority": "high"
+      },
+      {
+        "id": "bd301f6b-7c86-46b3-8aa0-7cafea95b634",
+        "title": "Applying the MVT Correctly",
+        "course": "calculus-ab",
+        "week": 1,
+        "priority": "high"
+      },
+      {
+        "id": "4006dd3f-74b4-42e6-8efd-3f1be9cfc9c4",
+        "title": "The Architect's Blueprint",
+        "course": "calculus-bc",
+        "week": 2,
+        "priority": "medium"
+      },
+      {
+        "id": "f59afb46-49a1-4d23-9ce7-d111b4e4199d",
+        "title": "The Justification Engine",
+        "course": "statistics",
+        "week": 2,
+        "priority": "medium"
+      },
+      {
+        "id": "0de06b2b-c839-4c8c-9138-81cb210c9078",
+        "title": "The Architect's Gauntlet",
+        "course": "calculus-bc",
+        "week": 3,
+        "priority": "medium"
+      },
+      {
+        "id": "cd9be360-96e6-49c9-9931-ef21938354f0",
+        "title": "Stats: Causation vs Corr.",
+        "course": "statistics",
+        "week": 3,
+        "priority": "medium"
+      },
+      {
+        "id": "185b1d13-6f3a-42f9-9f2b-9d90675a6974",
+        "title": "Causation vs. Correlation",
+        "course": "statistics",
+        "week": 3,
+        "priority": "medium"
+      },
+      {
+        "id": "0c7042ee-91c8-45f1-ba15-7eca8c572dfd",
+        "title": "Study Design Critique",
+        "course": "statistics",
+        "week": 3,
+        "priority": "medium"
+      },
+      {
+        "id": "38ab676d-7085-4aa7-ac81-9401d8512364",
+        "title": "Conquering Advanced FRQs",
+        "course": "calculus-bc",
+        "week": 4,
+        "priority": "high"
+      }
+    ],
+    "inProgress": [
+      {
+        "id": "82a9fcdd-49ae-404d-bd80-1b97694ab02e",
+        "title": "Mastering AP Justification",
+        "course": "calculus-ab",
+        "week": 4,
+        "estimatedCompletion": "30-45 minutes"
+      },
+      {
+        "id": "96eddb13-ad6c-448f-a67f-20692b14b781",
+        "title": "AP Stats: Inference FRQ",
+        "course": "statistics",
+        "week": 4,
+        "estimatedCompletion": "30-45 minutes"
+      }
+    ]
+  },
+  "summary": {
+    "totalMaterials": 31,
+    "byType": {
+      "videos": 19,
+      "infographics": 12
+    },
+    "byStatus": {
+      "completed": 17,
+      "inProgress": 2,
+      "downloaded": 5
+    },
+    "byCourse": {
+      "calculusAB": {
+        "videos": 4,
+        "infographics": 4,
+        "total": 8
+      },
+      "calculusBC": {
+        "videos": 6,
+        "infographics": 4,
+        "total": 10
+      },
+      "statistics": {
+        "videos": 6,
+        "infographics": 4,
+        "total": 10
+      }
+    }
+  }
+}

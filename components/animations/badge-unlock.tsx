@@ -28,10 +28,10 @@ const BADGE_DATA: Record<string, { name: string; icon: string; description: stri
     description: "Perfect CERC proof on first attempt",
     color: "from-purple-500 to-pink-500",
   },
-  "boss-slayer": {
-    name: "Boss Slayer",
-    icon: "⚔️",
-    description: "Conquered the Week 4 Boss Battle",
+  "exam-ready": {
+    name: "Exam Ready",
+    icon: "🎓",
+    description: "Completed Week 4 AP Exam Simulation",
     color: "from-red-500 to-orange-500",
   },
   "condition-master": {

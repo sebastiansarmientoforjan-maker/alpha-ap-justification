@@ -49,7 +49,7 @@ Build with an abstracted data service layer from day 1. All data operations go t
 | 1 | Error-forcing problems — breaking empirical illusions | Full CERC sentence frames |
 | 2 | Condition verification — IVT/MVT/EVT (Calc), inference conditions (Stats) | Structural outline only |
 | 3 | Global argumentation + communication precision | Blank canvas |
-| 4 | Boss Battle — integrated AP FRQ synthesis | Timed (AP conditions) |
+| 4 | AP Exam Simulation — individual timed FRQ (25-30 min) | None (exam conditions) |
 
 ## CERC Framework
 Every student response uses 4 structured fields:
@@ -91,13 +91,14 @@ OUTPUT FORMAT:
 - NO leaderboards
 - NO countdown timers until Week 4
 
-## Boss Battle — Week 4
-Multi-phase collaborative structure for the full cohort:
-- Phase 1 — individual: untangle the algebraic evidence
-- Phase 2 — team: construct CERC argument collaboratively
-- Phase 3 — curveball: unexpected constraint introduced mid-battle (e.g. function no longer differentiable at x=0)
-- Untimed until final FRQ simulation
-- Full cohort works as one team against the problem
+## AP Exam Simulation — Week 4
+Individual timed FRQ under real exam conditions:
+- Single long-form FRQ (3-4 parts) modeled after actual AP exam questions
+- 25-30 minutes timed (varies by course: AB=25min, BC=30min, Stats=25min)
+- No scaffolding: blank canvas like the real AP exam
+- Individual work only (no collaboration)
+- Scored using official AP rubric
+- Simulates May exam pressure and time constraints
 
 ## WOW Components — Install and Use These
 
@@ -191,7 +192,7 @@ TIMEBACK_CLIENT_SECRET=
 7. XP + badge system with GSAP animations
 8. Admin dashboard: reasoning stage tracker + manual quiz trigger + MathGrader paste input
 9. Exit ticket system
-10. Boss Battle mode: Week 4 multi-phase collaborative challenge + Meteors + Text Reveal
+10. AP Exam Simulation mode: Week 4 individual timed FRQ + timer component + exam-style UI
 11. TimeBack adapter stubs: OneRoster + QTI shapes, ENV switch
 12. Deploy: Vercel
 

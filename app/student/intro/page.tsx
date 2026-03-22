@@ -71,7 +71,7 @@ export default function CourseIntroPage() {
             </div>
             <h3 className="text-white font-semibold mb-2">Week 4</h3>
             <p className="text-white/60 text-sm">
-              Boss Battle mode. Collaborative AP FRQ synthesis under timed conditions.
+              AP Exam Simulation. Individual timed FRQ under real exam conditions.
             </p>
           </div>
         </div>
@@ -154,7 +154,7 @@ export default function CourseIntroPage() {
               <ul className="space-y-2 text-white/70 text-sm">
                 <li>🔍 The Skeptic - Survive error-forcing problem</li>
                 <li>🏛️ The Architect - Flawless CERC proof</li>
-                <li>⚔️ Boss Slayer - Complete Week 4 Boss Battle</li>
+                <li>🎓 Exam Ready - Complete Week 4 AP Exam Simulation</li>
               </ul>
             </div>
           </div>

@@ -18,7 +18,7 @@ interface Instruction {
 }
 
 interface ActivityInstructionsProps {
-  activityType: "practice" | "problem" | "boss-battle";
+  activityType: "practice" | "problem" | "exam";
   activityId: string;
   activityTitle: string;
   onComplete: () => void;
