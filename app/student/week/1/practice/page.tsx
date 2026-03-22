@@ -12,12 +12,14 @@ import { ProblemDisplay } from "@/components/student/problem-display";
 import { CERCForm } from "@/components/student/cerc-form";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { useRouter } from "next/navigation";
+import { useCourse } from "@/app/providers/course-provider";
 
-// Practice problem - Same format as training problems
-const practiceProblem: Problem = {
-  id: "practice-mvt-discontinuous",
-  weekNumber: 1,
-  statement: `Consider the function $f(x) = \\frac{1}{x^{2}}$ on the interval $[-1, 1]$.
+// Diagnostic problems - Course-specific
+const diagnosticProblems: Record<string, Problem> = {
+  "calculus-ab": {
+    id: "diagnostic-mvt-discontinuous",
+    weekNumber: 1,
+    statement: `Consider the function $f(x) = \\frac{1}{x^{2}}$ on the interval $[-1, 1]$.
 
 **Task:** Apply the Mean Value Theorem to determine whether there exists a value $c$ in the interval $(-1, 1)$ that satisfies the conclusion of the theorem.
 
@@ -27,21 +29,78 @@ Use the CERC framework to structure your argument. Explicitly verify all theorem
 If $f$ is continuous on $[a, b]$ and differentiable on $(a, b)$, then there exists at least one point $c$ in $(a, b)$ such that:
 
 $$f'(c) = \\frac{f(b) - f(a)}{b - a}$$`,
-  errorCategory: "CONDITION_BYPASS",
-  trapDescription: "The function is discontinuous at x=0, so MVT does not apply.",
-  cercSkeleton: {
-    claim: "The Mean Value Theorem cannot be applied to f(x) = 1/x² on [-1, 1].",
-    evidence: "f(x) is undefined at x = 0, creating a discontinuity in the interval [-1, 1]. Evaluating: f(1) = 1, f(-1) = 1, so (f(1) - f(-1))/2 = 0.",
-    reasoning: "The Mean Value Theorem requires the function to be continuous on the closed interval [a, b] and differentiable on the open interval (a, b).",
-    conditions: "Checking continuity: f(x) = 1/x² is discontinuous at x = 0 because lim(x→0) f(x) = ∞ (the function is not defined at x=0). Since 0 ∈ [-1,1], the continuity condition fails."
+    errorCategory: "CONDITION_BYPASS",
+    trapDescription: "The function is discontinuous at x=0, so MVT does not apply.",
+    cercSkeleton: {
+      claim: "The Mean Value Theorem cannot be applied to f(x) = 1/x² on [-1, 1].",
+      evidence: "f(x) is undefined at x = 0, creating a discontinuity in the interval [-1, 1]. Evaluating: f(1) = 1, f(-1) = 1, so (f(1) - f(-1))/2 = 0.",
+      reasoning: "The Mean Value Theorem requires the function to be continuous on the closed interval [a, b] and differentiable on the open interval (a, b).",
+      conditions: "Checking continuity: f(x) = 1/x² is discontinuous at x = 0 because lim(x→0) f(x) = ∞ (the function is not defined at x=0). Since 0 ∈ [-1,1], the continuity condition fails."
+    },
+    sentenceFrame: null,
+    expectedMinutes: 18
   },
-  sentenceFrame: null, // Diagnostic assessment - no hints
-  expectedMinutes: 18 // Diagnostic baseline: read theorem, analyze, write full CERC
+  "calculus-bc": {
+    id: "diagnostic-mvt-discontinuous",
+    weekNumber: 1,
+    statement: `Consider the function $f(x) = \\frac{1}{x^{2}}$ on the interval $[-1, 1]$.
+
+**Task:** Apply the Mean Value Theorem to determine whether there exists a value $c$ in the interval $(-1, 1)$ that satisfies the conclusion of the theorem.
+
+Use the CERC framework to structure your argument. Explicitly verify all theorem conditions before drawing your conclusion.
+
+**Reference - Mean Value Theorem:**
+If $f$ is continuous on $[a, b]$ and differentiable on $(a, b)$, then there exists at least one point $c$ in $(a, b)$ such that:
+
+$$f'(c) = \\frac{f(b) - f(a)}{b - a}$$`,
+    errorCategory: "CONDITION_BYPASS",
+    trapDescription: "The function is discontinuous at x=0, so MVT does not apply.",
+    cercSkeleton: {
+      claim: "The Mean Value Theorem cannot be applied to f(x) = 1/x² on [-1, 1].",
+      evidence: "f(x) is undefined at x = 0, creating a discontinuity in the interval [-1, 1]. Evaluating: f(1) = 1, f(-1) = 1, so (f(1) - f(-1))/2 = 0.",
+      reasoning: "The Mean Value Theorem requires the function to be continuous on the closed interval [a, b] and differentiable on the open interval (a, b).",
+      conditions: "Checking continuity: f(x) = 1/x² is discontinuous at x = 0 because lim(x→0) f(x) = ∞ (the function is not defined at x=0). Since 0 ∈ [-1,1], the continuity condition fails."
+    },
+    sentenceFrame: null,
+    expectedMinutes: 18
+  },
+  "statistics": {
+    id: "diagnostic-stats-independence",
+    weekNumber: 1,
+    statement: `A school counselor wants to evaluate the effectiveness of a new study skills workshop. She selects 15 students and measures their GPA before the workshop and again after the workshop.
+
+**Data:**
+- Mean GPA before workshop: 3.2
+- Mean GPA after workshop: 3.6
+- Sample size: 15 students (same students measured twice)
+
+**Task:** The counselor proposes using a two-sample t-test to determine if the workshop significantly improved student GPAs. Use the CERC framework to evaluate whether this statistical procedure is appropriate.
+
+**Reference - Two-Sample t-Test:**
+A two-sample t-test is used to compare the means of two independent groups. The test assumes:
+1. The two samples are independent (observations in one group are not related to observations in the other)
+2. Both populations are approximately normal or sample sizes are large (n ≥ 30)
+3. The samples are random samples from their respective populations`,
+    errorCategory: "CONDITION_BYPASS",
+    trapDescription: "The two samples are NOT independent - same students measured twice. Should use paired t-test.",
+    cercSkeleton: {
+      claim: "A two-sample t-test is not appropriate for these data.",
+      evidence: "The same 15 students were measured twice (before and after the workshop). The data consist of paired observations, not two independent samples.",
+      reasoning: "The two-sample t-test requires that the two samples be independent. Since these are measurements from the same students before and after an intervention, the samples are dependent, not independent.",
+      conditions: "Checking independence: The before-workshop group and after-workshop group consist of the same 15 students. A student's GPA before the workshop is likely related to their GPA after the workshop. This violates the independence condition. The correct procedure would be a paired t-test."
+    },
+    sentenceFrame: null,
+    expectedMinutes: 18
+  }
 };
 
 export default function PracticeDemoPage() {
   const router = useRouter();
+  const { course } = useCourse();
   const [isCompleted, setIsCompleted] = useState(false);
+
+  // Select diagnostic problem based on student's course
+  const practiceProblem = diagnosticProblems[course] || diagnosticProblems["calculus-ab"];
 
   // Mock student data
   const studentId = "practice-student";
