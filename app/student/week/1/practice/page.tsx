@@ -19,11 +19,14 @@ const practiceProblem: Problem = {
   weekNumber: 1,
   statement: `Consider the function $f(x) = \\frac{1}{x^{2}}$ on the interval $[-1, 1]$.
 
-**Task:** Apply the Mean Value Theorem to find a value $c$ in $(-1, 1)$ such that
+**Task:** Apply the Mean Value Theorem to determine whether there exists a value $c$ in the interval $(-1, 1)$ that satisfies the conclusion of the theorem.
 
-$$f'(c) = \\frac{f(1) - f(-1)}{1 - (-1)}$$
+Use the CERC framework to structure your argument. Explicitly verify all theorem conditions before drawing your conclusion.
 
-Use the CERC framework to structure your argument. Explicitly verify all theorem conditions before drawing your conclusion.`,
+**Reference - Mean Value Theorem:**
+If $f$ is continuous on $[a, b]$ and differentiable on $(a, b)$, then there exists at least one point $c$ in $(a, b)$ such that:
+
+$$f'(c) = \\frac{f(b) - f(a)}{b - a}$$`,
   errorCategory: "CONDITION_BYPASS",
   trapDescription: "The function is discontinuous at x=0, so MVT does not apply.",
   cercSkeleton: {
