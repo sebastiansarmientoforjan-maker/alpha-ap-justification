@@ -69,7 +69,7 @@ export function ProblemDisplay({
           <div className="mt-6 p-4 rounded-xl bg-accent-500/5 border border-accent-500/20">
             <div className="flex items-start gap-3">
               <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent-500/20 flex items-center justify-center">
-                <span className="text-accent-400 text-sm font-bold">💡</span>
+                <Lightbulb className="w-4 h-4 text-accent-400" />
               </div>
               <div className="flex-1">
                 <div className="text-xs uppercase tracking-wider text-accent-400 font-medium mb-2">

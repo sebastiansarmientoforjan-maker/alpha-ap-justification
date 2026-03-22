@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Problem, CERCResponse } from "@/lib/types";
-import { CheckCircle2, Save, Sparkles } from "lucide-react";
+import { CheckCircle2, Save, Sparkles, Target, Database, Brain, ShieldCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface CERCFormProps {
@@ -20,28 +20,28 @@ const CERC_FIELDS = [
     label: "Claim",
     description: "What is your conclusion?",
     placeholder: "State your conclusion clearly and precisely...",
-    icon: "🎯",
+    icon: Target,
   },
   {
     key: "evidence" as const,
     label: "Evidence",
     description: "What mathematical data supports your claim?",
     placeholder: "Provide computations, observations, or data that support your claim...",
-    icon: "📊",
+    icon: Database,
   },
   {
     key: "reasoning" as const,
     label: "Reasoning",
     description: "Which theorem or principle connects evidence to claim?",
     placeholder: "Name the theorem and explain how it applies...",
-    icon: "🧠",
+    icon: Brain,
   },
   {
     key: "conditions" as const,
     label: "Conditions",
     description: "Have you verified ALL theorem hypotheses?",
     placeholder: "Explicitly verify each condition required by the theorem...",
-    icon: "✓",
+    icon: ShieldCheck,
   },
 ];
 
@@ -126,26 +126,29 @@ export function CERCForm({
 
       {/* Form Fields */}
       <div className="flex-1 overflow-y-auto p-6 space-y-6">
-        {CERC_FIELDS.map((field) => (
-          <div key={field.key} className="space-y-2">
-            <div className="flex items-center gap-2">
-              <span className="text-lg">{field.icon}</span>
-              <div className="flex-1">
-                <label className="block text-sm font-semibold text-white">
-                  {field.label}
-                </label>
-                <p className="text-xs text-primary-400">{field.description}</p>
+        {CERC_FIELDS.map((field) => {
+          const Icon = field.icon;
+          return (
+            <div key={field.key} className="space-y-2">
+              <div className="flex items-center gap-2">
+                <Icon className="w-5 h-5 text-accent-400 flex-shrink-0" />
+                <div className="flex-1">
+                  <label className="block text-sm font-semibold text-white">
+                    {field.label}
+                  </label>
+                  <p className="text-xs text-primary-400">{field.description}</p>
+                </div>
               </div>
+              <textarea
+                value={formData[field.key]}
+                onChange={(e) => handleFieldChange(field.key, e.target.value)}
+                placeholder={field.placeholder}
+                rows={4}
+                className="w-full px-4 py-3 rounded-xl bg-primary-800/40 border border-white/10 text-white placeholder-primary-400 focus:outline-none focus:ring-2 focus:ring-accent-500/50 focus:border-accent-500/50 transition-all resize-none text-sm"
+              />
             </div>
-            <textarea
-              value={formData[field.key]}
-              onChange={(e) => handleFieldChange(field.key, e.target.value)}
-              placeholder={field.placeholder}
-              rows={4}
-              className="w-full px-4 py-3 rounded-xl bg-primary-800/40 border border-white/10 text-white placeholder-primary-400 focus:outline-none focus:ring-2 focus:ring-accent-500/50 focus:border-accent-500/50 transition-all resize-none text-sm"
-            />
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Footer Actions */}
