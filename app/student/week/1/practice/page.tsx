@@ -164,13 +164,15 @@ export default function PracticeDemoPage() {
         {/* Info Banner */}
         <div className="mb-6 p-4 bg-blue-500/10 border border-blue-500/30 rounded-xl">
           <div className="flex items-start gap-3">
-            <BookOpen className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+            <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
+              <Target className="w-5 h-5 text-blue-400" />
+            </div>
             <div>
               <div className="text-sm font-medium text-blue-300 mb-1">
                 Diagnostic Assessment
               </div>
               <div className="text-xs text-primary-300 leading-relaxed">
-                This practice problem prepares you for the 6 training problems. Your response will be reviewed by your instructor to assess your baseline reasoning skills. Use the same split-screen format: read the problem on the left, fill in your CERC response on the right, then submit.
+                This baseline assessment evaluates your reasoning skills. Your response will be reviewed by your instructor. Complete all four CERC components: read the problem on the left, structure your mathematical argument on the right.
               </div>
             </div>
           </div>
