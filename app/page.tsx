@@ -1,8 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Spotlight } from "@/components/ui/spotlight";
 import { Meteors } from "@/components/ui/meteors";
 import { ProgramRoadmap } from "@/components/ui/program-roadmap";
-import { Target, Lightbulb, MessageSquare, Trophy } from "lucide-react";
+import { Target, Lightbulb, MessageSquare, Trophy, Sparkles, Clock, Award, ChevronRight } from "lucide-react";
 import { getDataService } from "@/services/data";
 
 export default async function Home() {
@@ -134,6 +135,94 @@ export default async function Home() {
             {/* Decorative Elements */}
             <div className="absolute -top-24 -right-24 w-48 h-48 bg-accent-500/20 rounded-full blur-3xl" />
             <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-secondary-500/20 rounded-full blur-3xl" />
+          </div>
+
+          {/* Course Introduction Video */}
+          <div className="mt-20 max-w-5xl mx-auto animate-fade-in-up [animation-delay:0.55s]">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/50 rounded-full">
+                <Sparkles className="w-5 h-5 text-cyan-300" />
+                <span className="text-sm font-bold text-cyan-200 uppercase tracking-wider">Start Here</span>
+              </div>
+              <div className="flex-1 h-px bg-gradient-to-r from-cyan-500/30 to-transparent" />
+            </div>
+            <p className="text-sm text-primary-400 mb-6 ml-1">
+              Complete this introduction before beginning the 4-week training program
+            </p>
+
+            <div className="relative rounded-3xl border-2 border-cyan-500/40 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 backdrop-blur-2xl shadow-glass overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-blue-500/5 pointer-events-none" />
+
+              <div className="relative p-8">
+                <div className="mb-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center">
+                      <Sparkles className="w-6 h-6 text-cyan-400" />
+                    </div>
+                    <h2 className="text-2xl font-bold text-white">Course Introduction</h2>
+                  </div>
+                  <p className="text-primary-300">
+                    Watch this 5-minute overview to understand the CERC Framework before starting Week 1
+                  </p>
+                </div>
+
+                <Link href="/student/intro">
+                  <div className="group relative rounded-2xl border border-cyan-500/30 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 backdrop-blur-sm p-6 hover:border-cyan-400/50 hover:shadow-xl hover:shadow-cyan-500/20 transition-all duration-500 cursor-pointer">
+                    <div className="absolute -inset-px rounded-2xl bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500 -z-10" />
+
+                    <div className="flex items-center justify-between gap-6">
+                      <div className="flex items-center gap-6 flex-1">
+                        <div className="relative">
+                          <div className="w-16 h-16 rounded-full border-2 flex items-center justify-center backdrop-blur-sm bg-gradient-to-br from-cyan-500/30 to-blue-500/30 border-cyan-500/50">
+                            <svg className="w-8 h-8 text-cyan-300" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z"/>
+                            </svg>
+                          </div>
+                          <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-primary-900 flex items-center justify-center">
+                            <span className="text-[8px] font-bold text-white">NEW</span>
+                          </div>
+                        </div>
+
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <h3 className="text-lg font-semibold text-white group-hover:text-cyan-300 transition-colors">
+                              The CERC Framework Introduction
+                            </h3>
+                            <div className="inline-flex px-3 py-1 rounded-full border bg-cyan-500/20 border-cyan-500/40">
+                              <span className="text-xs font-medium text-cyan-300">Watch First</span>
+                            </div>
+                          </div>
+
+                          <p className="text-sm text-primary-300 mb-3">
+                            Learn the 4-step framework: Claim → Evidence → Reasoning → Conditions
+                          </p>
+
+                          <div className="flex items-center gap-6 text-xs text-primary-400">
+                            <div className="flex items-center gap-2">
+                              <Clock className="w-4 h-4" />
+                              <span>~5 minutes</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Target className="w-4 h-4" />
+                              <span>Speed controls up to 2x</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Award className="w-4 h-4" />
+                              <span>Foundation for Week 1-4</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 text-cyan-400 group-hover:text-cyan-300 transition-colors">
+                        <span className="text-sm font-medium">Watch Video</span>
+                        <ChevronRight className="w-5 h-5" />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            </div>
           </div>
 
           {/* Program Roadmap */}
