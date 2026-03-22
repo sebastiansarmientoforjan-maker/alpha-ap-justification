@@ -661,38 +661,30 @@ export default function Week1ProblemSolver() {
                   </p>
                 </div>
 
-                {/* Side-by-Side Comparison Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {/* LEFT: YOUR RESPONSE */}
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-bold text-primary-200 mb-4 text-center">📝 Your Response</h3>
-
-                    {[
-                      { key: "claim", label: "C", title: "Claim", color: "from-accent-500 to-accent-600" },
-                      { key: "evidence", label: "E", title: "Evidence", color: "from-blue-500 to-blue-600" },
-                      { key: "reasoning", label: "R", title: "Reasoning", color: "from-purple-500 to-purple-600" },
-                      { key: "conditions", label: "C", title: "Conditions", color: "from-green-500 to-green-600" }
-                    ].map(field => (
-                      <div key={field.key} className="p-4 bg-primary-800/40 rounded-xl border border-primary-600/30">
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${field.color} flex items-center justify-center shadow-lg`}>
-                            <span className="text-sm font-bold">{field.label}</span>
-                          </div>
-                          <span className="text-sm font-bold text-primary-300">{field.title}</span>
-                        </div>
-                        <p className="text-sm text-primary-100 ml-10 leading-relaxed whitespace-pre-wrap">
-                          {sessionData.cercResponses[field.key as keyof typeof sessionData.cercResponses] || "(empty)"}
-                        </p>
-                      </div>
-                    ))}
+                {/* Side-by-Side Comparison - Aligned Rows */}
+                <div className="space-y-6">
+                  {/* Headers */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <h3 className="text-xl font-bold text-primary-200 text-center">📝 Your Response</h3>
+                    <h3 className="text-xl font-bold text-yellow-300 text-center">⭐ Model Solution</h3>
                   </div>
 
-                  {/* RIGHT: MODEL SOLUTION */}
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-bold text-yellow-300 mb-4 text-center">⭐ Model Solution</h3>
-
-                    {/* CLAIM */}
-                    <div className="p-4 bg-gradient-to-br from-accent-500/10 to-accent-600/10 border-2 border-accent-500/50 rounded-xl">
+                  {/* CLAIM ROW */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+                    {/* Student Claim */}
+                    <div className="p-4 bg-primary-800/40 rounded-xl border border-primary-600/30 h-full">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-500 to-accent-600 flex items-center justify-center shadow-lg">
+                          <span className="text-sm font-bold">C</span>
+                        </div>
+                        <span className="text-sm font-bold text-primary-300">Claim</span>
+                      </div>
+                      <p className="text-sm text-primary-100 ml-10 leading-relaxed whitespace-pre-wrap">
+                        {sessionData.cercResponses.claim || "(empty)"}
+                      </p>
+                    </div>
+                    {/* Model Claim */}
+                    <div className="p-4 bg-gradient-to-br from-accent-500/10 to-accent-600/10 border-2 border-accent-500/50 rounded-xl h-full">
                       <div className="flex items-center gap-2 mb-3">
                         <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-500 to-accent-600 flex items-center justify-center shadow-lg">
                           <span className="text-sm font-bold">C</span>
@@ -703,9 +695,24 @@ export default function Week1ProblemSolver() {
                         <MathContent content={problem.correctCERCResponse.claim} />
                       </div>
                     </div>
+                  </div>
 
-                    {/* EVIDENCE */}
-                    <div className="p-4 bg-gradient-to-br from-blue-500/10 to-blue-600/10 border-2 border-blue-500/50 rounded-xl">
+                  {/* EVIDENCE ROW */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+                    {/* Student Evidence */}
+                    <div className="p-4 bg-primary-800/40 rounded-xl border border-primary-600/30 h-full">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg">
+                          <span className="text-sm font-bold">E</span>
+                        </div>
+                        <span className="text-sm font-bold text-primary-300">Evidence</span>
+                      </div>
+                      <p className="text-sm text-primary-100 ml-10 leading-relaxed whitespace-pre-wrap">
+                        {sessionData.cercResponses.evidence || "(empty)"}
+                      </p>
+                    </div>
+                    {/* Model Evidence */}
+                    <div className="p-4 bg-gradient-to-br from-blue-500/10 to-blue-600/10 border-2 border-blue-500/50 rounded-xl h-full">
                       <div className="flex items-center gap-2 mb-3">
                         <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg">
                           <span className="text-sm font-bold">E</span>
@@ -716,9 +723,24 @@ export default function Week1ProblemSolver() {
                         <MathContent content={problem.correctCERCResponse.evidence} />
                       </div>
                     </div>
+                  </div>
 
-                    {/* REASONING */}
-                    <div className="p-4 bg-gradient-to-br from-purple-500/10 to-purple-600/10 border-2 border-purple-500/50 rounded-xl">
+                  {/* REASONING ROW */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+                    {/* Student Reasoning */}
+                    <div className="p-4 bg-primary-800/40 rounded-xl border border-primary-600/30 h-full">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-lg">
+                          <span className="text-sm font-bold">R</span>
+                        </div>
+                        <span className="text-sm font-bold text-primary-300">Reasoning</span>
+                      </div>
+                      <p className="text-sm text-primary-100 ml-10 leading-relaxed whitespace-pre-wrap">
+                        {sessionData.cercResponses.reasoning || "(empty)"}
+                      </p>
+                    </div>
+                    {/* Model Reasoning */}
+                    <div className="p-4 bg-gradient-to-br from-purple-500/10 to-purple-600/10 border-2 border-purple-500/50 rounded-xl h-full">
                       <div className="flex items-center gap-2 mb-3">
                         <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-lg">
                           <span className="text-sm font-bold">R</span>
@@ -729,9 +751,24 @@ export default function Week1ProblemSolver() {
                         <MathContent content={problem.correctCERCResponse.reasoning} />
                       </div>
                     </div>
+                  </div>
 
-                    {/* CONDITIONS */}
-                    <div className="p-4 bg-gradient-to-br from-green-500/10 to-green-600/10 border-2 border-green-500/50 rounded-xl">
+                  {/* CONDITIONS ROW */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+                    {/* Student Conditions */}
+                    <div className="p-4 bg-primary-800/40 rounded-xl border border-primary-600/30 h-full">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center shadow-lg">
+                          <span className="text-sm font-bold">C</span>
+                        </div>
+                        <span className="text-sm font-bold text-primary-300">Conditions</span>
+                      </div>
+                      <p className="text-sm text-primary-100 ml-10 leading-relaxed whitespace-pre-wrap">
+                        {sessionData.cercResponses.conditions || "(empty)"}
+                      </p>
+                    </div>
+                    {/* Model Conditions */}
+                    <div className="p-4 bg-gradient-to-br from-green-500/10 to-green-600/10 border-2 border-green-500/50 rounded-xl h-full">
                       <div className="flex items-center gap-2 mb-3">
                         <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center shadow-lg">
                           <span className="text-sm font-bold">C</span>
