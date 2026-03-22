@@ -22,7 +22,7 @@ import { getDataService } from "@/services/data";
 import { redirectToInstructions } from "@/lib/utils/activity-instructions";
 import { sanitizeInput } from "@/lib/utils/input-sanitizer";
 
-type Phase = "understand" | "solve" | "justify" | "selfCheck" | "reflection" | "complete";
+type Phase = "understand" | "solve" | "justify" | "modelComparison" | "selfAssessment" | "reflection" | "complete";
 
 interface SessionData {
   startTime: number;
@@ -30,7 +30,8 @@ interface SessionData {
     understand: { completed: boolean; timestamp?: number };
     solve: { completed: boolean; workLocation?: "paper" | "whiteboard" | "scratchpad"; timestamp?: number };
     justify: { completed: boolean; timestamp?: number };
-    selfCheck: { completed?: boolean; hintsViewed: number[]; solutionViewed: boolean; revised: boolean; timestamp?: number };
+    modelComparison: { completed?: boolean; timestamp?: number };
+    selfAssessment: { completed?: boolean; rubricChecks: string[]; timestamp?: number };
     reflection: { completed?: boolean; learnings: string[]; customNote?: string; timestamp?: number };
   };
   cercResponses: {
@@ -55,7 +56,8 @@ export default function Week1ProblemSolver() {
       understand: { completed: false },
       solve: { completed: false },
       justify: { completed: false },
-      selfCheck: { hintsViewed: [], solutionViewed: false, revised: false },
+      modelComparison: { completed: false },
+      selfAssessment: { completed: false, rubricChecks: [] },
       reflection: { learnings: [] }
     },
     cercResponses: {
@@ -67,9 +69,6 @@ export default function Week1ProblemSolver() {
   });
 
   const [showTheorem, setShowTheorem] = useState(false);
-  const [showSolution, setShowSolution] = useState(false);
-  const [selfEvaluationComplete, setSelfEvaluationComplete] = useState(false);
-  const [selfEvaluationChecks, setSelfEvaluationChecks] = useState<string[]>([]);
   const [reflectionChecks, setReflectionChecks] = useState<string[]>([]);
   const [customReflection, setCustomReflection] = useState("");
   const [showXPModal, setShowXPModal] = useState(false);
@@ -109,10 +108,18 @@ export default function Week1ProblemSolver() {
         break;
       case "justify":
         updatedPhases.justify = { completed: true, timestamp: Date.now() };
-        setCurrentPhase("selfCheck");
+        setCurrentPhase("modelComparison");
         break;
-      case "selfCheck":
-        updatedPhases.selfCheck = { ...sessionData.phases.selfCheck, timestamp: Date.now() };
+      case "modelComparison":
+        updatedPhases.modelComparison = { completed: true, timestamp: Date.now() };
+        setCurrentPhase("selfAssessment");
+        break;
+      case "selfAssessment":
+        updatedPhases.selfAssessment = {
+          completed: true,
+          rubricChecks: sessionData.phases.selfAssessment?.rubricChecks || [],
+          timestamp: Date.now()
+        };
         setCurrentPhase("reflection");
         break;
     }
@@ -120,38 +127,6 @@ export default function Week1ProblemSolver() {
     setSessionData({ ...sessionData, phases: updatedPhases });
   };
 
-  const viewHint = (hintLevel: 1 | 2 | 3) => {
-    const updatedHints = [...sessionData.phases.selfCheck.hintsViewed, hintLevel];
-    setSessionData({
-      ...sessionData,
-      phases: {
-        ...sessionData.phases,
-        selfCheck: { ...sessionData.phases.selfCheck, hintsViewed: updatedHints }
-      }
-    });
-  };
-
-  const viewSolution = () => {
-    setShowSolution(true);
-    setSessionData({
-      ...sessionData,
-      phases: {
-        ...sessionData.phases,
-        selfCheck: { ...sessionData.phases.selfCheck, solutionViewed: true }
-      }
-    });
-  };
-
-  const reviseResponse = () => {
-    setSessionData({
-      ...sessionData,
-      phases: {
-        ...sessionData.phases,
-        selfCheck: { ...sessionData.phases.selfCheck, revised: true }
-      }
-    });
-    setCurrentPhase("justify");
-  };
 
   // Handle CERC input changes with sanitization
   const handleCERCChange = (field: keyof typeof sessionData.cercResponses, value: string) => {
@@ -175,24 +150,9 @@ export default function Week1ProblemSolver() {
       xp += 10;
     }
 
-    if (sessionData.phases.selfCheck.revised) {
-      bonuses.push({ name: "Revised After Self-Check", amount: 5 });
-      xp += 5;
-    }
-
     if (reflectionChecks.length > 0) {
       bonuses.push({ name: "Self-Identified Learning", amount: 5 });
       xp += 5;
-    }
-
-    if (!sessionData.phases.selfCheck.solutionViewed) {
-      bonuses.push({ name: "Solved Independently", amount: 10 });
-      xp += 10;
-    }
-
-    if (sessionData.phases.selfCheck.hintsViewed.length === 0) {
-      bonuses.push({ name: "No Hints Used", amount: 10 });
-      xp += 10;
     }
 
     if (customReflection.trim().length > 20) {
@@ -248,13 +208,8 @@ export default function Week1ProblemSolver() {
             understand: finalSessionData.phases.understand,
             solve: finalSessionData.phases.solve,
             justify: finalSessionData.phases.justify,
-            selfCheck: {
-              completed: finalSessionData.phases.selfCheck.completed || false,
-              timestamp: finalSessionData.phases.selfCheck.timestamp,
-              hintsViewed: finalSessionData.phases.selfCheck.hintsViewed,
-              solutionViewed: finalSessionData.phases.selfCheck.solutionViewed,
-              revised: finalSessionData.phases.selfCheck.revised,
-            },
+            modelComparison: finalSessionData.phases.modelComparison,
+            selfAssessment: finalSessionData.phases.selfAssessment,
             reflection: {
               completed: true,
               timestamp: Date.now(),
@@ -280,7 +235,8 @@ export default function Week1ProblemSolver() {
     { key: "understand", label: "Understand", icon: BookOpen },
     { key: "solve", label: "Solve", icon: PenTool },
     { key: "justify", label: "Justify", icon: FileText },
-    { key: "selfCheck", label: "Self-Check", icon: Eye },
+    { key: "modelComparison", label: "Compare Model", icon: Eye },
+    { key: "selfAssessment", label: "Self-Assess", icon: Target },
     { key: "reflection", label: "Reflect", icon: CheckCircle }
   ];
 
@@ -682,8 +638,8 @@ export default function Week1ProblemSolver() {
               </motion.div>
             )}
 
-            {/* PHASE 4: SELF-CHECK */}
-            {currentPhase === "selfCheck" && (
+            {/* PHASE 4: MODEL COMPARISON */}
+            {currentPhase === "modelComparison" && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -694,392 +650,202 @@ export default function Week1ProblemSolver() {
                     <Eye className="w-6 h-6" />
                   </div>
                   <div>
-                    <h2 className="text-3xl font-bold">Phase 4: Self-Check</h2>
-                    <p className="text-primary-300">Evaluate your work, then compare with the model solution</p>
+                    <h2 className="text-3xl font-bold">Phase 4: Compare with Model</h2>
+                    <p className="text-primary-300">Review your response alongside the AP Exam quality answer</p>
                   </div>
                 </div>
 
-                {/* Step 1: Intro to Self-Evaluation */}
-                {!selfEvaluationComplete && !showSolution ? (
-                  <motion.div
-                    initial={{ scale: 0.95, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.4 }}
-                    className="space-y-6"
-                  >
-                    <div className="text-center mb-6">
-                      <CheckCircle className="w-16 h-16 text-blue-400 mx-auto mb-4" />
-                      <h3 className="text-3xl font-bold text-blue-300 mb-2">Self-Evaluation Process</h3>
-                      <p className="text-blue-400 mb-6">Learn to assess your mathematical justifications</p>
-                    </div>
+                <div className="p-5 bg-blue-500/10 border border-blue-500/30 rounded-xl text-center mb-6">
+                  <p className="text-sm text-blue-300">
+                    Compare each CERC component side-by-side. Notice the level of detail, mathematical rigor, and explicit condition checking in the model.
+                  </p>
+                </div>
 
-                    <div className="p-6 bg-blue-500/10 border-2 border-blue-500/30 rounded-xl">
-                      <h4 className="font-bold text-blue-300 mb-3 text-lg">📝 What You'll Do:</h4>
-                      <ul className="space-y-3 text-primary-200 text-sm">
-                        <li className="flex items-start gap-3">
-                          <span className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500/20 text-blue-300 flex items-center justify-center text-xs font-bold">1</span>
-                          <span><strong className="text-blue-200">Review your CERC response</strong> — Read what you wrote for each component</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <span className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500/20 text-blue-300 flex items-center justify-center text-xs font-bold">2</span>
-                          <span><strong className="text-blue-200">Apply the AP rubric</strong> — Check which rubric points you think you earned (be honest!)</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <span className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500/20 text-blue-300 flex items-center justify-center text-xs font-bold">3</span>
-                          <span><strong className="text-blue-200">Compare with model solution</strong> — See the AP Exam quality answer and learn from differences</span>
-                        </li>
-                      </ul>
-                    </div>
+                {/* Side-by-Side Comparison Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* LEFT: YOUR RESPONSE */}
+                  <div className="space-y-4">
+                    <h3 className="text-xl font-bold text-primary-200 mb-4 text-center">📝 Your Response</h3>
 
-                    <div className="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
-                      <p className="text-sm text-yellow-300">
-                        <strong>💡 Why this matters:</strong> On the AP Exam, YOU are your own quality checker. Learning to self-evaluate helps you catch errors before submitting.
-                      </p>
-                    </div>
-
-                    <button
-                      onClick={() => setSelfEvaluationComplete(true)}
-                      className="w-full p-10 bg-gradient-to-br from-blue-500/20 to-purple-500/20 border-4 border-blue-500/60 rounded-3xl hover:from-blue-500/30 hover:to-purple-500/30 transition-all shadow-2xl shadow-blue-500/30 group"
-                    >
-                      <span className="block text-3xl font-bold text-blue-300 mb-3 group-hover:scale-105 transition-transform">Begin Self-Evaluation →</span>
-                      <span className="block text-base text-blue-400">Review your response with the AP rubric</span>
-                    </button>
-                  </motion.div>
-                ) : !showSolution && selfEvaluationComplete ? (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="space-y-6"
-                  >
-                    <div className="text-center mb-6">
-                      <CheckCircle className="w-12 h-12 text-blue-400 mx-auto mb-3" />
-                      <h3 className="text-2xl font-bold text-blue-300 mb-2">Step 1: Review Your Work</h3>
-                      <p className="text-sm text-blue-400">Read your response and check it against the AP rubric</p>
-                    </div>
-
-                    {/* Your CERC Response - Full Display */}
-                    <div className="p-6 bg-primary-800/40 rounded-xl border border-primary-600/30">
-                      <h4 className="font-bold text-primary-200 mb-4 text-lg">📝 Your CERC Response:</h4>
-                      <div className="space-y-4">
-                        {[
-                          { key: "claim", label: "C", title: "Claim", color: "from-accent-500 to-accent-600" },
-                          { key: "evidence", label: "E", title: "Evidence", color: "from-blue-500 to-blue-600" },
-                          { key: "reasoning", label: "R", title: "Reasoning", color: "from-purple-500 to-purple-600" },
-                          { key: "conditions", label: "C", title: "Conditions", color: "from-green-500 to-green-600" }
-                        ].map(field => (
-                          <div key={field.key} className="p-4 bg-primary-900/40 rounded-lg border border-primary-600/20">
-                            <div className="flex items-center gap-2 mb-2">
-                              <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${field.color} flex items-center justify-center shadow-lg`}>
-                                <span className="text-sm font-bold">{field.label}</span>
-                              </div>
-                              <span className="text-sm font-bold text-primary-300">{field.title}</span>
-                            </div>
-                            <p className="text-sm text-primary-100 ml-10 leading-relaxed whitespace-pre-wrap">
-                              {sessionData.cercResponses[field.key as keyof typeof sessionData.cercResponses] || "(empty)"}
-                            </p>
+                    {[
+                      { key: "claim", label: "C", title: "Claim", color: "from-accent-500 to-accent-600" },
+                      { key: "evidence", label: "E", title: "Evidence", color: "from-blue-500 to-blue-600" },
+                      { key: "reasoning", label: "R", title: "Reasoning", color: "from-purple-500 to-purple-600" },
+                      { key: "conditions", label: "C", title: "Conditions", color: "from-green-500 to-green-600" }
+                    ].map(field => (
+                      <div key={field.key} className="p-4 bg-primary-800/40 rounded-xl border border-primary-600/30">
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${field.color} flex items-center justify-center shadow-lg`}>
+                            <span className="text-sm font-bold">{field.label}</span>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* AP Rubric Self-Evaluation */}
-                    <div className="p-6 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-2 border-yellow-500/40 rounded-xl">
-                      <h4 className="font-bold text-yellow-300 mb-4 flex items-center gap-2">
-                        <span className="text-2xl">📋</span>
-                        AP Exam Rubric - Check what you earned:
-                      </h4>
-                      <div className="space-y-3">
-                        {[
-                          { id: 1, text: "✓ Correct conclusion/claim stated clearly", points: "1 point" },
-                          { id: 2, text: "✓ Evidence: Calculations shown with correct setup", points: "1 point" },
-                          { id: 3, text: "✓ Reasoning: Theorem cited and connected to evidence", points: "1 point" },
-                          { id: 4, text: "✓ Conditions: ALL hypotheses verified with mathematical justification", points: "1 point" }
-                        ].map((criterion) => (
-                          <label
-                            key={criterion.id}
-                            className="flex items-start gap-3 p-4 bg-primary-800/60 rounded-lg cursor-pointer hover:bg-primary-800/80 transition-colors border border-yellow-500/20"
-                          >
-                            <input
-                              type="checkbox"
-                              checked={selfEvaluationChecks.includes(criterion.text)}
-                              onChange={(e) => {
-                                if (e.target.checked) {
-                                  setSelfEvaluationChecks([...selfEvaluationChecks, criterion.text]);
-                                } else {
-                                  setSelfEvaluationChecks(selfEvaluationChecks.filter(c => c !== criterion.text));
-                                }
-                              }}
-                              className="mt-1 w-5 h-5"
-                            />
-                            <div className="flex-1">
-                              <p className="text-primary-100 font-medium">{criterion.text}</p>
-                              <p className="text-xs text-yellow-400 mt-1">{criterion.points}</p>
-                            </div>
-                          </label>
-                        ))}
-                      </div>
-                      <div className="mt-4 p-4 bg-yellow-500/10 rounded-lg border border-yellow-500/30">
-                        <p className="text-sm text-yellow-300">
-                          <strong>Your self-assessment:</strong> {selfEvaluationChecks.length}/4 points
+                          <span className="text-sm font-bold text-primary-300">{field.title}</span>
+                        </div>
+                        <p className="text-sm text-primary-100 ml-10 leading-relaxed whitespace-pre-wrap">
+                          {sessionData.cercResponses[field.key as keyof typeof sessionData.cercResponses] || "(empty)"}
                         </p>
                       </div>
-                    </div>
+                    ))}
+                  </div>
 
-                    {/* Conditional Message based on self-assessment */}
-                    {selfEvaluationChecks.length < 4 ? (
-                      <>
-                        {/* Message for incomplete work */}
-                        <div className="p-5 bg-blue-500/10 border-2 border-blue-500/30 rounded-xl text-center">
-                          <p className="text-blue-300 font-semibold mb-2">
-                            📝 Missing {4 - selfEvaluationChecks.length} point{4 - selfEvaluationChecks.length !== 1 ? 's' : ''}?
-                          </p>
-                          <p className="text-sm text-primary-300">
-                            Use the hints below to identify what's missing, then <strong>revise your CERC</strong> before viewing the model solution!
-                          </p>
-                        </div>
-
-                        {/* Hints Section - Prominent when points are missing */}
-                        <div className="p-6 bg-secondary-500/10 border-2 border-secondary-500/40 rounded-xl">
-                          <div className="flex items-center gap-2 mb-4">
-                            <Lightbulb className="w-6 h-6 text-secondary-300" />
-                            <h4 className="font-bold text-secondary-300 text-lg">💡 Use Hints to Improve</h4>
-                          </div>
-                          <p className="text-sm text-primary-300 mb-4">
-                            These hints can help you identify what's missing <strong>before</strong> you view the model solution:
-                          </p>
-                      <div className="space-y-3">
-                        {([1, 2, 3] as const).map((level) => (
-                          <div key={level}>
-                            {sessionData.phases.selfCheck.hintsViewed.includes(level) ? (
-                              <div className="p-4 bg-secondary-500/10 border border-secondary-500/30 rounded-lg">
-                                <span className="font-bold text-secondary-300">💡 Hint {level}: </span>
-                                <span className="text-primary-200">{problem.hints[`level${level}` as keyof typeof problem.hints]}</span>
-                              </div>
-                            ) : (
-                              <button
-                                onClick={() => viewHint(level)}
-                                className="w-full p-4 bg-primary-800/40 border border-primary-600/30 rounded-lg hover:bg-secondary-500/10 hover:border-secondary-500/30 transition-colors text-left group"
-                              >
-                                <div className="flex items-center justify-between">
-                                  <span className="text-sm font-semibold text-primary-200 group-hover:text-secondary-300">
-                                    <Lock className="w-4 h-4 inline mr-2" />
-                                    Hint {level} - Click to reveal
-                                  </span>
-                                  <span className="text-xs text-primary-400">No penalty for using hints</span>
-                                </div>
-                              </button>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                          <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                            <p className="text-xs text-blue-300">
-                              ⚡ <strong>Tip:</strong> Use hints strategically to identify what's missing, then revise your response!
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Primary CTA: Revise */}
-                        <button
-                          onClick={reviseResponse}
-                          className="w-full p-8 bg-gradient-to-br from-secondary-500/20 to-blue-500/20 border-4 border-secondary-500/60 rounded-3xl hover:from-secondary-500/30 hover:to-blue-500/30 transition-all shadow-2xl shadow-secondary-500/30 group"
-                        >
-                          <span className="block text-3xl font-bold text-secondary-300 mb-3 group-hover:scale-105 transition-transform">
-                            ← Revise Your CERC Response
-                          </span>
-                          <span className="block text-base text-secondary-400">
-                            Go back and improve your answer with the hints above
-                          </span>
-                        </button>
-
-                        {/* Secondary option: Skip to solution */}
-                        <div className="text-center">
-                          <p className="text-xs text-primary-400 mb-3">Or, if you prefer:</p>
-                          <button
-                            onClick={viewSolution}
-                            className="px-6 py-3 bg-primary-800/40 hover:bg-yellow-500/20 border border-primary-600/30 hover:border-yellow-500/40 rounded-lg text-primary-300 hover:text-yellow-300 transition-all text-sm font-medium"
-                          >
-                            Skip to Model Solution →
-                          </button>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        {/* Message for complete self-assessment */}
-                        <div className="p-5 bg-green-500/10 border-2 border-green-500/30 rounded-xl text-center">
-                          <p className="text-green-300 font-semibold mb-2">
-                            ✓ You self-assessed 4/4 points!
-                          </p>
-                          <p className="text-sm text-primary-300">
-                            Great! Now compare your response with the model solution to confirm your understanding.
-                          </p>
-                        </div>
-
-                        {/* Primary CTA: View Solution */}
-                        <button
-                          onClick={viewSolution}
-                          className="w-full p-10 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-4 border-yellow-500/60 rounded-3xl hover:from-yellow-500/30 hover:to-orange-500/30 transition-all shadow-2xl shadow-yellow-500/30 group"
-                        >
-                          <span className="block text-3xl font-bold text-yellow-300 mb-3 group-hover:scale-105 transition-transform">
-                            View Model Solution →
-                          </span>
-                          <span className="block text-base text-yellow-400">
-                            Compare with the AP Exam quality answer
-                          </span>
-                        </button>
-
-                        {/* Optional: Still allow revision */}
-                        <div className="text-center">
-                          <button
-                            onClick={reviseResponse}
-                            className="px-6 py-3 bg-primary-800/40 hover:bg-secondary-500/20 border border-primary-600/30 hover:border-secondary-500/40 rounded-lg text-primary-300 hover:text-secondary-300 transition-all text-sm font-medium"
-                          >
-                            ← Or Revise Your CERC First
-                          </button>
-                        </div>
-                      </>
-                    )}
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="space-y-6"
-                  >
-                    <div className="text-center mb-6">
-                      <h3 className="text-2xl font-bold text-yellow-300 mb-2">📖 Model Solution</h3>
-                      <p className="text-sm text-yellow-400">AP Exam Quality • Full Justification</p>
-                    </div>
+                  {/* RIGHT: MODEL SOLUTION */}
+                  <div className="space-y-4">
+                    <h3 className="text-xl font-bold text-yellow-300 mb-4 text-center">⭐ Model Solution</h3>
 
                     {/* CLAIM */}
-                    <motion.div
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.1 }}
-                      className="p-6 bg-gradient-to-br from-accent-500/10 to-accent-600/10 border-2 border-accent-500/50 rounded-2xl"
-                    >
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-500 to-accent-600 flex items-center justify-center shadow-lg">
-                          <span className="text-xl font-bold">C</span>
+                    <div className="p-4 bg-gradient-to-br from-accent-500/10 to-accent-600/10 border-2 border-accent-500/50 rounded-xl">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-500 to-accent-600 flex items-center justify-center shadow-lg">
+                          <span className="text-sm font-bold">C</span>
                         </div>
-                        <div>
-                          <h4 className="text-lg font-bold text-accent-300">Claim</h4>
-                          <p className="text-xs text-accent-400">Your conclusion statement</p>
-                        </div>
+                        <span className="text-sm font-bold text-accent-300">Claim</span>
                       </div>
-                      <div className="pl-13 text-primary-100 leading-relaxed">
+                      <div className="text-sm text-primary-100 ml-10 leading-relaxed">
                         <MathContent content={problem.correctCERCResponse.claim} />
                       </div>
-                    </motion.div>
-
-                    {/* EVIDENCE */}
-                    <motion.div
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.2 }}
-                      className="p-6 bg-gradient-to-br from-blue-500/10 to-blue-600/10 border-2 border-blue-500/50 rounded-2xl"
-                    >
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg">
-                          <span className="text-xl font-bold">E</span>
-                        </div>
-                        <div>
-                          <h4 className="text-lg font-bold text-blue-300">Evidence</h4>
-                          <p className="text-xs text-blue-400">Mathematical calculations & data</p>
-                        </div>
-                      </div>
-                      <div className="pl-13 text-primary-100 leading-relaxed">
-                        <MathContent content={problem.correctCERCResponse.evidence} />
-                      </div>
-                    </motion.div>
-
-                    {/* REASONING */}
-                    <motion.div
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.3 }}
-                      className="p-6 bg-gradient-to-br from-purple-500/10 to-purple-600/10 border-2 border-purple-500/50 rounded-2xl"
-                    >
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-lg">
-                          <span className="text-xl font-bold">R</span>
-                        </div>
-                        <div>
-                          <h4 className="text-lg font-bold text-purple-300">Reasoning</h4>
-                          <p className="text-xs text-purple-400">Theorem connection & logic</p>
-                        </div>
-                      </div>
-                      <div className="pl-13 text-primary-100 leading-relaxed">
-                        <MathContent content={problem.correctCERCResponse.reasoning} />
-                      </div>
-                    </motion.div>
-
-                    {/* CONDITIONS */}
-                    <motion.div
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.4 }}
-                      className="p-6 bg-gradient-to-br from-green-500/10 to-green-600/10 border-2 border-green-500/50 rounded-2xl"
-                    >
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center shadow-lg">
-                          <span className="text-xl font-bold">C</span>
-                        </div>
-                        <div>
-                          <h4 className="text-lg font-bold text-green-300">Conditions</h4>
-                          <p className="text-xs text-green-400">Hypothesis verification</p>
-                        </div>
-                      </div>
-                      <div className="pl-13 text-primary-100 leading-relaxed">
-                        <MathContent content={problem.correctCERCResponse.conditions} />
-                      </div>
-                    </motion.div>
-
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.5 }}
-                      className="p-4 bg-green-500/10 border border-green-500/30 rounded-xl text-center"
-                    >
-                      <p className="text-sm text-green-300">
-                        ✅ This solution earns <strong className="text-green-200">full credit</strong> on the AP exam
-                      </p>
-                    </motion.div>
-                  </motion.div>
-                )}
-
-                {/* Bottom Actions */}
-                {showSolution && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.6 }}
-                    className="space-y-6"
-                  >
-                    {/* Comparison Callout */}
-                    <div className="p-5 bg-blue-500/10 border border-blue-500/30 rounded-xl">
-                      <h4 className="font-bold text-blue-300 mb-2 flex items-center gap-2">
-                        <CheckCircle className="w-5 h-5" />
-                        Step 2: Compare with the Model
-                      </h4>
-                      <p className="text-sm text-primary-300">
-                        Review how the model solution addresses each CERC component. Notice the level of detail, mathematical rigor, and explicit condition checking.
-                      </p>
                     </div>
 
-                    {/* Main CTA */}
-                    <ShimmerButton
-                      onClick={() => completePhase("selfCheck")}
-                      className="w-full px-6 py-6 text-lg"
-                    >
-                      Continue to Reflection →
-                    </ShimmerButton>
-                  </motion.div>
-                )}
+                    {/* EVIDENCE */}
+                    <div className="p-4 bg-gradient-to-br from-blue-500/10 to-blue-600/10 border-2 border-blue-500/50 rounded-xl">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg">
+                          <span className="text-sm font-bold">E</span>
+                        </div>
+                        <span className="text-sm font-bold text-blue-300">Evidence</span>
+                      </div>
+                      <div className="text-sm text-primary-100 ml-10 leading-relaxed">
+                        <MathContent content={problem.correctCERCResponse.evidence} />
+                      </div>
+                    </div>
+
+                    {/* REASONING */}
+                    <div className="p-4 bg-gradient-to-br from-purple-500/10 to-purple-600/10 border-2 border-purple-500/50 rounded-xl">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-lg">
+                          <span className="text-sm font-bold">R</span>
+                        </div>
+                        <span className="text-sm font-bold text-purple-300">Reasoning</span>
+                      </div>
+                      <div className="text-sm text-primary-100 ml-10 leading-relaxed">
+                        <MathContent content={problem.correctCERCResponse.reasoning} />
+                      </div>
+                    </div>
+
+                    {/* CONDITIONS */}
+                    <div className="p-4 bg-gradient-to-br from-green-500/10 to-green-600/10 border-2 border-green-500/50 rounded-xl">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center shadow-lg">
+                          <span className="text-sm font-bold">C</span>
+                        </div>
+                        <span className="text-sm font-bold text-green-300">Conditions</span>
+                      </div>
+                      <div className="text-sm text-primary-100 ml-10 leading-relaxed">
+                        <MathContent content={problem.correctCERCResponse.conditions} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-6 p-4 bg-green-500/10 border border-green-500/30 rounded-xl text-center">
+                  <p className="text-sm text-green-300">
+                    ✅ The model solution earns <strong className="text-green-200">full credit (4/4 points)</strong> on the AP exam
+                  </p>
+                </div>
+
+                {/* Continue to Self-Assessment */}
+                <ShimmerButton
+                  onClick={() => completePhase("modelComparison")}
+                  className="w-full px-6 py-8 text-lg mt-6"
+                >
+                  Continue to Self-Assessment →
+                </ShimmerButton>
               </motion.div>
             )}
 
-            {/* PHASE 5: REFLECTION */}
+            {/* PHASE 5: SELF-ASSESSMENT */}
+            {currentPhase === "selfAssessment" && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="space-y-6"
+              >
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center">
+                    <CheckCircle className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h2 className="text-3xl font-bold">Phase 5: Self-Assessment</h2>
+                    <p className="text-primary-300">Apply the AP rubric to evaluate your response</p>
+                  </div>
+                </div>
+
+                <div className="p-5 bg-blue-500/10 border border-blue-500/30 rounded-xl text-center">
+                  <p className="text-sm text-blue-300">
+                    Now that you've seen the model, which rubric points did <strong>YOU</strong> earn in your original response?
+                  </p>
+                </div>
+
+                {/* AP Rubric Self-Evaluation */}
+                <div className="p-6 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-2 border-yellow-500/40 rounded-xl">
+                  <h4 className="font-bold text-yellow-300 mb-4 flex items-center gap-2">
+                    <span className="text-2xl">📋</span>
+                    AP Exam Rubric - Check what you earned:
+                  </h4>
+                  <div className="space-y-3">
+                    {[
+                      { id: 1, text: "✓ Correct conclusion/claim stated clearly", points: "1 point" },
+                      { id: 2, text: "✓ Evidence: Calculations shown with correct setup", points: "1 point" },
+                      { id: 3, text: "✓ Reasoning: Theorem cited and connected to evidence", points: "1 point" },
+                      { id: 4, text: "✓ Conditions: ALL hypotheses verified with mathematical justification", points: "1 point" }
+                    ].map((criterion) => (
+                      <label
+                        key={criterion.id}
+                        className="flex items-start gap-3 p-4 bg-primary-800/60 rounded-lg cursor-pointer hover:bg-primary-800/80 transition-colors border border-yellow-500/20"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={sessionData.phases.selfAssessment?.rubricChecks.includes(criterion.text) || false}
+                          onChange={(e) => {
+                            const current = sessionData.phases.selfAssessment?.rubricChecks || [];
+                            const updated = e.target.checked
+                              ? [...current, criterion.text]
+                              : current.filter(c => c !== criterion.text);
+                            setSessionData({
+                              ...sessionData,
+                              phases: {
+                                ...sessionData.phases,
+                                selfAssessment: {
+                                  ...sessionData.phases.selfAssessment,
+                                  rubricChecks: updated
+                                }
+                              }
+                            });
+                          }}
+                          className="mt-1 w-5 h-5"
+                        />
+                        <div className="flex-1">
+                          <p className="text-primary-100 font-medium">{criterion.text}</p>
+                          <p className="text-xs text-yellow-400 mt-1">{criterion.points}</p>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                  <div className="mt-4 p-4 bg-yellow-500/10 rounded-lg border border-yellow-500/30">
+                    <p className="text-sm text-yellow-300">
+                      <strong>Your self-assessment:</strong> {sessionData.phases.selfAssessment?.rubricChecks.length || 0}/4 points
+                    </p>
+                  </div>
+                </div>
+
+                {/* Continue to Reflection */}
+                <ShimmerButton
+                  onClick={() => completePhase("selfAssessment")}
+                  className="w-full px-6 py-8 text-lg mt-6"
+                >
+                  Continue to Reflection →
+                </ShimmerButton>
+              </motion.div>
+            )}
+            {/* PHASE 6: REFLECTION */}
             {currentPhase === "reflection" && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -1091,7 +857,7 @@ export default function Week1ProblemSolver() {
                     <CheckCircle className="w-6 h-6" />
                   </div>
                   <div>
-                    <h2 className="text-3xl font-bold">Phase 5: Reflect</h2>
+                    <h2 className="text-3xl font-bold">Phase 6: Reflect</h2>
                     <p className="text-primary-300">What did you learn from this problem?</p>
                   </div>
                 </div>
