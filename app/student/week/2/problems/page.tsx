@@ -12,9 +12,10 @@ import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import BlurFade from "@/components/ui/blur-fade";
 import ShimmerButton from "@/components/ui/shimmer-button";
 import { week2Problems, week2Config } from "@/data/week-2-content";
+import { useCourse } from "@/app/providers/course-provider";
 
 export default function Week2ProblemsPage() {
-  const [studentCourse, setStudentCourse] = useState<"calculus-ab" | "calculus-bc" | "statistics">("calculus-bc");
+  const { course: studentCourse } = useCourse();
   const [completedProblems, setCompletedProblems] = useState<string[]>([]);
   const [expandedProblems, setExpandedProblems] = useState<string[]>([]);
 
@@ -86,16 +87,9 @@ export default function Week2ProblemsPage() {
                     : "AP Statistics"}
                 </p>
               </div>
-              {/* Course switcher for testing - remove in production */}
-              <select
-                value={studentCourse}
-                onChange={(e) => setStudentCourse(e.target.value as any)}
-                className="px-4 py-2 bg-primary-800/60 border border-primary-600/30 rounded-lg text-white"
-              >
-                <option value="calculus-ab">AP Calculus AB</option>
-                <option value="calculus-bc">AP Calculus BC</option>
-                <option value="statistics">AP Statistics</option>
-              </select>
+              <div className="text-sm text-primary-400">
+                Showing {availableProblems.length} problems for your course
+              </div>
             </div>
           </div>
         </BlurFade>
