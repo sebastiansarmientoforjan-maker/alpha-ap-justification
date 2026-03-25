@@ -16,7 +16,7 @@ import "katex/dist/katex.min.css";
 import ShimmerButton from "@/components/ui/shimmer-button";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import Link from "next/link";
-import { week1Problems } from "@/data/week-1-content";
+import { week3Problems } from "@/data/week-3-content";
 import { MathContent } from "@/components/student/math-content";
 import { getDataService } from "@/services/data";
 import { redirectToInstructions } from "@/lib/utils/activity-instructions";
@@ -42,12 +42,12 @@ interface SessionData {
   };
 }
 
-export default function Week1ProblemSolver() {
+export default function Week3ProblemSolver() {
   const params = useParams();
   const problemId = params.problemId as string;
 
   // Find the problem
-  const problem = week1Problems.find((p) => p.id === problemId);
+  const problem = week3Problems.find((p) => p.id === problemId);
 
   const [currentPhase, setCurrentPhase] = useState<Phase>("understand");
   const [sessionData, setSessionData] = useState<SessionData>({
@@ -77,7 +77,7 @@ export default function Week1ProblemSolver() {
 
   // 🔒 SECURITY: Verify instructions completed before allowing access
   useEffect(() => {
-    redirectToInstructions(problemId, `/student/week/1/problem/${problemId}`);
+    redirectToInstructions(problemId, `/student/week/3/problem/${problemId}`);
   }, [problemId]);
 
   // Timer for session duration
@@ -140,8 +140,20 @@ export default function Week1ProblemSolver() {
     });
   };
 
+  // Character limits for CERC fields
+  const CHAR_LIMITS = {
+    claim: 500,
+    evidence: 2000,
+    reasoning: 1000,
+    conditions: 1500
+  };
+
+  // Check if all CERC fields meet minimum requirements
+  const allFieldsFilled = Object.values(sessionData.cercResponses)
+    .every(v => v.trim().length >= 20);
+
   const calculateXP = () => {
-    let xp = 20; // Base XP for Week 1 problems
+    let xp = 50; // Base XP for Week 3 problems (blank canvas - harder)
     const bonuses: { name: string; amount: number }[] = [];
 
     const cercComplete = Object.values(sessionData.cercResponses).every(v => v.trim().length > 20);
@@ -160,17 +172,16 @@ export default function Week1ProblemSolver() {
       xp += 5;
     }
 
-    // Special bonus for identifying the trap
-    if (
-      sessionData.cercResponses.claim.toLowerCase().includes("does not apply") ||
-      sessionData.cercResponses.claim.toLowerCase().includes("cannot be used") ||
-      sessionData.cercResponses.claim.toLowerCase().includes("not appropriate")
-    ) {
-      bonuses.push({ name: "🎯 Identified the Trap!", amount: 15 });
-      xp += 15;
+    // Special bonus: "The Architect" - unassisted complete CERC proof (Week 3)
+    if (cercComplete && sessionData.cercResponses.claim.length > 50 &&
+        sessionData.cercResponses.evidence.length > 100 &&
+        sessionData.cercResponses.reasoning.length > 50 &&
+        sessionData.cercResponses.conditions.length > 50) {
+      bonuses.push({ name: "🏛️ The Architect", amount: 100 });
+      xp += 100;
     }
 
-    return { base: 20, bonuses, total: xp };
+    return { base: 50, bonuses, total: xp };
   };
 
   const completeReflection = async () => {
@@ -250,7 +261,7 @@ export default function Week1ProblemSolver() {
           <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
           <h1 className="text-3xl font-bold mb-2">Problem Not Found</h1>
           <p className="text-primary-300 mb-6">The problem ID "{problemId}" doesn't exist.</p>
-          <Link href="/student/week/1/problems">
+          <Link href="/student/week/3/problems">
             <ShimmerButton>← Back to Problems</ShimmerButton>
           </Link>
         </div>
@@ -267,12 +278,12 @@ export default function Week1ProblemSolver() {
             items={[
               { label: "Dashboard", href: "/student" },
               { label: "Week 1", href: "/student/week/1" },
-              { label: "Problems", href: "/student/week/1/problems" },
+              { label: "Problems", href: "/student/week/3/problems" },
               { label: problem.title }
             ]}
           />
           <Link
-            href="/student/week/1/problems"
+            href="/student/week/3/problems"
             className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 transition-colors text-sm font-medium"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -542,32 +553,13 @@ export default function Week1ProblemSolver() {
                   </div>
                 </div>
 
-                {/* Pedagogical Guidance */}
-                <div className="p-5 bg-blue-500/10 border border-blue-500/30 rounded-xl">
-                  <p className="font-semibold text-blue-300 mb-3 text-base">💡 How to Structure Your Justification:</p>
-                  <div className="space-y-3 text-sm text-primary-200">
-                    <div className="flex items-start gap-3">
-                      <span className="font-bold text-accent-400 min-w-[90px]">Claim:</span>
-                      <MathContent content={problem.sentenceFrames.claim} />
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <span className="font-bold text-blue-400 min-w-[90px]">Evidence:</span>
-                      <MathContent content={problem.sentenceFrames.evidence} />
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <span className="font-bold text-purple-400 min-w-[90px]">Reasoning:</span>
-                      <MathContent content={problem.sentenceFrames.reasoning} />
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <span className="font-bold text-green-400 min-w-[90px]">Conditions:</span>
-                      <MathContent content={problem.sentenceFrames.conditions} />
-                    </div>
-                  </div>
-                  <div className="mt-4 pt-4 border-t border-blue-500/20">
-                    <p className="text-xs text-blue-400 italic">
-                      ✏️ Use these frames as a guide. Fill in the blanks and complete the sentences with your mathematical reasoning.
-                    </p>
-                  </div>
+                {/* Week 3: Blank Canvas - No Scaffolding */}
+                <div className="p-5 bg-yellow-500/10 border-l-4 border-yellow-500 rounded-xl">
+                  <p className="font-semibold text-yellow-300 mb-2 text-base">⚠️ Week 3: Blank Canvas Mode</p>
+                  <p className="text-sm text-primary-200">
+                    No scaffolding provided. Write your complete CERC argument from scratch using the empty fields below.
+                    This is how the AP exam works - you see the problem, you write the complete mathematical justification.
+                  </p>
                 </div>
 
                 <div className="space-y-4">
@@ -580,10 +572,14 @@ export default function Week1ProblemSolver() {
                     <textarea
                       value={sessionData.cercResponses.claim}
                       onChange={(e) => handleCERCChange('claim', e.target.value)}
+                      maxLength={CHAR_LIMITS.claim}
                       className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
                       rows={2}
                       placeholder="State your conclusion..."
                     />
+                    <p className="text-xs text-primary-400 mt-1 text-right">
+                      {sessionData.cercResponses.claim.length} / {CHAR_LIMITS.claim} characters
+                    </p>
                   </div>
 
                   {/* Evidence */}
@@ -595,10 +591,14 @@ export default function Week1ProblemSolver() {
                     <textarea
                       value={sessionData.cercResponses.evidence}
                       onChange={(e) => handleCERCChange('evidence', e.target.value)}
+                      maxLength={CHAR_LIMITS.evidence}
                       className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
                       rows={3}
                       placeholder="What mathematical data supports your claim?"
                     />
+                    <p className="text-xs text-primary-400 mt-1 text-right">
+                      {sessionData.cercResponses.evidence.length} / {CHAR_LIMITS.evidence} characters
+                    </p>
                   </div>
 
                   {/* Reasoning */}
@@ -610,10 +610,14 @@ export default function Week1ProblemSolver() {
                     <textarea
                       value={sessionData.cercResponses.reasoning}
                       onChange={(e) => handleCERCChange('reasoning', e.target.value)}
+                      maxLength={CHAR_LIMITS.reasoning}
                       className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
                       rows={3}
                       placeholder="What theorem or principle connects your evidence to your claim?"
                     />
+                    <p className="text-xs text-primary-400 mt-1 text-right">
+                      {sessionData.cercResponses.reasoning.length} / {CHAR_LIMITS.reasoning} characters
+                    </p>
                   </div>
 
                   {/* Conditions */}
@@ -625,15 +629,31 @@ export default function Week1ProblemSolver() {
                     <textarea
                       value={sessionData.cercResponses.conditions}
                       onChange={(e) => handleCERCChange('conditions', e.target.value)}
+                      maxLength={CHAR_LIMITS.conditions}
                       className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
                       rows={3}
                       placeholder="Verify all theorem hypotheses are satisfied..."
                     />
+                    <p className="text-xs text-primary-400 mt-1 text-right">
+                      {sessionData.cercResponses.conditions.length} / {CHAR_LIMITS.conditions} characters
+                    </p>
                   </div>
                 </div>
 
-                <ShimmerButton onClick={() => completePhase("justify")} className="w-full py-4 text-lg">
-                  Submit for self-check →
+                {!allFieldsFilled && (
+                  <div className="p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-xl text-center">
+                    <p className="text-sm text-yellow-300">
+                      ⚠️ All CERC fields must have at least 20 characters to submit
+                    </p>
+                  </div>
+                )}
+
+                <ShimmerButton
+                  onClick={() => completePhase("justify")}
+                  disabled={!allFieldsFilled}
+                  className="w-full py-4 text-lg"
+                >
+                  {allFieldsFilled ? "Submit for self-check →" : "Complete all fields to submit"}
                 </ShimmerButton>
               </motion.div>
             )}
@@ -1050,7 +1070,7 @@ export default function Week1ProblemSolver() {
 
               <div className="space-y-3">
                 <button
-                  onClick={() => window.location.href = "/student/week/1/problems"}
+                  onClick={() => window.location.href = "/student/week/3/problems"}
                   className="w-full py-4 bg-gradient-to-r from-accent-500 to-secondary-500 hover:from-accent-600 hover:to-secondary-600 rounded-xl font-bold text-lg transition-all"
                 >
                   Back to Problems

@@ -74,11 +74,101 @@ export default function Week1ProblemSolver() {
   const [showXPModal, setShowXPModal] = useState(false);
 
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [showDraftModal, setShowDraftModal] = useState(false);
+  const [hasDraft, setHasDraft] = useState(false);
+  const [showTimeWarning, setShowTimeWarning] = useState(false);
 
   // 🔒 SECURITY: Verify instructions completed before allowing access
   useEffect(() => {
     redirectToInstructions(problemId, `/student/week/1/problem/${problemId}`);
   }, [problemId]);
+
+  // 💾 AUTO-SAVE: Check for saved draft on mount
+  useEffect(() => {
+    try {
+      const draftKey = `problem_${problemId}_draft`;
+      const savedDraft = localStorage.getItem(draftKey);
+
+      if (savedDraft) {
+        const draft = JSON.parse(savedDraft);
+        const draftAge = Date.now() - draft.timestamp;
+        const oneDayInMs = 24 * 60 * 60 * 1000;
+
+        // Only restore if draft is less than 24 hours old
+        if (draftAge < oneDayInMs) {
+          setHasDraft(true);
+          setShowDraftModal(true);
+        } else {
+          // Clean up old draft
+          localStorage.removeItem(draftKey);
+        }
+      }
+    } catch (error) {
+      console.warn('Could not load draft:', error);
+    }
+  }, [problemId]);
+
+  // 💾 AUTO-SAVE: Save progress every 30 seconds
+  useEffect(() => {
+    // Only auto-save if there's actual progress
+    const hasProgress =
+      Object.values(sessionData.cercResponses).some(v => v.trim().length > 0) ||
+      currentPhase !== "understand";
+
+    if (!hasProgress) return;
+
+    const autoSaveInterval = setInterval(() => {
+      try {
+        const draftKey = `problem_${problemId}_draft`;
+        const draft = {
+          phase: currentPhase,
+          sessionData,
+          reflectionChecks,
+          customReflection,
+          timestamp: Date.now()
+        };
+        localStorage.setItem(draftKey, JSON.stringify(draft));
+        console.log('✅ Progress auto-saved');
+      } catch (error) {
+        console.warn('Could not auto-save progress:', error);
+      }
+    }, 30000); // Every 30 seconds
+
+    return () => clearInterval(autoSaveInterval);
+  }, [problemId, currentPhase, sessionData, reflectionChecks, customReflection]);
+
+  // 💾 RESTORE: Load draft data
+  const restoreDraft = () => {
+    try {
+      const draftKey = `problem_${problemId}_draft`;
+      const savedDraft = localStorage.getItem(draftKey);
+
+      if (savedDraft) {
+        const draft = JSON.parse(savedDraft);
+        setCurrentPhase(draft.phase);
+        setSessionData(draft.sessionData);
+        setReflectionChecks(draft.reflectionChecks || []);
+        setCustomReflection(draft.customReflection || "");
+        setShowDraftModal(false);
+        console.log('✅ Draft restored');
+      }
+    } catch (error) {
+      console.error('Could not restore draft:', error);
+      setShowDraftModal(false);
+    }
+  };
+
+  // 💾 DISCARD: Start fresh
+  const discardDraft = () => {
+    try {
+      const draftKey = `problem_${problemId}_draft`;
+      localStorage.removeItem(draftKey);
+      setShowDraftModal(false);
+      setHasDraft(false);
+    } catch (error) {
+      console.warn('Could not discard draft:', error);
+    }
+  };
 
   // Timer for session duration
   useEffect(() => {
@@ -87,6 +177,18 @@ export default function Week1ProblemSolver() {
     }, 1000);
     return () => clearInterval(interval);
   }, [sessionData.startTime]);
+
+  // ⏰ TIMER WARNING: Show warning if exceeding expected time
+  useEffect(() => {
+    if (!problem) return;
+
+    const expectedSeconds = problem.expectedMinutes * 60;
+    const warningThreshold = expectedSeconds + 60; // 1 minute grace period
+
+    if (elapsedSeconds >= warningThreshold && !showTimeWarning) {
+      setShowTimeWarning(true);
+    }
+  }, [elapsedSeconds, problem, showTimeWarning]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -139,6 +241,18 @@ export default function Week1ProblemSolver() {
       }
     });
   };
+
+  // Character limits for CERC fields
+  const CHAR_LIMITS = {
+    claim: 500,
+    evidence: 2000,
+    reasoning: 1000,
+    conditions: 1500
+  };
+
+  // Check if all CERC fields meet minimum requirements
+  const allFieldsFilled = Object.values(sessionData.cercResponses)
+    .every(v => v.trim().length >= 20);
 
   const calculateXP = () => {
     let xp = 20; // Base XP for Week 1 problems
@@ -223,6 +337,15 @@ export default function Week1ProblemSolver() {
       });
 
       console.log("[Problem Solver] Successfully saved attempt to database");
+
+      // Clean up auto-save draft after successful completion
+      try {
+        const draftKey = `problem_${problemId}_draft`;
+        localStorage.removeItem(draftKey);
+        console.log("✅ Draft cleaned up after completion");
+      } catch (draftError) {
+        console.warn("Could not clean up draft:", draftError);
+      }
     } catch (error) {
       console.error("[Problem Solver] Failed to save attempt:", error);
       // Don't block the UI - just log the error
@@ -242,6 +365,38 @@ export default function Week1ProblemSolver() {
 
   const getPhaseIndex = (phase: Phase) => phaseConfig.findIndex(p => p.key === phase);
   const currentPhaseIndex = getPhaseIndex(currentPhase);
+
+  // 📊 COMPARISON: Evaluate student response completeness
+  const evaluateResponse = (studentText: string, modelText: string): {
+    status: "complete" | "partial" | "missing";
+    feedback: string;
+  } => {
+    const student = studentText.trim().toLowerCase();
+    const model = modelText.trim().toLowerCase();
+
+    if (student.length === 0) {
+      return { status: "missing", feedback: "No response provided" };
+    }
+
+    // Extract key terms from model (simplified analysis)
+    const modelWords = model.split(/\s+/).filter(w => w.length > 3);
+    const studentWords = student.split(/\s+/).filter(w => w.length > 3);
+
+    // Calculate rough overlap
+    const matchedWords = modelWords.filter(word =>
+      studentWords.some(sw => sw.includes(word.slice(0, 4)) || word.includes(sw.slice(0, 4)))
+    );
+
+    const coverage = matchedWords.length / modelWords.length;
+
+    if (coverage >= 0.7) {
+      return { status: "complete", feedback: "Good coverage of key concepts" };
+    } else if (coverage >= 0.4) {
+      return { status: "partial", feedback: "Missing some detail or rigor" };
+    } else {
+      return { status: "missing", feedback: "Key elements missing" };
+    }
+  };
 
   if (!problem) {
     return (
@@ -379,6 +534,32 @@ export default function Week1ProblemSolver() {
               ))}
             </div>
           </div>
+
+          {/* Time Warning */}
+          {showTimeWarning && problem && (
+            <div className="mb-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
+              <div className="flex items-start gap-2">
+                <Clock className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm text-yellow-300 font-semibold mb-1">
+                    ⏰ You've exceeded the expected time
+                  </p>
+                  <p className="text-xs text-yellow-200 mb-2">
+                    This problem typically takes {problem.expectedMinutes} minutes. You've been working for {Math.floor(elapsedSeconds / 60)} minutes.
+                  </p>
+                  <p className="text-xs text-yellow-200">
+                    💡 <strong>Tip:</strong> If you're stuck, check the theorem reference above or consider the hint system (coming soon).
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowTimeWarning(false)}
+                className="mt-3 w-full py-2 px-3 bg-yellow-500/20 hover:bg-yellow-500/30 rounded-lg text-xs text-yellow-300 font-medium transition-colors"
+              >
+                Got it, hide this message
+              </button>
+            </div>
+          )}
 
           {/* Trap Warning */}
           <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
@@ -580,10 +761,14 @@ export default function Week1ProblemSolver() {
                     <textarea
                       value={sessionData.cercResponses.claim}
                       onChange={(e) => handleCERCChange('claim', e.target.value)}
+                      maxLength={CHAR_LIMITS.claim}
                       className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
                       rows={2}
                       placeholder="State your conclusion..."
                     />
+                    <p className="text-xs text-primary-400 mt-1 text-right">
+                      {sessionData.cercResponses.claim.length} / {CHAR_LIMITS.claim} characters
+                    </p>
                   </div>
 
                   {/* Evidence */}
@@ -595,10 +780,14 @@ export default function Week1ProblemSolver() {
                     <textarea
                       value={sessionData.cercResponses.evidence}
                       onChange={(e) => handleCERCChange('evidence', e.target.value)}
+                      maxLength={CHAR_LIMITS.evidence}
                       className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
                       rows={3}
                       placeholder="What mathematical data supports your claim?"
                     />
+                    <p className="text-xs text-primary-400 mt-1 text-right">
+                      {sessionData.cercResponses.evidence.length} / {CHAR_LIMITS.evidence} characters
+                    </p>
                   </div>
 
                   {/* Reasoning */}
@@ -610,10 +799,14 @@ export default function Week1ProblemSolver() {
                     <textarea
                       value={sessionData.cercResponses.reasoning}
                       onChange={(e) => handleCERCChange('reasoning', e.target.value)}
+                      maxLength={CHAR_LIMITS.reasoning}
                       className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
                       rows={3}
                       placeholder="What theorem or principle connects your evidence to your claim?"
                     />
+                    <p className="text-xs text-primary-400 mt-1 text-right">
+                      {sessionData.cercResponses.reasoning.length} / {CHAR_LIMITS.reasoning} characters
+                    </p>
                   </div>
 
                   {/* Conditions */}
@@ -625,15 +818,31 @@ export default function Week1ProblemSolver() {
                     <textarea
                       value={sessionData.cercResponses.conditions}
                       onChange={(e) => handleCERCChange('conditions', e.target.value)}
+                      maxLength={CHAR_LIMITS.conditions}
                       className="w-full bg-primary-800/60 border border-primary-600/30 rounded-xl p-4 text-white placeholder-primary-400 focus:border-accent-500 focus:outline-none resize-none"
                       rows={3}
                       placeholder="Verify all theorem hypotheses are satisfied..."
                     />
+                    <p className="text-xs text-primary-400 mt-1 text-right">
+                      {sessionData.cercResponses.conditions.length} / {CHAR_LIMITS.conditions} characters
+                    </p>
                   </div>
                 </div>
 
-                <ShimmerButton onClick={() => completePhase("justify")} className="w-full py-4 text-lg">
-                  Submit for self-check →
+                {!allFieldsFilled && (
+                  <div className="p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-xl text-center">
+                    <p className="text-sm text-yellow-300">
+                      ⚠️ All CERC fields must have at least 20 characters to submit
+                    </p>
+                  </div>
+                )}
+
+                <ShimmerButton
+                  onClick={() => completePhase("justify")}
+                  disabled={!allFieldsFilled}
+                  className="w-full py-4 text-lg"
+                >
+                  {allFieldsFilled ? "Submit for self-check →" : "Complete all fields to submit"}
                 </ShimmerButton>
               </motion.div>
             )}
@@ -655,10 +864,26 @@ export default function Week1ProblemSolver() {
                   </div>
                 </div>
 
-                <div className="p-5 bg-blue-500/10 border border-blue-500/30 rounded-xl text-center mb-6">
-                  <p className="text-sm text-blue-300">
-                    Compare each CERC component side-by-side. Notice the level of detail, mathematical rigor, and explicit condition checking in the model.
-                  </p>
+                <div className="p-5 bg-blue-500/10 border border-blue-500/30 rounded-xl mb-6">
+                  <div className="text-center mb-4">
+                    <p className="text-sm text-blue-300 mb-2">
+                      Compare each CERC component side-by-side. Notice the level of detail, mathematical rigor, and explicit condition checking in the model.
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-center gap-4 text-xs">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                      <span className="text-primary-300">Complete match</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                      <span className="text-primary-300">Could improve</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                      <span className="text-primary-300">Missing key elements</span>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Side-by-Side Comparison - Aligned Rows */}
@@ -672,15 +897,54 @@ export default function Week1ProblemSolver() {
                   {/* CLAIM ROW */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
                     <div className="p-4 bg-primary-800/40 rounded-xl border border-primary-600/30 h-full">
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-500 to-accent-600 flex items-center justify-center shadow-lg">
-                          <span className="text-sm font-bold">C</span>
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-500 to-accent-600 flex items-center justify-center shadow-lg">
+                            <span className="text-sm font-bold">C</span>
+                          </div>
+                          <span className="text-sm font-bold text-primary-300">Claim</span>
                         </div>
-                        <span className="text-sm font-bold text-primary-300">Claim</span>
+                        {(() => {
+                          const evaluation = evaluateResponse(
+                            sessionData.cercResponses.claim,
+                            problem.correctCERCResponse.claim
+                          );
+                          return (
+                            <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+                              evaluation.status === "complete"
+                                ? "bg-green-500/20 text-green-300"
+                                : evaluation.status === "partial"
+                                ? "bg-yellow-500/20 text-yellow-300"
+                                : "bg-red-500/20 text-red-300"
+                            }`}>
+                              <div className={`w-2 h-2 rounded-full ${
+                                evaluation.status === "complete"
+                                  ? "bg-green-500"
+                                  : evaluation.status === "partial"
+                                  ? "bg-yellow-500"
+                                  : "bg-red-500"
+                              }`} />
+                              {evaluation.status === "complete" ? "✓" : evaluation.status === "partial" ? "~" : "!"}
+                            </div>
+                          );
+                        })()}
                       </div>
                       <p className="text-sm text-primary-100 ml-10 leading-relaxed whitespace-pre-wrap">
                         {sessionData.cercResponses.claim || "(empty)"}
                       </p>
+                      {(() => {
+                        const evaluation = evaluateResponse(
+                          sessionData.cercResponses.claim,
+                          problem.correctCERCResponse.claim
+                        );
+                        if (evaluation.status !== "complete") {
+                          return (
+                            <p className="text-xs text-primary-400 ml-10 mt-2 italic">
+                              💡 {evaluation.feedback}
+                            </p>
+                          );
+                        }
+                      })()}
                     </div>
                     <div className="p-4 bg-gradient-to-br from-accent-500/10 to-accent-600/10 border-2 border-accent-500/50 rounded-xl h-full">
                       <div className="flex items-center gap-2 mb-3">
@@ -698,15 +962,54 @@ export default function Week1ProblemSolver() {
                   {/* EVIDENCE ROW */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
                     <div className="p-4 bg-primary-800/40 rounded-xl border border-primary-600/30 h-full">
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg">
-                          <span className="text-sm font-bold">E</span>
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg">
+                            <span className="text-sm font-bold">E</span>
+                          </div>
+                          <span className="text-sm font-bold text-primary-300">Evidence</span>
                         </div>
-                        <span className="text-sm font-bold text-primary-300">Evidence</span>
+                        {(() => {
+                          const evaluation = evaluateResponse(
+                            sessionData.cercResponses.evidence,
+                            problem.correctCERCResponse.evidence
+                          );
+                          return (
+                            <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+                              evaluation.status === "complete"
+                                ? "bg-green-500/20 text-green-300"
+                                : evaluation.status === "partial"
+                                ? "bg-yellow-500/20 text-yellow-300"
+                                : "bg-red-500/20 text-red-300"
+                            }`}>
+                              <div className={`w-2 h-2 rounded-full ${
+                                evaluation.status === "complete"
+                                  ? "bg-green-500"
+                                  : evaluation.status === "partial"
+                                  ? "bg-yellow-500"
+                                  : "bg-red-500"
+                              }`} />
+                              {evaluation.status === "complete" ? "✓" : evaluation.status === "partial" ? "~" : "!"}
+                            </div>
+                          );
+                        })()}
                       </div>
                       <p className="text-sm text-primary-100 ml-10 leading-relaxed whitespace-pre-wrap">
                         {sessionData.cercResponses.evidence || "(empty)"}
                       </p>
+                      {(() => {
+                        const evaluation = evaluateResponse(
+                          sessionData.cercResponses.evidence,
+                          problem.correctCERCResponse.evidence
+                        );
+                        if (evaluation.status !== "complete") {
+                          return (
+                            <p className="text-xs text-primary-400 ml-10 mt-2 italic">
+                              💡 {evaluation.feedback}
+                            </p>
+                          );
+                        }
+                      })()}
                     </div>
                     <div className="p-4 bg-gradient-to-br from-blue-500/10 to-blue-600/10 border-2 border-blue-500/50 rounded-xl h-full">
                       <div className="flex items-center gap-2 mb-3">
@@ -724,15 +1027,54 @@ export default function Week1ProblemSolver() {
                   {/* REASONING ROW */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
                     <div className="p-4 bg-primary-800/40 rounded-xl border border-primary-600/30 h-full">
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-lg">
-                          <span className="text-sm font-bold">R</span>
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-lg">
+                            <span className="text-sm font-bold">R</span>
+                          </div>
+                          <span className="text-sm font-bold text-primary-300">Reasoning</span>
                         </div>
-                        <span className="text-sm font-bold text-primary-300">Reasoning</span>
+                        {(() => {
+                          const evaluation = evaluateResponse(
+                            sessionData.cercResponses.reasoning,
+                            problem.correctCERCResponse.reasoning
+                          );
+                          return (
+                            <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+                              evaluation.status === "complete"
+                                ? "bg-green-500/20 text-green-300"
+                                : evaluation.status === "partial"
+                                ? "bg-yellow-500/20 text-yellow-300"
+                                : "bg-red-500/20 text-red-300"
+                            }`}>
+                              <div className={`w-2 h-2 rounded-full ${
+                                evaluation.status === "complete"
+                                  ? "bg-green-500"
+                                  : evaluation.status === "partial"
+                                  ? "bg-yellow-500"
+                                  : "bg-red-500"
+                              }`} />
+                              {evaluation.status === "complete" ? "✓" : evaluation.status === "partial" ? "~" : "!"}
+                            </div>
+                          );
+                        })()}
                       </div>
                       <p className="text-sm text-primary-100 ml-10 leading-relaxed whitespace-pre-wrap">
                         {sessionData.cercResponses.reasoning || "(empty)"}
                       </p>
+                      {(() => {
+                        const evaluation = evaluateResponse(
+                          sessionData.cercResponses.reasoning,
+                          problem.correctCERCResponse.reasoning
+                        );
+                        if (evaluation.status !== "complete") {
+                          return (
+                            <p className="text-xs text-primary-400 ml-10 mt-2 italic">
+                              💡 {evaluation.feedback}
+                            </p>
+                          );
+                        }
+                      })()}
                     </div>
                     <div className="p-4 bg-gradient-to-br from-purple-500/10 to-purple-600/10 border-2 border-purple-500/50 rounded-xl h-full">
                       <div className="flex items-center gap-2 mb-3">
@@ -750,15 +1092,54 @@ export default function Week1ProblemSolver() {
                   {/* CONDITIONS ROW */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
                     <div className="p-4 bg-primary-800/40 rounded-xl border border-primary-600/30 h-full">
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center shadow-lg">
-                          <span className="text-sm font-bold">C</span>
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center shadow-lg">
+                            <span className="text-sm font-bold">C</span>
+                          </div>
+                          <span className="text-sm font-bold text-primary-300">Conditions</span>
                         </div>
-                        <span className="text-sm font-bold text-primary-300">Conditions</span>
+                        {(() => {
+                          const evaluation = evaluateResponse(
+                            sessionData.cercResponses.conditions,
+                            problem.correctCERCResponse.conditions
+                          );
+                          return (
+                            <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+                              evaluation.status === "complete"
+                                ? "bg-green-500/20 text-green-300"
+                                : evaluation.status === "partial"
+                                ? "bg-yellow-500/20 text-yellow-300"
+                                : "bg-red-500/20 text-red-300"
+                            }`}>
+                              <div className={`w-2 h-2 rounded-full ${
+                                evaluation.status === "complete"
+                                  ? "bg-green-500"
+                                  : evaluation.status === "partial"
+                                  ? "bg-yellow-500"
+                                  : "bg-red-500"
+                              }`} />
+                              {evaluation.status === "complete" ? "✓" : evaluation.status === "partial" ? "~" : "!"}
+                            </div>
+                          );
+                        })()}
                       </div>
                       <p className="text-sm text-primary-100 ml-10 leading-relaxed whitespace-pre-wrap">
                         {sessionData.cercResponses.conditions || "(empty)"}
                       </p>
+                      {(() => {
+                        const evaluation = evaluateResponse(
+                          sessionData.cercResponses.conditions,
+                          problem.correctCERCResponse.conditions
+                        );
+                        if (evaluation.status !== "complete") {
+                          return (
+                            <p className="text-xs text-primary-400 ml-10 mt-2 italic">
+                              💡 {evaluation.feedback}
+                            </p>
+                          );
+                        }
+                      })()}
                     </div>
                     <div className="p-4 bg-gradient-to-br from-green-500/10 to-green-600/10 border-2 border-green-500/50 rounded-xl h-full">
                       <div className="flex items-center gap-2 mb-3">
@@ -1048,6 +1429,56 @@ export default function Week1ProblemSolver() {
                   Back to Problems
                 </button>
               </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Draft Restoration Modal */}
+      <AnimatePresence>
+        {showDraftModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-gradient-to-br from-primary-900 to-primary-800 rounded-2xl p-8 max-w-md w-full border-2 border-blue-500/50 shadow-2xl"
+            >
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-500/20 flex items-center justify-center">
+                  <Clock className="w-8 h-8 text-blue-400" />
+                </div>
+                <h2 className="text-2xl font-bold text-white mb-2">
+                  Continue Where You Left Off?
+                </h2>
+                <p className="text-primary-300 text-sm">
+                  We found your saved progress on this problem. Would you like to continue or start fresh?
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <button
+                  onClick={restoreDraft}
+                  className="w-full py-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-xl font-bold text-lg transition-all shadow-lg"
+                >
+                  ✓ Continue My Work
+                </button>
+                <button
+                  onClick={discardDraft}
+                  className="w-full py-4 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-white/30 rounded-xl font-medium text-sm transition-all"
+                >
+                  Start Fresh
+                </button>
+              </div>
+
+              <p className="text-xs text-primary-500 text-center mt-4">
+                Your progress is auto-saved every 30 seconds
+              </p>
             </motion.div>
           </motion.div>
         )}
